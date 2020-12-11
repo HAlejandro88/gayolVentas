@@ -1,124 +1,64 @@
-import { LitElement, html, css } from 'lit-element';
+import {  LitElement, html, css  } from 'lit-element';
 
 
-class CardComponent extends LitElement {
-    static get properties() {
+class CardComponent extends LitElement {
+
+    static get properties () {
         return {
-            img: String,
+            image: String,
             title: String,
             description: String,
-            sub_title: String,
-            status: Boolean,
-            address: String,
-            suburb: String,
-            town: String,
-            state: String,
+            details: String
         }
     }
 
+
     static get styles() {
         return css`
-        :host {
-            width: 420px;
-            height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            margin: 5px;
-        } 
-            .card {
-                width: 400px;
-                height: 250px;
-                display: grid;
-                grid-template-columns: 45% 55%;
-                grid-gap: 5px;
-                font-family: roboto;
-                border-radius: 18px;
-                background: white;
-                box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
-                text-align: center;
-                transition: 0.5s ease;
-                cursor: pointer;
-            }
+          .card {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            width: 50%;
+            height: 50%;
+          }
 
-            .card-image {
-                grid-template: image;
-            }
+          .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+          }
 
-            .card-image img {
-                width: 100%;
-                height: 100%;
-                background-size: cover;
-                border-radius: 18px;
-            }
-
-            header {
-                text-align: center;
-                color: blue;
-            }
-
-            .content {
-                display: grid;
-                grid-template-columns: repeat(1, 1fr);
-                grid-gap: 3px;
-                padding: 5px;
-            }
-
-            .tools {
-                margin-bottom: 5px;
-                text-align: center
-            }
-
-            .card:hover {
-                transform: scale(1);
-                box-shadow: 5px 5px 15px rgba(0,0,0,0.6);
-            }
-
+          .container {
+            padding: 2px 16px;
+          }
+          h6 {
+            margin-top: -12px;
+            padding-top: -12px;
+            color: green;
+            font-weight: bold;
+          }
         `;
     }
 
     constructor() {
         super();
-        this.img = '';
+        this.image = '';
         this.title = '';
         this.description = '';
-        this.sub_title = '';
-        this.status = true;
-        this.address = '';
-        this.suburb = '';
-        this.town = '';
-        this.state = '';
+        this.details = '';
     }
-
-    // TODO: PONER ESTILOS EN LOS BOTONES DE VER MAS Y STATUS
 
     render() {
         return html`
             <div class="card">
-                <div class="card-image">
-                    <img src="${this.img}" alt="card-image"/>
-                </div>
-                <div class="card-container">
-                    <header>
-                        <h3>${this.title}</h3>
-                        <h5>${this.sub_title}</h5>
-                    </header>
-                    <div class="content">
-                        <label>Direccion: <b>${this.address}</b></label>
-                        <label>Colonia: <b>${this.suburb}</b></label>
-                        <label>Municipio: <b>${this.town}</b></label>
-                        <label>Estado: <b>${this.state}</b></label>
-                        <p>${this.description}</p>
-                    </div>
-                    <div class="tools">
-                        <button>Change Status</button>
-                        <button>Ver mas..</button>
-                    </div>
+                <img src="${this.image}" alt="Avatar" style="width:100%">
+                <div class="container">
+                    <h4><b>${this.title}</b></h4>
+                    <h6>${this.details}</h6>
+                    <p>${this.description}</p>
                 </div>
             </div>
         `;
     }
+
 }
 
 window.customElements.define('card-component', CardComponent);

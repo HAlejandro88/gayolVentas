@@ -6,11 +6,6 @@ import '@vaadin/vaadin-icons';
 import '@vaadin/vaadin-button';
 import '@vaadin/vaadin-tabs/vaadin-tab';
 import '@vaadin/vaadin-tabs/vaadin-tabs';
-import './HomePage';
-import './ListPage';
-import './SearchPage';
-import './UploadList';
-import '../login/RegisterUser';
 import { GayolController } from '../helpers/GayolController';
 
 
@@ -52,7 +47,7 @@ class DashboardPage extends GayolController {
             <iron-icon icon="vaadin:list"></iron-icon>
             Lista
         </vaadin-tab>
-        <vaadin-tab tab-page="upload" @click="${this.__changePage}">
+        <vaadin-tab tab-page="uploadList" @click="${this.__changePage}">
             <iron-icon icon="vaadin:options"></iron-icon>
             Subir Listas
         </vaadin-tab>
@@ -71,17 +66,12 @@ class DashboardPage extends GayolController {
     </vaadin-tabs>
 
         <div class="content">
-            ${this.page === 'home' ? html` <home-page></home-page>` :''}
-            ${this.page === 'list' ? html`<list-page></list-page>`: ''}
-            ${this.page === 'upload-list' ? html`<upload-list></upload-list>` :''}
-            ${this.page === 'search' ? html`<search-page></search-page>`: ''}
-            ${this.page === 'register' ? html`<register-user></register-user>`: ''}
+            <h1>Dashboard Page</h1>
         </div>
 </vaadin-app-layout>
         `;
     }
 
-    // FIXME: RUTAS HIJAS EN EL DASHBOARD PAGE
     // TODO: generar un endpoin de filtro para excel
     // TODO: GENERAR UN ENDOPIN PARA CARGAR ARCHIBO DE EXCEL
     // TODO: PROTECCION DE LAS RUTAS
@@ -93,13 +83,14 @@ class DashboardPage extends GayolController {
     }
 
     __changePage(e) {
-        // TODO: REFACTOR DE RUTAS HJAS PARA EL DASBOARD
-        const page = e.currentTarget.getAttribute('tab-page');
-       this.page = page;
+        this.page = e.currentTarget.getAttribute('tab-page');
+        window.location = this.page;
     }
 
     logOut() {
+        console.log('close');
         this.dispatchEvent(new CustomEvent('logout-request'));
+        window.location = '/login';
     }
 
     

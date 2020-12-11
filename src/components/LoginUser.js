@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'lit-element';
+import { html } from 'lit-element';
 import { GayolController } from '../helpers/GayolController';
 import '@vaadin/vaadin-login';
 import '@vaadin/vaadin-dialog';
@@ -12,9 +12,6 @@ class LoginUser extends GayolController {
         }
     }
 
-    static get styles() {
-        return css``;
-    }
 
     constructor() {
         super();
@@ -23,8 +20,6 @@ class LoginUser extends GayolController {
     async update(changeProperties) {
         super.update(changeProperties);
         if (changeProperties.has('username') && changeProperties.has('password')) {
-            const _change = changeProperties.get('username');
-            console.log(_change)
             await this.requestUpdate(); 
         }
     }
@@ -75,7 +70,8 @@ class LoginUser extends GayolController {
                 loginForm.disabled = false;
             } else {
                 localStorage.setItem('token', LoginUser.token);
-                this.dispatchEvent(new CustomEvent('login-success'))
+                this.dispatchEvent(new CustomEvent('login-success'));
+                window.location = '/dashboard';
             }
             await this.requestUpdate();
         } catch (error) {

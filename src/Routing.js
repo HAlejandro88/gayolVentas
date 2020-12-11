@@ -8,17 +8,17 @@ const routes = [
         children: [
             {
                 path: '',
-                redirect: '/dashboard',
+                redirect: '/login',
+            },
+            {
+                path: 'login',
+                component: 'login-user',
+                action: async() => await import('./components/LoginUser')
             },
             {
                 path: 'dashboard',
                 component: 'dashboard-page',
                 action: async() => await import('./Pages/DashboardPage')
-            },
-            {
-                path: 'home',
-                component: 'home-page',
-                action: async() => await import('./Pages/HomePage')
             },
             {
                 path: 'list',
@@ -34,6 +34,11 @@ const routes = [
                 path: 'search',
                 component: 'search-page',
                 action: async() => await import('./Pages/SearchPage')
+            },
+            {
+                path: 'register',
+                component: 'register-user',
+                action: async() => await import('./components/RegisterUser')
             }
         ]
     },

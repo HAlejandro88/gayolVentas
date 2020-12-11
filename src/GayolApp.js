@@ -1,8 +1,5 @@
-import { LitElement, html, css } from 'lit-element';
-import './components/GayolGrid';
-import './login/RegisterUser';
-import './components/ListComponent';
-import './login/LoginUser';
+import { html } from 'lit-element';
+import './components/LoginUser';
 import './Pages/DashboardPage';
 import { GayolController } from './helpers/GayolController';
 
@@ -15,10 +12,6 @@ class GayolApp extends GayolController {
         };
     }
 
-    static get styles() {
-        return css`
-        `
-    }
 
     constructor() {
         super();
@@ -51,7 +44,7 @@ class GayolApp extends GayolController {
             await this.__authRequest(true,() => {
                 /* this.page = 'dashboard'; */
                 console.log('entro esn acces')
-                window.location = '/dashboard';
+                window.location = '/dashboard'; // FIXME: VER POR QUE NO JALA CON EL DISPTCH
             });
         
         } catch (error) {
@@ -60,8 +53,10 @@ class GayolApp extends GayolController {
     }
 
     _logOut() {
+        console.log('dispatch')
         localStorage.removeItem('token');
         this.page = 'login';
+        window.location = '/login'
     }
 }
 
