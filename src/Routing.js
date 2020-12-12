@@ -1,5 +1,5 @@
 import { Router } from '@vaadin/router';
-
+import {  login, verify  } from './helpers/auth';
 
 const routes = [
     {
@@ -18,7 +18,14 @@ const routes = [
             {
                 path: 'dashboard',
                 component: 'dashboard-page',
-                action: async() => await import('./Pages/DashboardPage')
+                action: async(routerContext, commands) => {
+                    const token = localStorage.getItem('token');
+                    const verified = await verify(token);
+                    if(!verified)  {
+                        return commands.redirect('/login');
+                    }
+                    return await import('./Pages/DashboardPage');
+                }
             },
             {
                 path: 'list',
@@ -49,7 +56,6 @@ const routes = [
     }
 ];
 
-// NOTA: exports routes
 
 const app = document.getElementById('app');
 export const router = new Router(app);

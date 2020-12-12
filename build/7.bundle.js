@@ -1,23 +1,4 @@
-import { html, css } from 'lit-element';
-import '@vaadin/vaadin-app-layout';
-import '@vaadin/vaadin-app-layout/vaadin-app-layout';
-import '@vaadin/vaadin-app-layout/vaadin-drawer-toggle';
-import '@vaadin/vaadin-icons';
-import '@vaadin/vaadin-button';
-import '@vaadin/vaadin-tabs/vaadin-tab';
-import '@vaadin/vaadin-tabs/vaadin-tabs';
-import { GayolController } from '../helpers/GayolController';
-
-
-class DashboardPage extends GayolController {
-    static get properties() {
-        return {
-            page: String
-        }
-    }
-
-    static get styles() {
-        return css`
+(window.webpackJsonp=window.webpackJsonp||[]).push([[7],{19:function(a,t,e){"use strict";e.d(t,"a",(function(){return n}));var i=e(9);class n extends i.a{static get properties(){return{}}constructor(){super()}async __request(a="",t="GET",e={},i={}){const n=localStorage.getItem("url")?localStorage.getItem("url"):"http://localhost:5000/api/v1",o=JSON.stringify(i);let r={method:t,headers:{"Content-Type":"application/json",...e}};"PUT"!==t&&"POST"!==t||(r={...r,body:o});try{return await(await fetch(`${n}/${a}`,r)).json()}catch(a){return a}}async __authRequest(a,t=(()=>{})){const e=localStorage.getItem("token");if(e)try{const i=await this.__request("auth/verify/"+e);if(a&&i.verify)return t(),!0;if(!a||!i.success)return t(),!1}catch(a){console.log(a)}}}},75:function(a,t,e){"use strict";e.r(t);var i=e(9),n=(e(31),e(54),e(52),e(34),e(51),e(53),e(19));class o extends n.a{static get properties(){return{page:String}}static get styles(){return i.b`
             h1 {
                 text-align: center;
             }
@@ -25,16 +6,7 @@ class DashboardPage extends GayolController {
             .content {
                 padding: 10px;
             }
-        `;
-    }
-
-    constructor() {
-        super();
-        this.page = 'home'
-    }
-
-    render() {
-        return html`
+        `}constructor(){super(),this.page="home"}render(){return i.c`
 <vaadin-app-layout>
     <vaadin-drawer-toggle slot="navbar"></vaadin-drawer-toggle>
     <img slot="navbar" src="https://i.imgur.com/GPpnszs.png" alt="Vaadin Logo" width="100" height="31" referrerpolicy="no-referrer">
@@ -69,35 +41,4 @@ class DashboardPage extends GayolController {
             <h1>Dashboard Page</h1>
         </div>
 </vaadin-app-layout>
-        `;
-    }
-
-    // TODO: generar un endpoin de filtro para excel
-    // TODO: GENERAR UN ENDOPIN PARA CARGAR ARCHIBO DE EXCEL
-    // TODO: PROTECCION DE LAS RUTAS
-
-    async updated() {
-        await this.__authRequest(false,() => {
-            this.dispatchEvent(new CustomEvent('logout-request'));
-        })
-    }
-
-    __changePage(e) {
-        this.page = e.currentTarget.getAttribute('tab-page');
-        window.location = this.page;
-    }
-
-    logOut() {
-        console.log('close');
-        this.dispatchEvent(new CustomEvent('logout-request', {
-            bubbles: true,
-            composed: true
-        }));
-        localStorage.removeItem('token');
-        window.location = '/login';
-    }
-
-    
-}
-
-window.customElements.define('dashboard-page', DashboardPage);
+        `}async updated(){await this.__authRequest(!1,()=>{this.dispatchEvent(new CustomEvent("logout-request"))})}__changePage(a){this.page=a.currentTarget.getAttribute("tab-page"),window.location=this.page}logOut(){console.log("close"),this.dispatchEvent(new CustomEvent("logout-request",{bubbles:!0,composed:!0})),localStorage.removeItem("token"),window.location="/login"}}window.customElements.define("dashboard-page",o)}}]);

@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[13],{76:function(e,s,t){"use strict";t.r(s);var n=t(9);class r extends n.a{static get properties(){return{}}constructor(){super()}render(){return n.c`<h1>Upload</h1>`}}window.customElements.define("upload-list",r)}}]);
