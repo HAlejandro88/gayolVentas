@@ -1,4 +1,4 @@
-import { html } from 'lit-element';
+import { html, css } from 'lit-element';
 import {GayolController} from "../helpers/GayolController";
 import '@vaadin/vaadin-app-layout';
 import '@vaadin/vaadin-app-layout/vaadin-app-layout';
@@ -10,12 +10,21 @@ import '@vaadin/vaadin-tabs/vaadin-tabs';
 import '@vaadin/vaadin-grid/vaadin-grid.js';
 import '@vaadin/vaadin-grid/vaadin-grid-sort-column';
 import '@vaadin/vaadin-grid/vaadin-grid-selection-column';
-import '../components/FabButton';
+import '@vaadin/vaadin-dialog';
+import '../components/FieldLayout';
 
 class ListPage extends GayolController {
     static get properties() {
         return {
         }
+    }
+
+    static get styles() {
+        return css`
+          vaadin-grid {
+            height: 90vh;
+          }
+        `;
     }
 
     constructor() {
@@ -60,9 +69,8 @@ class ListPage extends GayolController {
                 </vaadin-tabs>
                 <div class="content">
                     <vaadin-grid theme="row-dividers" column-reordering-allowed multi-sort>
-                        <vaadin-grid-selection-column auto-select frozen></vaadin-grid-selection-column>
-                        <vaadin-grid-sort-column width="5em" path="lista"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="5em" path="idLista"></vaadin-grid-sort-column>
+                        <vaadin-grid-sort-column width="3em" path="lista"></vaadin-grid-sort-column>
+                        <vaadin-grid-sort-column width="3em" path="idLista"></vaadin-grid-sort-column>
                         <vaadin-grid-sort-column width="5em" path="direccion"></vaadin-grid-sort-column>
                         <vaadin-grid-sort-column width="5em" path="colonia"></vaadin-grid-sort-column>
                         <vaadin-grid-sort-column width="5em" path="municipio"></vaadin-grid-sort-column>
@@ -70,10 +78,8 @@ class ListPage extends GayolController {
                         <vaadin-grid-sort-column width="5em" path="montoCesion"></vaadin-grid-sort-column>
                         <vaadin-grid-sort-column width="5em" path="honorarios"></vaadin-grid-sort-column>
                         <vaadin-grid-sort-column width="5em" path="total"></vaadin-grid-sort-column>
+                        <vaadin-grid-column></vaadin-grid-column>
                     </vaadin-grid>
-                    <fab-button>
-                        <iron-icon icon="vaadin:out"></iron-icon>
-                    </fab-button>
                 </div>
             </vaadin-app-layout>
 
@@ -84,15 +90,45 @@ class ListPage extends GayolController {
         const list = await this.__request("listSales",'GET');
         const table = this.shadowRoot.querySelector('vaadin-grid');
         table.items = list.data;
-        this.detailList();
+        this.edit();
+        //table.addEventListener('active-item-changed', event => {
+        //    const id = event.detail.value.id;
+        //})
+    }
+
+    edit(table) {
+        const columns = this.shadowRoot.querySelector('vaadin-grid-column');
+        columns.headerRenderer = root => root.textContent = 'Controls'
+        columns.renderer = (root, column, rowData) => {
+            root.innerHTML = '';
+            const btn = document.createElement('vaadin-button');
+            btn.innerHTML = `<iron-icon icon="vaadin:edit"></iron-icon icon="vaadin:out">`;
+            btn.addEventListener('click', function(event) {
+                table.addEventListener('active-item-changed', event => {
+                        const id = event.detail.value.id;
+
+                })
+            });
+            root.appendChild(btn);
+        }
+    }
+
+
+    createModal() {
 
     }
 
-    detailList() {
-        const table = this.shadowRoot.querySelector('vaadin-grid');
-        let row = table.querySelectorAll('vaadin-checkbox');
-        console.log(row);
+    openDialog() {
+        const dialog = this.shadowRoot.querySelector('#dialog');
+        dialog.renderer = (root, _dialog) => {
+            root.textContent = 'hola';
+        }
+        dialog.opened = true;
     }
+
+
+
+
 
 }
 
