@@ -1,5 +1,5 @@
 import { Router } from '@vaadin/router';
-import {  login, verify  } from './helpers/auth';
+import {  login, verify, verifyAdmin  } from './helpers/auth';
 
 const routes = [
     {
@@ -28,9 +28,24 @@ const routes = [
                 }
             },
             {
+                path: 'list-admin',
+                component: 'list-admin-page',
+                action: async(routerContext, commands) => {
+                    const token = localStorage.getItem('token');
+                    const verifiedAdmin = await verifyAdmin(token);
+                    if (verifiedAdmin.admin) {
+                        return await import('./Pages/ListAdminPage');
+                    } else if(verifiedAdmin.sale) {
+                        return commands.redirect('/list');
+                    } else {
+                        return commands.redirect('/login');
+                    }
+                }
+            },
+            {
                 path: 'list',
                 component: 'list-page',
-                action: async() => await import('./Pages/ListPage')
+                action: async(routerContext, commands) => await import('./Pages/listPage')
             },
             {
                 path: 'uploadList',
@@ -40,12 +55,24 @@ const routes = [
             {
                 path: 'search',
                 component: 'search-page',
-                action: async() => await import('./Pages/SearchPage')
+                action: async(routerContext, commands) => {
+                    const token = localStorage.getItem('token');
+                    const verified = await verify(token);
+                    if(!verified)  {
+                        return commands.redirect('/login');
+                    }
+                    return await import('./Pages/SearchPage')
+                }
             },
             {
-                path: 'register',
+                path: 'register/:id',
                 component: 'register-user',
-                action: async() => await import('./components/RegisterUser')
+                action: async(routerContext, commands) => {
+                    // const id = routerContext.params.id;
+                    // console.log(id);
+                    return await import('./components/RegisterUser')
+                }
+
             }
         ]
     },

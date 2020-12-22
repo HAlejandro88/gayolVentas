@@ -11,11 +11,13 @@ import '@vaadin/vaadin-grid/vaadin-grid.js';
 import '@vaadin/vaadin-grid/vaadin-grid-sort-column';
 import '@vaadin/vaadin-grid/vaadin-grid-selection-column';
 import '@vaadin/vaadin-dialog';
+import '@vaadin/vaadin-notification';
 import '../components/FieldLayout';
 
 class ListPage extends GayolController {
     static get properties() {
         return {
+            idSelected: String
         }
     }
 
@@ -29,6 +31,7 @@ class ListPage extends GayolController {
 
     constructor() {
         super();
+        this.idSelected = '';
     }
 
     async firstUpdated(_changedProperties) {
@@ -80,6 +83,10 @@ class ListPage extends GayolController {
                         <vaadin-grid-sort-column width="5em" path="total"></vaadin-grid-sort-column>
                         <vaadin-grid-column></vaadin-grid-column>
                     </vaadin-grid>
+                    <vaadin-dialog id="dialog"></vaadin-dialog>
+                    <vaadin-notification duration="4000" position="top-end" theme="success"></vaadin-notification>
+                    <vaadin-notification id="error" duration="4000" position="top-end" theme="error"></vaadin-notification>
+                    
                 </div>
             </vaadin-app-layout>
 
@@ -90,10 +97,7 @@ class ListPage extends GayolController {
         const list = await this.__request("listSales",'GET');
         const table = this.shadowRoot.querySelector('vaadin-grid');
         table.items = list.data;
-        this.edit();
-        //table.addEventListener('active-item-changed', event => {
-        //    const id = event.detail.value.id;
-        //})
+        this.edit(table);
     }
 
     edit(table) {
@@ -103,32 +107,63 @@ class ListPage extends GayolController {
             root.innerHTML = '';
             const btn = document.createElement('vaadin-button');
             btn.innerHTML = `<iron-icon icon="vaadin:edit"></iron-icon icon="vaadin:out">`;
-            btn.addEventListener('click', function(event) {
-                table.addEventListener('active-item-changed', event => {
-                        const id = event.detail.value.id;
-
-                })
+            btn.addEventListener('click', async (event) => {
+                this.idSelected = rowData.item._id;
+                await this.createModal(this.idSelected);
             });
             root.appendChild(btn);
         }
     }
 
+        // FIXME: arreglar que renderise despues de actualizar
+        // FIXME: cerrar el modal despues de actualizar
+        // FIXME: arregalr que se pueda actualizar lso elementos de una lista subida por xlsx
 
-    createModal() {
-
-    }
-
-    openDialog() {
+    async createModal(id) {
+        const { data } = await this.__request(`listSales/${id}`,'GET' ,{});
         const dialog = this.shadowRoot.querySelector('#dialog');
-        dialog.renderer = (root, _dialog) => {
-            root.textContent = 'hola';
-        }
+        const notification = this.shadowRoot.querySelector('vaadin-notification');
+        const notificationError = this.shadowRoot.querySelector('#error');
+        dialog.renderer = function(root, dialog) {
+            console.log(root, 'root');
+            root.innerHTML = `<field-layout list="${data.lista}" idList="${data.idLista}" 
+                                            address="${data.direccion}" colonia="${data.colonia}" 
+                                            country="${data.municipio}" state="${data.estado}"
+                                            montoCesion="${data.montoCesion}" honorarios="${data.honorarios}"
+                                            total="${data.total}" id="${id}">
+                              </field-layout>`;
+            const fieldLayout = root.querySelector('field-layout');
+            fieldLayout.addEventListener('update-data', async ({ detail }) => {
+                  let body = JSON.stringify(detail);
+                  const response = await fetch(`http://localhost:5000/api/v1/listSales/update/${id}`, {
+                      method: 'PUT',
+                      headers: {
+                          'Content-Type': 'application/json',
+                      },
+                      body
+                  });
+                const update = await response.json();
+                 if (update.success) {
+                     notification.renderer = root => root.textContent = 'se han cambiado los valores';
+                     notification.open();
+                     await this.requestUpdate();
+
+                 } else {
+                     notificationError.renderer = root => root.textContent = `${update.error}`;
+                     notificationError.open();
+                 }
+
+            });
+
+
+            fieldLayout.addEventListener('cancel-update', event => {
+                dialog.opened = false;
+            });
+
+        };
+
         dialog.opened = true;
     }
-
-
-
-
 
 }
 

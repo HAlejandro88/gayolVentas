@@ -2,6 +2,8 @@ import resolve from '@rollup/plugin-node-resolve';
 import filesize from 'rollup-plugin-filesize';
 import copy from 'rollup-plugin-copy';
 import uglify from '@lopatnov/rollup-plugin-uglify';
+import dynamicImportVars from '@rollup/plugin-dynamic-import-vars';
+
 
 const name = `${((new Date()).getTime())}.bundled.js`;
 
@@ -17,17 +19,17 @@ const copyConfig = {
             src: 'index.html',
             dest:'dist', 
             transform: (content) => 
-                        content.toString().replace('./src/GayolApp.js', `./${name}`) 
+                        content.toString().replace('./src/Routing.js', `./${name}`)
         }
     ]
 };
 
 const config = {
-    input: './src/GayolApp.js',
+    input: './src/Routing.js',
     output: {
         file: `dist/${name}`
     },
-    plugins: [ 
+    plugins: [
             resolve(),
             copy(copyConfig), 
             uglify({

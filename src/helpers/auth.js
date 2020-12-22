@@ -37,7 +37,25 @@ const verify = async (token) => {
     }
 }
 
+const verifyAdmin = async(token) => {
+    try {
+        const loggedAdmin = await (await fetch(`http://localhost:5000/api/v1/auth/verify/admin/${token}`,{
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })).json();
+
+       return loggedAdmin
+
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+
+
 export {
     login,
-    verify
+    verify,
+    verifyAdmin
 }

@@ -43,7 +43,7 @@ class DashboardPage extends GayolController {
             <iron-icon icon="vaadin:home"></iron-icon>
             Home
         </vaadin-tab>
-        <vaadin-tab tab-page="list" @click="${this.__changePage}">
+        <vaadin-tab tab-page="list-admin" @click="${this.__changePage}">
             <iron-icon icon="vaadin:list"></iron-icon>
             Lista
         </vaadin-tab>
@@ -73,8 +73,6 @@ class DashboardPage extends GayolController {
     }
 
     // TODO: generar un endpoin de filtro para excel
-    // TODO: GENERAR UN ENDOPIN PARA CARGAR ARCHIBO DE EXCEL
-    // TODO: PROTECCION DE LAS RUTAS
 
     async updated() {
         await this.__authRequest(false,() => {

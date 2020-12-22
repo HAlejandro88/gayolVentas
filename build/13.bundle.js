@@ -1,1 +1,4 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[13],{76:function(e,s,t){"use strict";t.r(s);var n=t(9);class r extends n.a{static get properties(){return{}}constructor(){super()}render(){return n.c`<h1>Upload</h1>`}}window.customElements.define("upload-list",r)}}]);
+(window.webpackJsonp=window.webpackJsonp||[]).push([[13],{81:function(e,n,s){"use strict";s.r(n);var a=s(15);class o extends a.a{render(){return a.c`
+            <h2>Ups!! No encontramos la página que buscabas</h2>
+            <a href="/">Regresar</a>  
+        `}}window.customElements.define("not-found-page",o)}}]);
