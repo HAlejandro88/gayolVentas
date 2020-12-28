@@ -28,24 +28,25 @@ const routes = [
                 }
             },
             {
-                path: 'list-admin',
-                component: 'list-admin-page',
-                action: async(routerContext, commands) => {
-                    const token = localStorage.getItem('token');
-                    const verifiedAdmin = await verifyAdmin(token);
-                    if (verifiedAdmin.admin) {
-                        return await import('./Pages/ListAdminPage');
-                    } else if(verifiedAdmin.sale) {
-                        return commands.redirect('/list');
-                    } else {
-                        return commands.redirect('/login');
+                path: 'menuListPage',
+                component: 'menu-list-Page',
+                children: [
+                    {
+                        path: '',
+                        component: 'menu-list-Page',
+                        action: async () => await import('./Pages/MenuListPage')
+                    },
+                    {
+                        path: 'list-admin/:id',
+                        component: 'list-admin-page',
+                        action: async (routerContext, commands) => await import('./Pages/ListAdminPage')
+                    },
+                    {
+                        path: 'list/:id',
+                        component: 'list-page',
+                        action: async(routerContext, commands) => await import('./Pages/listPage')
                     }
-                }
-            },
-            {
-                path: 'list',
-                component: 'list-page',
-                action: async(routerContext, commands) => await import('./Pages/listPage')
+                ]
             },
             {
                 path: 'uploadList',

@@ -30,8 +30,15 @@ class DashboardPage extends GayolController {
 
     constructor() {
         super();
-        this.page = 'home'
+        this.page = 'home';
     }
+
+    firstUpdated(_changedProperties) {
+        super.firstUpdated(_changedProperties);
+        console.log(this.location.params, 'location')
+    }
+
+    // TODO: this.location is define in connectedCallback with the component whe used vaadin router
 
     render() {
         return html`
@@ -43,7 +50,7 @@ class DashboardPage extends GayolController {
             <iron-icon icon="vaadin:home"></iron-icon>
             Home
         </vaadin-tab>
-        <vaadin-tab tab-page="list-admin" @click="${this.__changePage}">
+        <vaadin-tab tab-page="menulistPage" @click="${this.__changePage}">
             <iron-icon icon="vaadin:list"></iron-icon>
             Lista
         </vaadin-tab>
@@ -67,6 +74,8 @@ class DashboardPage extends GayolController {
 
         <div class="content">
             <h1>Dashboard Page</h1>
+
+            The pathname was: ${this.location.pathname}
         </div>
 </vaadin-app-layout>
         `;

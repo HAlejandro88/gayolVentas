@@ -5,7 +5,7 @@ class NotFoundPage extends LitElement {
     render() {
         return html`
             <h2>Ups!! No encontramos la página que buscabas</h2>
-            <a href="/">Regresar</a>  
+            <a href="/dashboard">Regresar</a>  
         `;
     }
 }

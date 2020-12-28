@@ -37,6 +37,7 @@ class ListPage extends GayolController {
     async firstUpdated(_changedProperties) {
         super.firstUpdated(_changedProperties);
         await this._getHouses();
+        console.log(this.location.params.id, 'params')
     }
 
     render() {

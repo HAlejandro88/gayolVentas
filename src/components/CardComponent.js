@@ -48,7 +48,7 @@ class CardComponent extends LitElement {
 
     render() {
         return html`
-            <div class="card">
+            <div class="card" @click="${this.handleClick}">
                 <img src="${this.image}" alt="Avatar" style="width:100%">
                 <div class="container">
                     <h4><b>${this.title}</b></h4>
@@ -57,6 +57,10 @@ class CardComponent extends LitElement {
                 </div>
             </div>
         `;
+    }
+
+    handleClick() {
+        this.dispatchEvent(new CustomEvent('handled-click'));
     }
 
 }
