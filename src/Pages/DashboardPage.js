@@ -1,110 +1,86 @@
 import { html, css } from 'lit-element';
-import '@vaadin/vaadin-app-layout';
-import '@vaadin/vaadin-app-layout/vaadin-app-layout';
-import '@vaadin/vaadin-app-layout/vaadin-drawer-toggle';
-import '@vaadin/vaadin-icons';
-import '@vaadin/vaadin-button';
-import '@vaadin/vaadin-tabs/vaadin-tab';
-import '@vaadin/vaadin-tabs/vaadin-tabs';
+import '../components/AppLayout';
 import { GayolController } from '../helpers/GayolController';
+import '../components/CounterComponent';
+import '../components/LastNews';
 
 
 class DashboardPage extends GayolController {
     static get properties() {
         return {
-            page: String
+            news: Array
         }
     }
 
     static get styles() {
         return css`
+            :host {
+              margin: 5px;
+            }
             h1 {
                 text-align: center;
             }
 
             .content {
-                padding: 10px;
+                border: 1px solid grey;
+                border-radius: 8px;
+                box-shadow: 5px 3px 15px rgba(0,0,0,0.5);
+                height: 58vh;
+                margin: 15px;
+            }
+            
+            h2 {
+              text-align: center;
             }
         `;
     }
 
     constructor() {
         super();
-        this.page = 'home';
+        this.news = [];
     }
 
-    firstUpdated(_changedProperties) {
+    async firstUpdated(_changedProperties) {
         super.firstUpdated(_changedProperties);
         console.log(this.location.params, 'location')
+        await this.getAllNews();
     }
 
     // TODO: this.location is define in connectedCallback with the component whe used vaadin router
 
     render() {
         return html`
-<vaadin-app-layout>
-    <vaadin-drawer-toggle slot="navbar"></vaadin-drawer-toggle>
-    <img slot="navbar" src="https://i.imgur.com/GPpnszs.png" alt="Vaadin Logo" width="100" height="31" referrerpolicy="no-referrer">
-    <vaadin-tabs slot="drawer" orientation="vertical" theme="minimal" style="margin: 0 auto; flex: 1;">
-        <vaadin-tab tab-page="home" @click="${this.__changePage}">
-            <iron-icon icon="vaadin:home"></iron-icon>
-            Home
-        </vaadin-tab>
-        <vaadin-tab tab-page="menulistPage" @click="${this.__changePage}">
-            <iron-icon icon="vaadin:list"></iron-icon>
-            Lista
-        </vaadin-tab>
-        <vaadin-tab tab-page="uploadList" @click="${this.__changePage}">
-            <iron-icon icon="vaadin:options"></iron-icon>
-            Subir Listas
-        </vaadin-tab>
-        <vaadin-tab tab-page="search" @click="${this.__changePage}">
-            <iron-icon icon="vaadin:search"></iron-icon>
-            Buscador
-        </vaadin-tab>
-        <vaadin-tab tab-page="register" @click="${this.__changePage}">
-            <iron-icon icon="vaadin:clipboard-text"></iron-icon>
-            Registro
-        </vaadin-tab>
-        <vaadin-tab @click="${this.logOut}">
-            <iron-icon icon="vaadin:out"></iron-icon>
-            Cerrar Sesión
-        </vaadin-tab>
-    </vaadin-tabs>
-
-        <div class="content">
-            <h1>Dashboard Page</h1>
-
-            The pathname was: ${this.location.pathname}
-        </div>
-</vaadin-app-layout>
+            <app-layout @log-out="${this.logOut}">
+                <counter-component slot="title"></counter-component>
+                
+                <div slot="content" class="content">
+                    <h2>Last News</h2>
+                    ${this.news.map(item => html`
+                      <last-news .title="${item.title}" .description="${item.description}" .lastDate="${item.createAt}"></last-news>
+                    `)} 
+                </div>
+            </app-layout>
         `;
     }
 
+
     // TODO: generar un endpoin de filtro para excel
+    // TODO: The pathname was: ${this.location.pathname}
 
-    async updated() {
-        await this.__authRequest(false,() => {
-            this.dispatchEvent(new CustomEvent('logout-request'));
-        })
-    }
-
-    __changePage(e) {
-        this.page = e.currentTarget.getAttribute('tab-page');
-        window.location = this.page;
-    }
 
     logOut() {
-        console.log('close');
-        this.dispatchEvent(new CustomEvent('logout-request', {
-            bubbles: true,
-            composed: true
-        }));
         localStorage.removeItem('token');
         window.location = '/login';
     }
 
+    async getAllNews() {
+      const news = await this.__request('news');
+      this.news = news.data;
+    }
     
 }
 
 window.customElements.define('dashboard-page', DashboardPage);
+
+
+

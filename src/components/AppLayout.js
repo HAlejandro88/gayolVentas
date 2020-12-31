@@ -14,7 +14,7 @@ class AppLayout extends LitElement {
                 <vaadin-drawer-toggle slot="navbar"></vaadin-drawer-toggle>
                 <img slot="navbar" src="https://i.imgur.com/GPpnszs.png" alt="Vaadin Logo" width="100" height="31" referrerpolicy="no-referrer">
                 <vaadin-tabs slot="drawer" orientation="vertical" theme="minimal" style="margin: 0 auto; flex: 1;">
-                    <vaadin-tab tab-page="home" @click="${this.__changePage}">
+                    <vaadin-tab tab-page="dashboard" @click="${this.__changePage}">
                         <iron-icon icon="vaadin:home"></iron-icon>
                         Home
                     </vaadin-tab>
@@ -46,6 +46,15 @@ class AppLayout extends LitElement {
                     </div>
             </vaadin-app-layout>
         `;
+    }
+
+    __changePage(event) {
+        const page = event.currentTarget.getAttribute('tab-page');
+        window.location = page;
+    }
+
+    logOut() {
+        this.dispatchEvent(new CustomEvent('log-out'));
     }
 }
 

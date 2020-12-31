@@ -37,7 +37,6 @@ class ListPage extends GayolController {
     async firstUpdated(_changedProperties) {
         super.firstUpdated(_changedProperties);
         await this._getHouses();
-        console.log(this.location.params.id, 'params')
     }
 
     render() {
@@ -95,9 +94,14 @@ class ListPage extends GayolController {
     }
 
     async _getHouses() {
-        const list = await this.__request("listSales",'GET');
+        const notificationError = this.shadowRoot.querySelector('#error');
+        const list = await this.__request(`listSales/master/${this.location.params.id}`,'GET');
         const table = this.shadowRoot.querySelector('vaadin-grid');
         table.items = list.data;
+        if(list.data.length === 0) {
+            notificationError.renderer = root => root.textContent = 'no hay datos en esta lista';
+            notificationError.open();
+        }
         this.edit(table);
     }
 
@@ -118,7 +122,7 @@ class ListPage extends GayolController {
 
         // FIXME: arreglar que renderise despues de actualizar
         // FIXME: cerrar el modal despues de actualizar
-        // FIXME: arregalr que se pueda actualizar lso elementos de una lista subida por xlsx
+        // FIXME: arreglar que se pueda actualizar los elementos de una lista subida por xlsx
 
     async createModal(id) {
         const { data } = await this.__request(`listSales/${id}`,'GET' ,{});

@@ -10,6 +10,16 @@ class MenuListPage extends GayolController {
         }
     }
 
+    static get styles() {
+        return css`
+            .content {
+              display: grid;
+              grid-template-columns: repeat(3, 500px);
+              grid-template-rows: 200px;
+            }
+        `;
+    }
+
     constructor() {
         super();
         this.masterList = [];
@@ -24,7 +34,7 @@ class MenuListPage extends GayolController {
         return html`
             <app-layout>
                 <h1 slot="title">Menu List</h1>
-                <div slot="content">
+                <div slot="content" class="content">
                     ${this.masterList.map(list => html`
                         <card-component .title="${list.name}" modelList="${list._id}" @handled-click="${this.goToList}"></card-component>
                 `)}
