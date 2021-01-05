@@ -42,6 +42,11 @@ const routes = [
                         action: async (routerContext, commands) => await import('./Pages/ListAdminPage')
                     },
                     {
+                        path: 'listJuridico/:id',
+                        component: 'list-juridico-page',
+                        action: async(routerContext, commands) => await import('./Pages/ListJuridicoPage')
+                    },
+                    {
                         path: 'list/:id',
                         component: 'list-page',
                         action: async(routerContext, commands) => await import('./Pages/listPage')

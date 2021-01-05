@@ -29,6 +29,7 @@ const config = {
     output: {
         file: `dist/${name}`
     },
+    inlineDynamicImports: true,
     plugins: [
             resolve(),
             copy(copyConfig), 
