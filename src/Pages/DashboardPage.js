@@ -18,7 +18,6 @@ class DashboardPage extends GayolController {
     static get styles() {
         return css`
             :host {
-              margin: 5px;
               background: blue;
             }
             h1 {
@@ -74,6 +73,10 @@ class DashboardPage extends GayolController {
               grid-gap: 5px;
               overflow: scroll;
             }
+
+          counter-component {
+            margin-top: 8px;
+          }
           
         `;
     }
@@ -112,7 +115,7 @@ class DashboardPage extends GayolController {
                             <h2>Ultimas Noticias</h2>
                         </div>
                         ${this.news.map(item => html`
-                            <message-item .title="${item.title}" .description="${item.description}"></message-item>
+                            <message-item .title="${item.title}" .description="${item.description}" .date="${item.createAt}"></message-item>
                         `)}
                     </aside>
                 </div>

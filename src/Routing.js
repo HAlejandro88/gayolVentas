@@ -34,10 +34,29 @@ const routes = [
                     {
                         path: '',
                         component: 'menu-list-Page',
-                        action: async () => await import('./Pages/MenuListPage')
+                        action: async (routerContext, commands) => {
+                            const token = localStorage.getItem('token');
+                            const verified = await verify(token);
+                            if(!verified)  {
+                                return commands.redirect('/login');
+                            }
+                            return await import('./Pages/MenuListPage')
+                        }
                     },
                     {
-                        path: 'list-admin/:id',
+                        path: 'addList',
+                        component: 'add-list',
+                        action: async (routerContext, commands) => {
+                            const token = localStorage.getItem('token');
+                            const verified = await verifyAdmin(token);
+                            if(!verified.admin)  {
+                                return commands.redirect('/dashboard');
+                            }
+                            return await import('./Pages/AddList')
+                        }
+                    },
+                    {
+                        path: 'list-admin/:id',//lista vendedor
                         component: 'list-admin-page',
                         action: async (routerContext, commands) => await import('./Pages/ListAdminPage')
                     },
@@ -47,16 +66,43 @@ const routes = [
                         action: async(routerContext, commands) => await import('./Pages/ListJuridicoPage')
                     },
                     {
-                        path: 'list/:id',
+                        path: 'list/:id',// admin list
                         component: 'list-page',
-                        action: async(routerContext, commands) => await import('./Pages/listPage')
+                        action: async(routerContext, commands) => {
+                            const token = localStorage.getItem('token');
+                            const verified = await verifyAdmin(token);
+                            if(!verified.admin)  {
+                                return commands.redirect('/dashboard');
+                            }
+                            return await import('./Pages/listPage')
+                        }
+
                     }
                 ]
             },
             {
+                path: 'message/:id',
+                component: 'message-page',
+                action: async(routerContext, commands) => {
+                    const token = localStorage.getItem('token');
+                    const verified = await verifyAdmin(token);
+                    if(!verified.admin)  {
+                        return commands.redirect('/dashboard');
+                    }
+                    return await import('./Pages/MessagePage')
+                }
+            },
+            {
                 path: 'uploadList',
                 component: 'upload-List',
-                action: async() => await import('./Pages/UploadList')
+                action: async() => {
+                    const token = localStorage.getItem('token');
+                    const verified = await verifyAdmin(token);
+                    if(!verified.admin)  {
+                        return commands.redirect('/dashboard');
+                    }
+                    return await import('./Pages/UploadList')
+                }
             },
             {
                 path: 'search',
@@ -71,7 +117,7 @@ const routes = [
                 }
             },
             {
-                path: 'register/:id',
+                path: 'register',
                 component: 'register-user',
                 action: async(routerContext, commands) => {
                     // const id = routerContext.params.id;

@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit-element';
-import '@material/mwc-menu';
-import '@material/mwc-list/mwc-list-item';
+
+import '@vaadin/vaadin-icons';
+import '@vaadin/vaadin-button';
 
 class CardMenu extends LitElement {
     static get properties() {
@@ -33,6 +34,10 @@ class CardMenu extends LitElement {
             align-items: center;
             text-transform: capitalize;
           }
+
+          iron-icon:hover {
+            cursor: pointer;
+          }
         `;
     }
 
@@ -42,21 +47,15 @@ class CardMenu extends LitElement {
     }
 
     get fullDate() {
-        return `${new Date().getDay()}/${new Date().getUTCMonth() + 1}/${new Date().getFullYear()}`;
+        return `${new Date().toDateString()}`;
     }
 
 
     render() {
         return html`
             <div class="card--box">
-                <mwc-menu id="menu">
-                    <mwc-list-item>Item 0</mwc-list-item>
-                    <mwc-list-item>Item 1</mwc-list-item>
-                    <mwc-list-item>Item 2</mwc-list-item>
-                    <mwc-list-item>Item 3</mwc-list-item>
-                </mwc-menu>
                 <div class="card-header">
-                    <h6>${this.fullDate}</h6> 
+                    <h6>${this.fullDate}</h6>
                     <iron-icon icon="vaadin:ellipsis-dots-v" @click="${this.handledOptions}"></iron-icon>
                 </div>
                 <div class="card-content">

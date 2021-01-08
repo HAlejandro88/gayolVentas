@@ -62,7 +62,7 @@ class MessageItem extends LitElement {
         this.image = ''
         this.title = ''
         this.description = ''
-        this.date = `${new Date().getDay()}/${new Date().getUTCMonth() + 1}/${new Date().getFullYear()}`;
+        this.date = `${new Date().toLocaleString()}`;
     }
 
 

@@ -1,6 +1,9 @@
 import { html, css } from 'lit-element';
 import '../components/AppLayout';
 import '../components/CardMenu';
+import '@vaadin/vaadin-dialog';
+import '@vaadin/vaadin-list-box';
+import '@vaadin/vaadin-item';
 import '@vaadin/vaadin-icons';
 import {GayolController} from "../helpers/GayolController";
 import {verifyAdmin} from "../helpers/auth";
@@ -16,8 +19,9 @@ class MenuListPage extends GayolController {
         return css`
             .content {
               display: grid;
-              grid-template-columns: repeat(3, 500px);
-              grid-template-rows: 800px;
+              grid-template-columns: repeat(3, 1fr);
+              grid-gap: 10px;
+              padding: 15px;
             }
         `;
     }
@@ -38,8 +42,9 @@ class MenuListPage extends GayolController {
                 <h1 slot="title">Menu List</h1>
                 <div slot="content" class="content">
                     ${this.masterList.map(list => html`
-                        <card-menu .title="${list.name}" modelList="${list._id}" @handled-options="${this.goToList}"></card-menu>
+                        <card-menu .title="${list.name}" modelList="${list.name}" @handled-options="${this.goToList}"></card-menu>
                 `)}
+                    <vaadin-dialog id="dialog"></vaadin-dialog>
                 </div>
             </app-layout>
         `;
@@ -53,7 +58,30 @@ class MenuListPage extends GayolController {
 
     async goToList(event) {
         const id = event.currentTarget.getAttribute('modelList');
-        await this.verifyRole(id);
+        const dialog = this.shadowRoot.querySelector('#dialog');
+        dialog.renderer = (root,_dialog) => {
+            root.innerHTML = `
+                <vaadin-list-box selected="0">
+                  <vaadin-item>
+                    <iron-icon icon="vaadin:upload"></iron-icon>
+                    Subir Lista
+                  </vaadin-item>
+                  <vaadin-item>
+                    <iron-icon icon="vaadin:rotate-right"></iron-icon>
+                    Actualizar Lista
+                  </vaadin-item>
+                  <vaadin-item id="ver">
+                    <iron-icon icon="vaadin:external-link"></iron-icon>
+                    Ver Lista
+                  </vaadin-item>
+                </vaadin-list-box>
+            `;
+            const go = root.querySelector('#ver');
+            go.addEventListener('click', async event => {
+                await this.verifyRole(id);
+            })
+        }
+        dialog.opened = true;
     }
 
     async verifyRole(id) {
@@ -62,8 +90,8 @@ class MenuListPage extends GayolController {
         console.log(verify);
         if(verify.admin) {
             window.location = `/menuListPage/list/${id}`;
-        } else if (verify.sales) {
-            window.location = `/menuListPage/list/${id}`;
+        } else if (verify.sale) {
+            window.location = `/menuListPage/list-admin/${id}`;
         } else {
             window.location = `/menuListPage/list/${id}`;
         }

@@ -15,6 +15,8 @@ class FieldLayout extends LitElement {
             montoCesion: String,
             honorarios: String,
             total: String,
+            cancelar: { type: Boolean, reflect: true },
+            add: { type: Boolean, reflect: true }
         }
     }
 
@@ -39,6 +41,8 @@ class FieldLayout extends LitElement {
         this.montoCesion = 0;
         this.honorarios = 0;
         this.total = 0;
+        this.cancelar = false;
+        this.add = false;
     }
 
 
@@ -79,8 +83,16 @@ class FieldLayout extends LitElement {
                     </vaadin-text-field>
                 </div>
             </div>
-            <vaadin-button @click="${this.updateData}">Actualizar</vaadin-button>
-            <vaadin-button theme="error" @click="${this.cancel}">Cancelar</vaadin-button>
+            ${this.add ? 
+                    html`<vaadin-button @click="${this.updateData}">Agregar</vaadin-button>`
+                    :
+                    html`<vaadin-button @click="${this.updateData}">Actualizar</vaadin-button>`
+            }
+            
+            ${this.cancelar ? 
+                    html`<vaadin-button theme="error" @click="${this.cancel}">Cancelar</vaadin-button>`
+                    : html ``
+            }
         `;
     }
 
