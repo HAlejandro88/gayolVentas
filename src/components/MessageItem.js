@@ -71,7 +71,7 @@ class MessageItem extends LitElement {
         return html`
             <div class="message">
                 <div class="message__header">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdCvhDQ-7aPUrjAmCwud6tNJD0sHYtveUKlQ&usqp=CAU" alt=""/>
+                    <img .src="${this.image}" alt=""/>
                     <h4>${this.title}</h4>
                     <h6>${this.date}</h6>
                 </div>

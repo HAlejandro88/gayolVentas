@@ -4,6 +4,7 @@ import { GayolController } from '../helpers/GayolController';
 import '../components/CounterComponent';
 import '../components/LastNews';
 import '../components/MessageItem';
+import '../components/HexagonComponent';
 
 
 
@@ -11,7 +12,8 @@ class DashboardPage extends GayolController {
     static get properties() {
         return {
             news: Array,
-            lastTen: Array
+            lastTen: Array,
+            mapa: String
         }
     }
 
@@ -62,16 +64,10 @@ class DashboardPage extends GayolController {
             }
           
             .ultimate {
-              background: #fff;
-              border-radius: 30px;
-              width: 50vw;
+              width: 70vw;
               height: 70vh;
               padding: 10px;
               margin: 10px;
-              display: grid;
-              grid-template-columns: repeat(2,1fr);
-              grid-gap: 5px;
-              overflow: scroll;
             }
 
           counter-component {
@@ -84,6 +80,7 @@ class DashboardPage extends GayolController {
     constructor() {
         super();
         this.news = [];
+        this.mapa = '';
         this.lastTen = [{ address: 'park 3 av. Indus' },{ address: 'park 3 av. Indus' },
             { address: 'park 3 av. Indus' },{ address: 'park 3 av. Indus' },
             { address: 'park 3 av. Indus' },
@@ -106,16 +103,15 @@ class DashboardPage extends GayolController {
                 <counter-component slot="title"></counter-component>
                 <div slot="content" class="content">
                     <div class="ultimate">
-                      ${this.lastTen.map(item => html`
-                              <div>${item.address}</div>
-                      `)}
+                      <hexagon-component mapa="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1881.5881053017954!2d-99.18061716773386!3d19.40479101367542!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1ff661496898b%3A0xbdaa1acc51f3bb28!2sGral.%20Salvador%20Alvarado%2C%20Escand%C3%B3n%20I%20Secc%2C%20Ciudad%20de%20M%C3%A9xico%2C%20CDMX!5e0!3m2!1ses-419!2smx!4v1610223276786!5m2!1ses-419!2smx"></hexagon-component>
+
                     </div>
                     <aside class="aside">
                         <div class="message__box__title">
                             <h2>Ultimas Noticias</h2>
                         </div>
                         ${this.news.map(item => html`
-                            <message-item .title="${item.title}" .description="${item.description}" .date="${item.createAt}"></message-item>
+                            <message-item .title="${item.title}" .description="${item.description}" .date="${item.createAt}" .image="${item.avatar}"></message-item>
                         `)}
                     </aside>
                 </div>

@@ -51,7 +51,7 @@ class ListPage extends GayolController {
                     </vaadin-tab>
                     <vaadin-tab tab-page="list">
                         <iron-icon icon="vaadin:list"></iron-icon>
-                        <a href="/menulistPage">Lista</a>
+                        <a href="/menuListPage">Lista</a>
                     </vaadin-tab>
                     <vaadin-tab tab-page="uploadList">
                         <iron-icon icon="vaadin:options"></iron-icon>

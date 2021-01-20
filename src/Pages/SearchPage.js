@@ -16,9 +16,11 @@ class SearchPage extends GayolController {
     static get styles() {
         return css`
           .grid-cards {
+            padding: 25px;
             height: 50vh;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
+            grid-gap: 8px;
           }
           header {
             margin: 20px;

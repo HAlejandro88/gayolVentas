@@ -12,6 +12,7 @@ class CounterComponent extends LitElement {
     static get styles() {
         return css`
           :host {
+            margin-top: 5px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -53,9 +54,9 @@ class CounterComponent extends LitElement {
     constructor() {
         super();
         this.companies = [
-            { name: 'Gayol', sales: 1000 },
-            { name: 'Queretaro', sales: 3000 },
-            { name: 'zapata', sales: 40000 }
+            { name: 'Gayol', sales: 1 },
+            { name: 'Queretaro', sales: 3 },
+            { name: 'zapata', sales: 4 }
         ];
         this.data = {};
     }

@@ -46,14 +46,7 @@ const routes = [
                     {
                         path: 'addList',
                         component: 'add-list',
-                        action: async (routerContext, commands) => {
-                            const token = localStorage.getItem('token');
-                            const verified = await verifyAdmin(token);
-                            if(!verified.admin)  {
-                                return commands.redirect('/dashboard');
-                            }
-                            return await import('./Pages/AddList')
-                        }
+                        action: async () => await import('./Pages/AddList')
                     },
                     {
                         path: 'list-admin/:id',//lista vendedor

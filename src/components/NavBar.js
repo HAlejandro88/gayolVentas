@@ -7,7 +7,8 @@ class NavBar extends GayolController {
 
     static get properties() {
         return {
-            user: Object
+            user: Object,
+            avatar: String
         }
     }
 
@@ -68,7 +69,7 @@ class NavBar extends GayolController {
                 <div class="social">
                     <iron-icon icon="vaadin:grid-small" @click="${this.messageOptions}"></iron-icon>
                     <iron-icon icon="vaadin:inbox"></iron-icon>
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCZIDdartKs4CqtZyaJ4i4NkelxcXdFjZM7w&usqp=CAU" alt=""/>
+                    <img .src="${this.user.image}" .alt="${this.user.name}"/>
                     <h4>${this.user.name}</h4>
                 </div>
                 <vaadin-dialog id="dialog"></vaadin-dialog>
@@ -137,7 +138,7 @@ class NavBar extends GayolController {
        }
        const me = await this.__request('auth/me','GET',headers);
        this.user = me.data;
-       console.log(this.user)
+       this.user.image = `https://gayol-app.herokuapp.com/api/v1/auth/avatar/${this.user.image}`;
     }
 
 }

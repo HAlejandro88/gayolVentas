@@ -13,7 +13,8 @@ export class GayolController extends LitElement {
     } 
 
     async __request( _endPoint = '' , _method = 'GET', _headers = {}, _body = {} ) {
-        const serverUrl = localStorage.getItem('url') ? localStorage.getItem('url') : 'http://localhost:5000/api/v1';
+        //const serverUrl = localStorage.getItem('url') ? localStorage.getItem('url') : 'http://localhost:5000/api/v1';
+        const serverUrl = 'https://gayol-app.herokuapp.com/api/v1';
         const body = JSON.stringify(_body);
         let options = {
             method: _method,
