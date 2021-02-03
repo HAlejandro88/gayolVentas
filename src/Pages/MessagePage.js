@@ -85,8 +85,9 @@ class MessagePage extends GayolController {
             'Authorization': BearerToken
         }
         const me = await this.__request('auth/me','GET',headers);
-        console.log(me);
-        this.avatar = `https://gayol-app.herokuapp.com/api/v1/auth/avatar/${me.data.image}`;
+        console.log(me, 'me');
+        //this.avatar = `https://gayol-app.herokuapp.com/api/v1/auth/avatar/${me.data.image}`;
+        this.avatar = `http://localhost:5000/api/v1/auth/avatar/${me.data.image}`;
     }
 
 

@@ -29,11 +29,11 @@ const routes = [
             },
             {
                 path: 'menuListPage',
-                component: 'menu-list-Page',
+                component: 'menu-list-page',
                 children: [
                     {
                         path: '',
-                        component: 'menu-list-Page',
+                        component: 'menu-list-page',
                         action: async (routerContext, commands) => {
                             const token = localStorage.getItem('token');
                             const verified = await verify(token);

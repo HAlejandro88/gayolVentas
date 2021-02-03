@@ -37,20 +37,19 @@ class DashboardPage extends GayolController {
               grid-template-columns: 750px 380px;
               grid-gap: 10px;*/
               display: flex;
-              justify-content: space-between;
               align-items: flex-start;
             }
           
             .aside {
               background: #fff;
-              border-radius: 50px;
-              box-shadow: 5px 5px 5px rgba(0,0,0,0.3);
+              border-radius: 20px;
+              box-shadow: 3px 3px 3px rgba(0,0,0,0.3);
               box-sizing: border-box;
               margin: 10px;
               padding: 5px;
               color: gray;
               height: 70vh;
-              width: 28vw;
+              width: 90vw;
               position: relative;
               overflow: auto;
             }
@@ -102,18 +101,14 @@ class DashboardPage extends GayolController {
             <app-layout @log-out="${this.logOut}">
                 <counter-component slot="title"></counter-component>
                 <div slot="content" class="content">
-                    <div class="ultimate">
-                      <hexagon-component mapa="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1881.5881053017954!2d-99.18061716773386!3d19.40479101367542!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1ff661496898b%3A0xbdaa1acc51f3bb28!2sGral.%20Salvador%20Alvarado%2C%20Escand%C3%B3n%20I%20Secc%2C%20Ciudad%20de%20M%C3%A9xico%2C%20CDMX!5e0!3m2!1ses-419!2smx!4v1610223276786!5m2!1ses-419!2smx"></hexagon-component>
-
-                    </div>
-                    <aside class="aside">
+                    <main class="aside">
                         <div class="message__box__title">
                             <h2>Ultimas Noticias</h2>
                         </div>
                         ${this.news.map(item => html`
                             <message-item .title="${item.title}" .description="${item.description}" .date="${item.createAt}" .image="${item.avatar}"></message-item>
                         `)}
-                    </aside>
+                    </main>
                 </div>
             </app-layout>
         `;

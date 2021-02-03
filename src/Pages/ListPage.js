@@ -15,10 +15,12 @@ import '@vaadin/vaadin-notification';
 import '../components/NavBar';
 import '../components/FieldLayout';
 
+
 class ListPage extends GayolController {
     static get properties() {
         return {
-            idSelected: String
+            idSelected: String,
+            contentList: Array
         }
     }
 
@@ -33,6 +35,7 @@ class ListPage extends GayolController {
     constructor() {
         super();
         this.idSelected = '';
+        this.contentList = [];
     }
 
     async firstUpdated(_changedProperties) {
@@ -43,7 +46,7 @@ class ListPage extends GayolController {
     render() {
         return html`
             <vaadin-app-layout>
-                <nav-bar></nav-bar>
+                <nav-bar @export-list="${this.exportList}"></nav-bar>
                 <vaadin-tabs slot="drawer" orientation="vertical" theme="minimal" style="margin: 0 auto; flex: 1;">
                     <vaadin-tab tab-page="home">
                         <iron-icon icon="vaadin:home"></iron-icon>
@@ -74,17 +77,17 @@ class ListPage extends GayolController {
                     <vaadin-grid theme="row-dividers" column-reordering-allowed multi-sort>
                         <vaadin-grid-sort-column width="8em" path="lista"></vaadin-grid-sort-column>
                         <vaadin-grid-sort-column width="8em" path="idLista"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="direccion"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="colonia"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="municipio"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="estado"></vaadin-grid-sort-column>
+                        <vaadin-grid-sort-column width="80em" path="direccion" id="address"></vaadin-grid-sort-column>
+                        <vaadin-grid-sort-column width="15em" path="colonia" id="colonia"></vaadin-grid-sort-column>
+                        <vaadin-grid-sort-column width="15em" path="municipio" id="country"></vaadin-grid-sort-column>
+                        <vaadin-grid-sort-column width="15em" path="estado" id="state"></vaadin-grid-sort-column>
                         <vaadin-grid-sort-column width="8em" path="montoCesion"></vaadin-grid-sort-column>
                         <vaadin-grid-sort-column width="8em" path="honorarios"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="total"></vaadin-grid-sort-column>
+                        <vaadin-grid-sort-column width="8em" path="total" id="total"></vaadin-grid-sort-column>
                         <vaadin-grid-sort-column width="8em" path="observacionesVentas"></vaadin-grid-sort-column>
                         <vaadin-grid-sort-column width="8em" path="cliente"></vaadin-grid-sort-column>
                         <vaadin-grid-sort-column width="8em" path="numeroCredito"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="deudor"></vaadin-grid-sort-column>
+                        <vaadin-grid-sort-column width="15em" path="deudor"></vaadin-grid-sort-column>
                         <vaadin-grid-sort-column width="8em" path="expediente"></vaadin-grid-sort-column>
                         <vaadin-grid-sort-column width="8em" path="juzgado"></vaadin-grid-sort-column>
                         <vaadin-grid-sort-column width="8em" path="estatusLista"></vaadin-grid-sort-column>
@@ -99,9 +102,9 @@ class ListPage extends GayolController {
                         <vaadin-grid-sort-column width="8em" path="cometario1"></vaadin-grid-sort-column>
                         <vaadin-grid-sort-column width="8em" path="cometario2"></vaadin-grid-sort-column>
                         <vaadin-grid-sort-column width="8em" path="cometario3"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="fechaFirmaCesion"></vaadin-grid-sort-column>
+                        <vaadin-grid-sort-column width="15em" path="fechaFirmaCesion"></vaadin-grid-sort-column>
                         <vaadin-grid-sort-column width="8em" path="tramite"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="registroQuienLLenoCampos"></vaadin-grid-sort-column>
+                        <vaadin-grid-sort-column width="18em" path="registroQuienLLenoCampos"></vaadin-grid-sort-column>
                         <vaadin-grid-sort-column width="8em" path="status"></vaadin-grid-sort-column>
                         <vaadin-grid-column></vaadin-grid-column>
                     </vaadin-grid>
@@ -118,8 +121,9 @@ class ListPage extends GayolController {
     async _getHouses() {
         const notificationError = this.shadowRoot.querySelector('#error');
         const list = await this.__request(`listSales/master/${this.location.params.id}`,'GET');
+        this.contentList = list.data;
         const table = this.shadowRoot.querySelector('vaadin-grid');
-        table.items = list.data;
+        table.items = this.contentList;
         if(list.data.length === 0) {
             notificationError.renderer = root => root.textContent = 'no hay datos en esta lista';
             notificationError.open();
@@ -141,6 +145,8 @@ class ListPage extends GayolController {
             root.appendChild(btn);
         }
     }
+
+
 
         // FIXME: arreglar que renderise despues de actualizar
         // FIXME: cerrar el modal despues de actualizar
@@ -195,6 +201,16 @@ class ListPage extends GayolController {
     logOut() {
         localStorage.removeItem('token');
         window.location = '/login';
+    }
+
+
+    async exportList(event) {
+        const download = await fetch('http://localhost:5000/api/v1/listSales/export', {
+            method: 'POST',
+            body: JSON.stringify(this.contentList)
+        });
+
+        console.log(download);
     }
 
 }

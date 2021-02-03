@@ -92,6 +92,7 @@ class MenuListPage extends GayolController {
             window.location = `/menuListPage/list/${id}`;
         } else if (verify.sale) {
             window.location = `/menuListPage/list-admin/${id}`;
+            debugger;
         } else {
             window.location = `/menuListPage/list/${id}`;
         }

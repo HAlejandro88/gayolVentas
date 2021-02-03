@@ -68,7 +68,7 @@ class NavBar extends GayolController {
                 </div>
                 <div class="social">
                     <iron-icon icon="vaadin:grid-small" @click="${this.messageOptions}"></iron-icon>
-                    <iron-icon icon="vaadin:inbox"></iron-icon>
+                    <iron-icon icon="vaadin:inbox" @click="${this.exportList}"></iron-icon>
                     <img .src="${this.user.image}" .alt="${this.user.name}"/>
                     <h4>${this.user.name}</h4>
                 </div>
@@ -138,7 +138,13 @@ class NavBar extends GayolController {
        }
        const me = await this.__request('auth/me','GET',headers);
        this.user = me.data;
-       this.user.image = `https://gayol-app.herokuapp.com/api/v1/auth/avatar/${this.user.image}`;
+       //this.user.image = `https://gayol-app.herokuapp.com/api/v1/auth/avatar/${this.user.image}`;
+       this.user.image = `http://localhost:5000/api/v1/auth/avatar/${this.user.image}`;
+    }
+
+
+    exportList(event) {
+        this.dispatchEvent(new CustomEvent('export-list'));
     }
 
 }
