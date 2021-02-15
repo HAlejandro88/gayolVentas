@@ -10,6 +10,7 @@ import '@vaadin/vaadin-tabs/vaadin-tabs';
 import '@vaadin/vaadin-grid/vaadin-grid.js';
 import '@vaadin/vaadin-grid/vaadin-grid-sort-column';
 import '@vaadin/vaadin-grid/vaadin-grid-selection-column';
+import '@vaadin/vaadin-grid/vaadin-grid-filter-column';
 import '@vaadin/vaadin-dialog';
 import '@vaadin/vaadin-notification';
 import '../components/NavBar';
@@ -40,6 +41,7 @@ class ListPage extends GayolController {
 
     async firstUpdated(_changedProperties) {
         super.firstUpdated(_changedProperties);
+        //this.filter();
         await this._getHouses();
     }
 
@@ -76,36 +78,29 @@ class ListPage extends GayolController {
                 <div class="content">
                     <vaadin-grid theme="row-dividers" column-reordering-allowed multi-sort>
                         <vaadin-grid-sort-column width="8em" path="lista"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="idLista"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="80em" path="direccion" id="address"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="15em" path="colonia" id="colonia"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="15em" path="municipio" id="country"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="15em" path="estado" id="state"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="montoCesion"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="honorarios"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="total" id="total"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="observacionesVentas"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="cliente"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="numeroCredito"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="15em" path="deudor"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="expediente"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="juzgado"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="estatusLista"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="jurisdiccion"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="fechaPago"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="recuperadora"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="brooker"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="solicitante"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="empresa"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="estatusJuridico"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="fechaSolicitud"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="cometario1"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="cometario2"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="cometario3"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="15em" path="fechaFirmaCesion"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="tramite"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="18em" path="registroQuienLLenoCampos"></vaadin-grid-sort-column>
-                        <vaadin-grid-sort-column width="8em" path="status"></vaadin-grid-sort-column>
+                        <vaadin-grid-filter-column width="8em" path="idLista" header="Id"></vaadin-grid-filter-column>
+                        <vaadin-grid-filter-column width="80em" path="direccion" header="Direccion"></vaadin-grid-filter-column>
+                        <vaadin-grid-filter-column width="15em" path="colonia" header="Colonia"></vaadin-grid-filter-column>
+                        <vaadin-grid-filter-column width="15em" path="municipio" header="Municipio"></vaadin-grid-filter-column>
+                        <vaadin-grid-filter-column width="15em" path="estado" header="Estado"></vaadin-grid-filter-column>
+                        <vaadin-grid-sort-column width="15em" path="montoCesion"></vaadin-grid-sort-column>
+                        <vaadin-grid-sort-column width="15em" path="honorarios"></vaadin-grid-sort-column>
+                        <vaadin-grid-filter-column width="15em" path="total" header="total"></vaadin-grid-filter-column>
+                        <vaadin-grid-sort-column width="18em" path="expedienteAdmin"></vaadin-grid-sort-column>
+                        <vaadin-grid-sort-column width="18em" path="fechaContrato"></vaadin-grid-sort-column>
+                        <vaadin-grid-sort-column width="15em" path="formaPago"></vaadin-grid-sort-column>
+                        <vaadin-grid-sort-column width="18em" path="cuentaPago"></vaadin-grid-sort-column>
+                        <vaadin-grid-sort-column width="18em" path="fechaPago"></vaadin-grid-sort-column>
+                        <vaadin-grid-sort-column width="15em" path="estatusAdmin"></vaadin-grid-sort-column>
+                        <vaadin-grid-sort-column width="15em" path="cliente"></vaadin-grid-sort-column>
+                        <vaadin-grid-sort-column width="18em" path="observacionesVenta"></vaadin-grid-sort-column>
+                        <vaadin-grid-sort-column width="18em" path="vendedor"></vaadin-grid-sort-column>
+                        <vaadin-grid-sort-column width="18em" path="jefeGrupo"></vaadin-grid-sort-column>
+                        <vaadin-grid-sort-column width="18em" path="tipoVenta"></vaadin-grid-sort-column>
+                        <vaadin-grid-sort-column width="18em" path="empresa"></vaadin-grid-sort-column>
+                        <vaadin-grid-sort-column width="18em" path="observacionesAdmin"></vaadin-grid-sort-column>
+                        <vaadin-grid-sort-column width="18em" path="contratoRealizado"></vaadin-grid-sort-column>
+                        <vaadin-grid-filter-column width="18em" path="status" header="status"></vaadin-grid-filter-column>
                         <vaadin-grid-column></vaadin-grid-column>
                     </vaadin-grid>
                     <vaadin-dialog id="dialog"></vaadin-dialog>
@@ -147,6 +142,18 @@ class ListPage extends GayolController {
     }
 
 
+    filter() {
+        const address = this.shadowRoot.querySelector('address');
+        address.headerRenderer = (root) => {
+            root.innerHTML =
+                '<vaadin-grid-filter path="email">' +
+                '  <vaadin-text-field slot="filter" focus-target label="Email" style="max-width: 100%" theme="small"></vaadin-text-field>' +
+                '</vaadin-grid-filter>';
+            root.querySelector('vaadin-text-field').addEventListener('value-changed', function(e) {
+                root.querySelector('vaadin-grid-filter').value = e.detail.value;
+            });
+        }
+    }
 
         // FIXME: arreglar que renderise despues de actualizar
         // FIXME: cerrar el modal despues de actualizar

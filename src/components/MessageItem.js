@@ -62,14 +62,20 @@ class MessageItem extends LitElement {
         this.image = ''
         this.title = ''
         this.description = ''
-        this.date = `${new Date().toLocaleString()}`;
+        this.date = `${new Date().toDateString()}`;
     }
 
+
+    firstUpdated(_changedProperties) {
+        super.firstUpdated(_changedProperties);
+        this.date = new Date(this.date);
+        this.date = this.date.toDateString();
+    }
 
 
     render() {
         return html`
-            <div class="message">
+            <div class="message"> 
                 <div class="message__header">
                     <img .src="${this.image}" alt=""/>
                     <h4>${this.title}</h4>

@@ -50,7 +50,7 @@ class UploadList extends LitElement {
                 </vaadin-tabs>
                 <div class="content">
                     <h1>Importar Lista</h1>
-                    <vaadin-upload accept=".xlsx" formDataName="list" target="https://gayol-app.herokuapp.com/api/v1/listSales/upload">
+                    <vaadin-upload accept=".xlsx" formDataName="list" target="http://localhost:5000/api/v1/listSales/upload">
                         <span slot="drop-label">Arrastre su archivo xlsx</span>
                     </vaadin-upload>
                 </div>

@@ -126,7 +126,7 @@ class DashboardPage extends GayolController {
 
     async getAllNews() {
       const news = await this.__request('news');
-      this.news = news.data;
+      this.news = news.data.reverse();
     }
     
 }

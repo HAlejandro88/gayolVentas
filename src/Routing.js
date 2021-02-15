@@ -88,7 +88,7 @@ const routes = [
             {
                 path: 'uploadList',
                 component: 'upload-List',
-                action: async() => {
+                action: async(routerContext, commands) => {
                     const token = localStorage.getItem('token');
                     const verified = await verifyAdmin(token);
                     if(!verified.admin)  {

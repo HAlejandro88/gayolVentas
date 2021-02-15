@@ -1,4 +1,5 @@
 import {  LitElement, html, css  } from 'lit-element';
+import '@vaadin/vaadin-icons/vaadin-icons';
 
 
 class CardComponent extends LitElement {
@@ -16,15 +17,25 @@ class CardComponent extends LitElement {
     static get styles() {
         return css`
           .card {
+            display: flex;
+            flex-direction: row;
             box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
             transition: 0.3s;
             width: 230px;
-            height: 282px;
+            height: 310px;
+            box-sizing: content-box;
+            padding: 10px;
           }
 
           .card:hover {
             box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
           }
+          
+          .card-header {
+            display: flex;
+            flex-direction: row;
+            width: 20%;
+          } 
 
           .container {
             padding: 2px 16px;
@@ -34,6 +45,29 @@ class CardComponent extends LitElement {
             padding-top: -12px;
             color: green;
             font-weight: bold;
+            font-size: 15px;
+          }
+          
+          .details {
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            margin-left: -45px;
+            padding: 0;
+          }
+
+          vaadin-button {
+            margin: 0;
+            padding: 0;
+          }
+          
+          .icon-hidden {
+            color: transparent;
+          }
+          
+          .icon-hidden:hover {
+            color: blue;
           }
         `;
     }
@@ -43,17 +77,32 @@ class CardComponent extends LitElement {
         this.image = '';
         this.title = '';
         this.description = '';
-        this.details = '';
+        this.details = 0;
+    }
+
+    firstUpdated(_changedProperties) {
+        super.firstUpdated(_changedProperties);
+        const options1 = { style: 'currency', currency: 'USD' };
+        const numberFormat = new Intl.NumberFormat('en-US', options1);
+        this.details =numberFormat.format(this.details);
     }
 
     render() {
         return html`
-            <div class="card" @click="${this.handleClick}">
-                <img src="${this.image}" alt="Avatar" style="width:100%">
+            <div class="card">
+                <header class="card-header">
+                    <vaadin-button theme="tertiary" @click="${this.uploadDocuments}">
+                        <iron-icon icon="vaadin:home" class="icon-hidden"></iron-icon>
+                    </vaadin-button>
+                </header>
+                ${this.image ? html`<img src="${this.image}" alt="Avatar" style="width:100%">`: ``}
                 <div class="container">
                     <h4><b>${this.title}</b></h4>
                     <h6>${this.details}</h6>
                     <p>${this.description}</p>
+                </div>
+                <div class="details">
+                    <vaadin-button theme="tertiary" @click="${this.handleClick}">Ver más</vaadin-button>
                 </div>
             </div>
         `;
@@ -61,6 +110,10 @@ class CardComponent extends LitElement {
 
     handleClick() {
         this.dispatchEvent(new CustomEvent('handled-click'));
+    }
+
+    uploadDocuments() {
+        this.dispatchEvent(new CustomEvent('change-documents'))
     }
 
 }

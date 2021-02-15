@@ -1,27 +1,34 @@
-import { LitElement, html, css } from 'lit-element';
-import '@vaadin/vaadin-icons/vaadin-icons.js';
+import { LitElement,html,css } from 'lit-element';
+
 
 class CounterComponent extends LitElement {
     static get properties() {
         return {
-            companies: Array,
-            data: Object
+            columns: Array,
+
+            numero: Number
         }
     }
+
+    constructor() {
+        super();
+        this.columns = [];
+        this.numero = 4;
+    }
+
 
     static get styles() {
         return css`
           :host {
-            margin-top: 5px;
             display: flex;
             justify-content: center;
             align-items: center;
           }
-          .container {
-            width: 745px;
+          .counter {
+            width: 700px;
             height: 130px;
             display: grid;
-            grid-template-columns: repeat(3,250px);
+            grid-template-columns: repeat(auto-fit, 170px);
             grid-template-rows: 130px;
             font-family: roboto;
             border-radius: 18px;
@@ -29,80 +36,63 @@ class CounterComponent extends LitElement {
             box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
             text-align: center;
             padding: 10px;
-
           }
-          div {
-            border-left: 2px solid red;
-          }
-          div:nth-child(1) {
+          .counter-child:nth-child(1) {
             border: none;
           }
+          .counter-child {
+            border-left: 2px solid red;
+          }
           
-          div h4 {
+          .counter-child h4 {
             margin-top: 5px;
             margin-bottom: 5px;
             text-transform: capitalize;
             font-size: 20px;
           }
-
-          iron-icon {
-            color: #BEC606;
-          }
         `;
     }
 
-    constructor() {
-        super();
-        this.companies = [
-            { name: 'Gayol', sales: 1 },
-            { name: 'Queretaro', sales: 3 },
-            { name: 'zapata', sales: 4 }
-        ];
-        this.data = {};
-    }
-
-    render() {
-        return html`                
-            <div class="container"></div>
-        `;
-    }
 
     firstUpdated(_changedProperties) {
         super.firstUpdated(_changedProperties);
-        this.creatColums();
+        this.columns = [
+            {
+                name: 'Providencia',
+                sales: 1
+            },
+            {
+                name: 'Queretaro',
+                sales: 1
+            }, {
+                name: 'Tlacoquemecatl',
+                sales: 1
+            },
+            {
+                name: 'Gayol',
+                sales: 1
+            }
+        ];
     }
 
-    creatColums() {
-        const container = this.shadowRoot.querySelector('.container');
-        for (let i = 0; i <= this.companies.length; i++) {
-            let column = document.createElement('div');
-            column.id = i;
-            column.innerHTML = `
-                <iron-icon icon="vaadin:lightbulb"></iron-icon>
-                    <h4>${this.companies[i].name}</h4>
-                <h2 class="aux" data-target="counter_one">${this.companies[i].sales}</h2>
-            `;
-            container.appendChild(column);
-        }
+    render() {
+        return html`
+            <div class="counter">
+                ${this.columns.map(column => html`
+                    <div class="counter-child">
+                        <iron-icon icon="vaadin:lightbulb"></iron-icon>
+                        <h4>${column.name}</h4>
+                        <h2 class="aux" data-target="counter_one">${column.sales}</h2>
+                    </div>
+                `)}
+            </div>
+        `;
     }
 
-    async increment() {
-
-        try {
-            await this.requestUpdate();
-            this.dispatchEvent(new CustomEvent('counter-incremented', {
-                detail: {
-                    value: this.counter_one,
-                    counter: 'counter_one'
-                }
-            }))
-        } catch (error) {
-            this.dispatchEvent(new CustomEvent('increment-failed'))
-        }
+    async createColumns() {
+        const container = this.shadowRoot.querySelector('#counter');
     }
-
-
 }
 
 
-window.customElements.define('counter-component', CounterComponent)
+customElements.define('counter-component',CounterComponent);

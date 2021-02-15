@@ -16,7 +16,7 @@ class HexagonComponent extends LitElement {
               display: flex;
               justify-content: center;
               align-items: center;
-              min-height: 100vh;
+              min-height: 50vh;
             }
           
           .container {
@@ -31,10 +31,10 @@ class HexagonComponent extends LitElement {
             position: relative;
             width: 350px;
             height: 400px;
-            margin: 50px 20px 70px;
+            margin: 20px 20px 30px;
           }
 
-          .container .hexagon::before {
+          /*.container .hexagon::before {
             content: '';
             position: absolute;
             bottom: -70px;
@@ -48,7 +48,7 @@ class HexagonComponent extends LitElement {
           .container .hexagon:hover::before {
             opacity: 0.8;
             transform: scale(0.8);
-          }
+          }*/
 
           .container .hexagon .shape {
             position: absolute;
@@ -110,9 +110,10 @@ class HexagonComponent extends LitElement {
                         <img src="https://s1.eestatic.com/2019/08/09/omicrono/Omicrono_420219253_131917138_1024x576.jpg" />
                         <div class="content">
                             <div>
-                                <h2>Lomas </h2>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                    Accusamus architecto at atque deserunt
+                                <h2>BUGAMBILIAS </h2>
+                                <p>
+                                    Aguascalientes
+                                    $539,421 pesos
                                 </p>
                             </div>
                         </div>
@@ -123,21 +124,27 @@ class HexagonComponent extends LitElement {
                         <img src="https://lh3.googleusercontent.com/proxy/kl0AEijrHU-1tGXY87_p4-OqVUfFoghUDGvGwYdP3-6L1fAu-nllyHol4_N4njO3Gv6rciraILPzAxZLDc92aOrtYjOB24WnxE9gDjOu8S5aif73ARJ8k4QNC9Ws8XeR4iD_TgVRCLe2IFTB" />
                         <div class="content">
                             <div>
-                                <h2>cuatitlan</h2>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing.
-                                    Accusamus architecto at atque deserunt
+                                <h2>coahuila</h2>
+                                <p>
+                                    $417,026 pesos
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <iframe .src="${this.mapa}" 
-                        width="600"
-                        height="450" frameborder="0"
-                        style="border:0;" allowfullscreen=""
-                        aria-hidden="false" tabindex="0">
-                </iframe>
-                
+                <div class="hexagon">
+                    <div class="shape">
+                        <img src="https://s1.eestatic.com/2019/08/09/omicrono/Omicrono_420219253_131917138_1024x576.jpg" />
+                        <div class="content">
+                            <div>
+                                <h2>Aguascalientes</h2>
+                                <p>
+                                    $362,147 pesos
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         `;
     }
