@@ -4,6 +4,7 @@ import { GayolController } from '../helpers/GayolController';
 import '../components/CounterComponent';
 import '../components/LastNews';
 import '../components/MessageItem';
+import '../components/HexagonComponent';
 
 
 
@@ -11,7 +12,8 @@ class DashboardPage extends GayolController {
     static get properties() {
         return {
             news: Array,
-            lastTen: Array
+            lastTen: Array,
+            mapa: String
         }
     }
 
@@ -35,20 +37,19 @@ class DashboardPage extends GayolController {
               grid-template-columns: 750px 380px;
               grid-gap: 10px;*/
               display: flex;
-              justify-content: space-between;
               align-items: flex-start;
             }
           
             .aside {
               background: #fff;
-              border-radius: 50px;
-              box-shadow: 5px 5px 5px rgba(0,0,0,0.3);
+              border-radius: 20px;
+              box-shadow: 3px 3px 3px rgba(0,0,0,0.3);
               box-sizing: border-box;
               margin: 10px;
               padding: 5px;
               color: gray;
               height: 70vh;
-              width: 28vw;
+              width: 90vw;
               position: relative;
               overflow: auto;
             }
@@ -62,16 +63,10 @@ class DashboardPage extends GayolController {
             }
           
             .ultimate {
-              background: #fff;
-              border-radius: 30px;
-              width: 50vw;
+              width: 70vw;
               height: 70vh;
               padding: 10px;
               margin: 10px;
-              display: grid;
-              grid-template-columns: repeat(2,1fr);
-              grid-gap: 5px;
-              overflow: scroll;
             }
 
           counter-component {
@@ -84,6 +79,7 @@ class DashboardPage extends GayolController {
     constructor() {
         super();
         this.news = [];
+        this.mapa = '';
         this.lastTen = [{ address: 'park 3 av. Indus' },{ address: 'park 3 av. Indus' },
             { address: 'park 3 av. Indus' },{ address: 'park 3 av. Indus' },
             { address: 'park 3 av. Indus' },
@@ -105,19 +101,14 @@ class DashboardPage extends GayolController {
             <app-layout @log-out="${this.logOut}">
                 <counter-component slot="title"></counter-component>
                 <div slot="content" class="content">
-                    <div class="ultimate">
-                      ${this.lastTen.map(item => html`
-                              <div>${item.address}</div>
-                      `)}
-                    </div>
-                    <aside class="aside">
+                    <main class="aside">
                         <div class="message__box__title">
                             <h2>Ultimas Noticias</h2>
                         </div>
                         ${this.news.map(item => html`
-                            <message-item .title="${item.title}" .description="${item.description}" .date="${item.createAt}"></message-item>
+                            <message-item .title="${item.title}" .description="${item.description}" .date="${item.createAt}" .image="${item.avatar}"></message-item>
                         `)}
-                    </aside>
+                    </main>
                 </div>
             </app-layout>
         `;
@@ -135,7 +126,7 @@ class DashboardPage extends GayolController {
 
     async getAllNews() {
       const news = await this.__request('news');
-      this.news = news.data;
+      this.news = news.data.reverse();
     }
     
 }

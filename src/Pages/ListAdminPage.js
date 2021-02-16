@@ -31,9 +31,9 @@ class ListAdminPage extends GayolController {
                <vaadin-grid theme="row-dividers" column-reordering-allowed multi-sort>
                     <vaadin-grid-sort-column width="10em" path="lista"></vaadin-grid-sort-column>
                     <vaadin-grid-sort-column width="8em" path="idLista"></vaadin-grid-sort-column>
-                    <vaadin-grid-sort-column width="8em" path="direccion"></vaadin-grid-sort-column>
-                    <vaadin-grid-sort-column width="8em" path="colonia"></vaadin-grid-sort-column>
-                    <vaadin-grid-sort-column width="8em" path="municipio"></vaadin-grid-sort-column>
+                    <vaadin-grid-sort-column width="15em" path="direccion"></vaadin-grid-sort-column>
+                    <vaadin-grid-sort-column width="12em" path="colonia"></vaadin-grid-sort-column>
+                    <vaadin-grid-sort-column width="12em" path="municipio"></vaadin-grid-sort-column>
                     <vaadin-grid-sort-column width="8em" path="estado"></vaadin-grid-sort-column>
                     <vaadin-grid-sort-column width="8em" path="montoCesion"></vaadin-grid-sort-column>
                     <vaadin-grid-sort-column width="8em" path="honorarios"></vaadin-grid-sort-column>

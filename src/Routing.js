@@ -29,11 +29,11 @@ const routes = [
             },
             {
                 path: 'menuListPage',
-                component: 'menu-list-Page',
+                component: 'menu-list-page',
                 children: [
                     {
                         path: '',
-                        component: 'menu-list-Page',
+                        component: 'menu-list-page',
                         action: async (routerContext, commands) => {
                             const token = localStorage.getItem('token');
                             const verified = await verify(token);
@@ -46,14 +46,7 @@ const routes = [
                     {
                         path: 'addList',
                         component: 'add-list',
-                        action: async (routerContext, commands) => {
-                            const token = localStorage.getItem('token');
-                            const verified = await verifyAdmin(token);
-                            if(!verified.admin)  {
-                                return commands.redirect('/dashboard');
-                            }
-                            return await import('./Pages/AddList')
-                        }
+                        action: async () => await import('./Pages/AddList')
                     },
                     {
                         path: 'list-admin/:id',//lista vendedor
@@ -95,7 +88,7 @@ const routes = [
             {
                 path: 'uploadList',
                 component: 'upload-List',
-                action: async() => {
+                action: async(routerContext, commands) => {
                     const token = localStorage.getItem('token');
                     const verified = await verifyAdmin(token);
                     if(!verified.admin)  {

@@ -2,7 +2,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import filesize from 'rollup-plugin-filesize';
 import copy from 'rollup-plugin-copy';
 import uglify from '@lopatnov/rollup-plugin-uglify';
-import dynamicImportVars from '@rollup/plugin-dynamic-import-vars';
+// import dynamicImportVars from '@rollup/plugin-dynamic-import-vars';
 
 
 const name = `${((new Date()).getTime())}.bundled.js`;
