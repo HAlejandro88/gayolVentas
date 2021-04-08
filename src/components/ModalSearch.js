@@ -37,7 +37,7 @@ class ModalSearch extends GayolController {
             ${this.docs.length > 0 ? html`
                 ${this.docs.map((doc,index) => html`
                 <div class="documents">
-                    <a href="http://localhost:5000/api/v1/docs/document/${doc.filename}">
+                    <a href="https://gayol-app.herokuapp.com/api/v1/docs/document/${doc.filename}">
                         Documento ${index + 1}
                         <iron-icon icon="vaadin:file-table"></iron-icon>
                     </a>

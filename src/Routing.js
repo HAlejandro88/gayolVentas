@@ -70,6 +70,31 @@ const routes = [
                             return await import('./Pages/listPage')
                         }
 
+                    },
+                    {
+                        path: 'listSales',
+                        component: 'list-sale-page',
+                        action: async (routerContext, commands) => {
+                            const token = localStorage.getItem('token');
+                            const verified = await verify(token);
+                            if(!verified) {
+                                return commands.redirect('/dashboard')
+                            }
+                            return await import('./Pages/ListSalePage')
+                        }
+                    },
+
+                    {
+                        path: 'listDown',
+                        component: 'list-down',
+                        action: async (routerContext, commands) => {
+                            const token = localStorage.getItem('token');
+                            const verified = await verify(token);
+                            if(!verified) {
+                                return commands.redirect('/dashboard')
+                            }
+                            return await import('./Pages/ListDown')
+                        }
                     }
                 ]
             },
@@ -79,9 +104,6 @@ const routes = [
                 action: async(routerContext, commands) => {
                     const token = localStorage.getItem('token');
                     const verified = await verifyAdmin(token);
-                    if(!verified.admin)  {
-                        return commands.redirect('/dashboard');
-                    }
                     return await import('./Pages/MessagePage')
                 }
             },
@@ -91,7 +113,7 @@ const routes = [
                 action: async(routerContext, commands) => {
                     const token = localStorage.getItem('token');
                     const verified = await verifyAdmin(token);
-                    if(!verified.admin)  {
+                    if(verified.sale || verified.juridico)  {
                         return commands.redirect('/dashboard');
                     }
                     return await import('./Pages/UploadList')
@@ -110,11 +132,28 @@ const routes = [
                 }
             },
             {
+                path: 'searchJuridico',
+                component: 'search-juridico-page',
+                action: async (routerContext, commands) => {
+                    const token = localStorage.getItem('token');
+                    const verified = await verifyAdmin(token);
+                    if(!verified.juridico)  {
+                        return commands.redirect('/dashboard');
+                    }
+                    return await import('./Pages/SearchJuridicoPage')
+                }
+            },
+            {
                 path: 'register',
                 component: 'register-user',
                 action: async(routerContext, commands) => {
                     // const id = routerContext.params.id;
                     // console.log(id);
+                    const token = localStorage.getItem('token');
+                    const verified = await verifyAdmin(token);
+                    if(!verified.admin)  {
+                        return commands.redirect('/dashboard');
+                    }
                     return await import('./components/RegisterUser')
                 }
 

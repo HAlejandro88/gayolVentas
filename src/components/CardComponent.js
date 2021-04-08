@@ -9,7 +9,8 @@ class CardComponent extends LitElement {
             image: String,
             title: String,
             description: String,
-            details: String
+            details: String,
+            id: String
         }
     }
 
@@ -69,6 +70,21 @@ class CardComponent extends LitElement {
           .icon-hidden:hover {
             color: blue;
           }
+          
+          .sub-title {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            text-align: right;
+          } 
+          
+          .sub-title h5 {
+            color: darkgrey;
+          }
+          h5 {
+            color: darkgrey;
+            text-align: right;
+          }
         `;
     }
 
@@ -78,6 +94,7 @@ class CardComponent extends LitElement {
         this.title = '';
         this.description = '';
         this.details = 0;
+        this.id = 'ddd';
     }
 
     firstUpdated(_changedProperties) {
@@ -97,9 +114,13 @@ class CardComponent extends LitElement {
                 </header>
                 ${this.image ? html`<img src="${this.image}" alt="Avatar" style="width:100%">`: ``}
                 <div class="container">
+                    <h5>Id: ${this.id}</h5>
                     <h4><b>${this.title}</b></h4>
-                    <h6>${this.details}</h6>
-                    <p>${this.description}</p>
+                    <p>${this.description}
+                    </p>
+                    <div class="sub-title">
+                        <h6>${this.details}</h6>
+                    </div>
                 </div>
                 <div class="details">
                     <vaadin-button theme="tertiary" @click="${this.handleClick}">Ver más</vaadin-button>

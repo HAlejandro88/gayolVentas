@@ -64,7 +64,7 @@ class NavBar extends GayolController {
             <nav class="nav">
                 <div class="toogle">
                     <vaadin-drawer-toggle></vaadin-drawer-toggle>
-                    <h2>Gayol App</h2>
+                    <h2>Office App</h2>
                 </div>
                 <div class="social">
                     <iron-icon icon="vaadin:grid-small" @click="${this.messageOptions}"></iron-icon>
@@ -102,14 +102,6 @@ class NavBar extends GayolController {
                         <iron-icon icon="vaadin:plus" id="plus"></iron-icon>
                         <h6>Agregar un mensaje</h6>
                     </div>
-                    <div class="item">
-                        <iron-icon icon="vaadin:trash" id="trash"></iron-icon>
-                        <h6>Borrar mensaje</h6>
-                    </div>
-                    <div class="item">
-                        <iron-icon icon="vaadin:rotate-right" id="updateMessage"></iron-icon>
-                        <h6>Actuaizar mensaje</h6>
-                    </div>
                     
                     <div class="item">
                         <iron-icon icon="vaadin:plus-circle" id="master"></iron-icon>
@@ -117,10 +109,17 @@ class NavBar extends GayolController {
                     </div> 
                 </div>
             `;
-            if(this.user.role === 'admin' || this.user.role === 'juridico') {
+            if(this.user.role === 'admin') {
                 root.querySelector('#master').addEventListener('click', e => {
                     window.location = '/menuListPage/addList'
                 })
+                root.querySelector('#plus').addEventListener('click', e => {
+                    window.location = `/message/${this.user._id}`;
+                })
+            } else if(this.user.role === 'vendedor') {
+                window.location = '/dashboard'
+            }
+            else  {
                 root.querySelector('#plus').addEventListener('click', e => {
                     window.location = `/message/${this.user._id}`;
                 })
@@ -139,7 +138,7 @@ class NavBar extends GayolController {
        const me = await this.__request('auth/me','GET',headers);
        this.user = me.data;
        //this.user.image = `https://gayol-app.herokuapp.com/api/v1/auth/avatar/${this.user.image}`;
-       this.user.image = `http://localhost:5000/api/v1/auth/avatar/${this.user.image}`;
+       this.user.image = `https://gayol-app.herokuapp.com/api/v1/auth/avatar/${this.user.image}`;
     }
 
 

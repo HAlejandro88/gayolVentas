@@ -100,7 +100,6 @@ class ListPage extends GayolController {
                         <vaadin-grid-sort-column width="18em" path="empresa"></vaadin-grid-sort-column>
                         <vaadin-grid-sort-column width="18em" path="observacionesAdmin"></vaadin-grid-sort-column>
                         <vaadin-grid-sort-column width="18em" path="contratoRealizado"></vaadin-grid-sort-column>
-                        <vaadin-grid-filter-column width="18em" path="status" header="status"></vaadin-grid-filter-column>
                         <vaadin-grid-column></vaadin-grid-column>
                     </vaadin-grid>
                     <vaadin-dialog id="dialog"></vaadin-dialog>
@@ -118,12 +117,31 @@ class ListPage extends GayolController {
         const list = await this.__request(`listSales/master/${this.location.params.id}`,'GET');
         this.contentList = list.data;
         const table = this.shadowRoot.querySelector('vaadin-grid');
-        table.items = this.contentList;
+        //table.items = this.contentList;
+        this.__changeColorForStatus(this.contentList, table)
         if(list.data.length === 0) {
             notificationError.renderer = root => root.textContent = 'no hay datos en esta lista';
             notificationError.open();
         }
         this.edit(table);
+    }
+
+    __changeColorForStatus(data, table) {
+        data = data.map(item => {
+            if(item.vendida) {
+                const $columFilter = this.shadowRoot.querySelectorAll('vaadin-grid-filter-column')
+                const $columSort = this.shadowRoot.querySelectorAll('vaadin-grid-sort-column')
+                const $colum = this.shadowRoot.querySelector('vaadin-grid-column')
+                for(let colFil of  $columFilter) {
+                    colFil.style.backgroundColor = 'red';
+                }
+                for (let colSort of $columSort ) {
+                    colSort.style.backgroundColor = 'red'
+                }
+            }
+            return item
+        })
+        table.items = data
     }
 
     edit(table) {
@@ -142,40 +160,39 @@ class ListPage extends GayolController {
     }
 
 
-    filter() {
-        const address = this.shadowRoot.querySelector('address');
-        address.headerRenderer = (root) => {
-            root.innerHTML =
-                '<vaadin-grid-filter path="email">' +
-                '  <vaadin-text-field slot="filter" focus-target label="Email" style="max-width: 100%" theme="small"></vaadin-text-field>' +
-                '</vaadin-grid-filter>';
-            root.querySelector('vaadin-text-field').addEventListener('value-changed', function(e) {
-                root.querySelector('vaadin-grid-filter').value = e.detail.value;
-            });
-        }
-    }
-
         // FIXME: arreglar que renderise despues de actualizar
         // FIXME: cerrar el modal despues de actualizar
         // FIXME: arreglar que se pueda actualizar los elementos de una lista subida por xlsx
 
     async createModal(id) {
         const { data } = await this.__request(`listSales/${id}`,'GET' ,{});
+        let fechaContrato = new Date(data.fechaContrato).toLocaleDateString();
+        let fechaPago = new Date(data.fechaPago).toLocaleDateString();
         const dialog = this.shadowRoot.querySelector('#dialog');
         const notification = this.shadowRoot.querySelector('vaadin-notification');
         const notificationError = this.shadowRoot.querySelector('#error');
         dialog.renderer = function(root, dialog) {
-            console.log(root, 'root');
-            root.innerHTML = `<field-layout cancelar list="${data.lista}" idList="${data.idLista}" 
-                                            address="${data.direccion}" colonia="${data.colonia}" 
-                                            country="${data.municipio}" state="${data.estado}"
-                                            montoCesion="${data.montoCesion}" honorarios="${data.honorarios}"
-                                            total="${data.total}" id="${id}">
+            root.innerHTML = `<field-layout cancelar expedienteAdmin="${data.expedienteAdmin == undefined ? '': data.expedienteAdmin}"  
+                                            vendida="${data.vendida}"
+                                            baja="${data.baja}"
+                                            fechaContrato="${fechaContrato }"
+                                            formaPago="${data.formaPago}"
+                                            cuentaPago="${data.cuentaPago}"
+                                            fechaPago="${fechaPago}"
+                                            estatusAdmin="${data.estatusAdmin == undefined ? '' : data.estatusAdmin}"
+                                            cliente="${data.cliente == undefined ? '' : data.cliente}"
+                                            observacionesVenta="${data.observacionesVenta == undefined ? '' : data.observacionesVenta }"
+                                            vendedor="${data.vendedor === undefined ? '' : data.vendedor}"
+                                            jefeGrupo="${data.jefeGrupo == undefined ? '': data.jefeGrupo}"
+                                            tipoVenta="${data.tipoVenta}"
+                                            empresa="${data.empresa}"
+                                            observacionesAdmin="${data.observacionesAdmin  == undefined ? '': data.observacionesAdmin}"
+                                            contratoRealizado="${data.contratoRealizado == undefined ? '': data.contratoRealizado}" id="${id}">
                               </field-layout>`;
             const fieldLayout = root.querySelector('field-layout');
             fieldLayout.addEventListener('update-data', async ({ detail }) => {
                   let body = JSON.stringify(detail);
-                  const response = await fetch(`http://localhost:5000/api/v1/listSales/update/${id}`, {
+                  const response = await fetch(`https://gayol-app.herokuapp.com/api/v1/listSales/update/${id}`, {
                       method: 'PUT',
                       headers: {
                           'Content-Type': 'application/json',
@@ -216,8 +233,6 @@ class ListPage extends GayolController {
             method: 'POST',
             body: JSON.stringify(this.contentList)
         });
-
-        console.log(download);
     }
 
 }

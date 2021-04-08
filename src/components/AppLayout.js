@@ -7,8 +7,14 @@ import '@vaadin/vaadin-button';
 import '@vaadin/vaadin-tabs/vaadin-tab';
 import '@vaadin/vaadin-tabs/vaadin-tabs';
 import '../components/NavBar';
+import {  login, verify, verifyAdmin  } from '../helpers/auth';
 
 class AppLayout extends LitElement {
+    static get properties() {
+        return {
+            juridico: { type: Boolean, reflect: true }
+        }
+    }
     static get styles() {
         return css`
           :host {
@@ -29,6 +35,11 @@ class AppLayout extends LitElement {
         `;
     }
 
+    constructor() {
+        super();
+        this.juridico = false;
+    }
+
     render() {
         return html`
             <vaadin-app-layout>
@@ -46,7 +57,7 @@ class AppLayout extends LitElement {
                         <iron-icon icon="vaadin:options"></iron-icon>
                         Subir Listas
                     </vaadin-tab>
-                    <vaadin-tab tab-page="search" @click="${this.__changePage}">
+                    <vaadin-tab tab-page="search" @click="${this.__changeSearch}">
                         <iron-icon icon="vaadin:search"></iron-icon>
                         Buscador
                     </vaadin-tab>
@@ -74,7 +85,19 @@ class AppLayout extends LitElement {
     }
 
     logOut() {
-        this.dispatchEvent(new CustomEvent('log-out'));
+        //this.dispatchEvent(new CustomEvent('log-out'));
+        localStorage.removeItem('token');
+        window.location = '/login'
+    }
+
+    async __changeSearch(event) {
+        const token = localStorage.getItem('token');
+        const verified = await verifyAdmin(token);
+        if(!verified.juridico)  {
+            window.location = 'search'
+        } else {
+            window.location = 'searchJuridico'
+        }
     }
 }
 

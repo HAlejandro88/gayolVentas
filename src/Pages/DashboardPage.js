@@ -90,7 +90,7 @@ class DashboardPage extends GayolController {
 
     async firstUpdated(_changedProperties) {
         super.firstUpdated(_changedProperties);
-        console.log(this.location, 'location')
+        //console.log(this.location, 'location')
         await this.getAllNews();
     }
 

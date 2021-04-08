@@ -1,22 +1,35 @@
 import { LitElement, html, css } from 'lit-element';
 import '@vaadin/vaadin-text-field/vaadin-text-field.js';
 import '@vaadin/vaadin-button';
+import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
+import '@polymer/paper-item/paper-item.js';
+import '@polymer/paper-listbox/paper-listbox.js';
+import '@polymer/paper-toggle-button/paper-toggle-button.js';
+
 
 
 class FieldLayout extends LitElement {
     static get properties() {
         return {
-            list: String,
-            idList: String,
-            address: String,
-            colonia: String,
-            country: String,
-            state: String,
-            montoCesion: String,
-            honorarios: String,
-            total: String,
+            expedienteAdmin: String,
+            pago: String,
+            fechaContrato: String,
+            formaPago: String,
+            cuentaPago: String,
+            fechaPago: String,
+            estatusAdmin: String,
+            cliente: String,
+            observacionesVenta: String,
+            vendedor: String,
+            jefeGrupo: String,
+            tipoVenta: String,
+            empresa: String,
+            observacionesAdmin: String,
+            contratoRealizado: String,
             cancelar: { type: Boolean, reflect: true },
-            add: { type: Boolean, reflect: true }
+            add: { type: Boolean, reflect: true },
+            vendida: Boolean,
+            baja: Boolean
         }
     }
 
@@ -32,56 +45,124 @@ class FieldLayout extends LitElement {
 
     constructor() {
         super();
-        this.list = '';
-        this.idList = '';
-        this.address = '';
-        this.colonia = '';
-        this.country = '';
-        this.state = '';
-        this.montoCesion = 0;
-        this.honorarios = 0;
-        this.total = 0;
+        this.expedienteAdmin = '';
+        this.fechaContrato = '';
+        this.formaPago = '';
+        this.cuentaPago = '';
+        this.fechaPago = '';
+        this.estatusAdmin = '';
+        this.cliente = '';
+        this.observacionesVenta = '';
+        this.vendedor = '';
+        this.jefeGrupo = '';
+        this.tipoVenta = '';
+        this.empresa = '';
+        this.observacionesAdmin = '';
+        this.contratoRealizado = '';
         this.cancelar = false;
         this.add = false;
+        this.vendida = false;
+        this.baja = false;
+    }
+    
+    async firstUpdated(_changedProperties) {
+        super.firstUpdated(_changedProperties);
+        if (this.observacionesAdmin === undefined) {
+            this.observacionesAdmin = '';
+            await this.requestUpdate();
+        }
     }
 
-
+//${this.vendida ? html`<paper-toggle-button checked @change="${this.statusVendida}">Vendida</paper-toggle-button>`: html`<paper-toggle-button @change="${this.statusVendida}">Vendida</paper-toggle-button>`}
     render() {
         return html`
             <div class="content__layout">
+                
+                ${this.vendida === 'true' ? html`<paper-toggle-button checked @change="${this.statusVendida}">Vendida</paper-toggle-button>`: html`<paper-toggle-button @change="${this.statusVendida}">Vendida</paper-toggle-button>`}
+                ${this.baja === 'true' ? html`<paper-toggle-button checked @change="${this.statusbaja}">Baja</paper-toggle-button>`: html`<paper-toggle-button @change="${this.statusbaja}">Baja</paper-toggle-button>`}
                 <div>
-                    <vaadin-text-field class="form-control" label="Lista" class="form-control" value="${this.list}"></vaadin-text-field>
+                    <vaadin-text-field class="form-control" label="Expediente" class="form-control" value="${this.expedienteAdmin}"></vaadin-text-field>
                 </div> 
+                
                 <div>
-                    <vaadin-text-field class="form-control" label="IdLista" class="form-control" .value="${this.idList}"></vaadin-text-field>
+                    <vaadin-text-field class="form-control" label="fechaContrato" class="form-control" value="${this.fechaContrato}"></vaadin-text-field>
+                </div>
+                
+
+                <!--div>
+                    <vaadin-text-field class="form-control" label="Pago" class="form-control" value="${this.fechaContrato}"></vaadin-text-field>
+                </div-->
+                <paper-dropdown-menu label="Pago" id="pago" noink no-animations @selected-item-changed="${this.changePago}">
+                    <paper-listbox slot="dropdown-content" class="dropdown-content">
+                        <paper-item>Efectivo</paper-item>
+                        <paper-item>Transferencia</paper-item>
+                    </paper-listbox>
+                </paper-dropdown-menu>
+
+                <!--div>
+                    <vaadin-text-field class="form-control" label="Cuenta" class="form-control" value="${this.fechaContrato}"></vaadin-text-field>
+                </div-->
+
+                <paper-dropdown-menu label="Cuenta" id="cuenta" noink no-animations @selected-item-changed="${this.changeCuenta}">
+                    <paper-listbox slot="dropdown-content" class="dropdown-content" >
+                        <paper-item>Inbursa</paper-item>
+                        <paper-item>Banorte</paper-item>
+                    </paper-listbox>
+                </paper-dropdown-menu>
+                
+                <div>
+                    <vaadin-text-field class="form-control" label="FechaPago" class="form-control" value="${this.fechaPago}"></vaadin-text-field>
                 </div>
                 <div>
-                    <vaadin-text-field class="form-control" label="Direccion" class="form-control" .value="${this.address}"></vaadin-text-field>
+                    <vaadin-text-field class="form-control" label="EstatusAdmin" class="form-control" value="${this.estatusAdmin}"></vaadin-text-field>
                 </div>
                 <div>
-                    <vaadin-text-field class="form-control" label="Colonia" class="form-control"  .value="${this.colonia}"></vaadin-text-field>
+                    <vaadin-text-field class="form-control" label="Cliente" class="form-control" value="${this.cliente}"></vaadin-text-field>
                 </div>
                 <div>
-                    <vaadin-text-field class="form-control" label="Municipio" class="form-control" .value="${this.country}"></vaadin-text-field>
+                    <vaadin-text-field class="form-control" label="ObservacionesVenta" class="form-control" value="${this.observacionesVenta}"></vaadin-text-field>
                 </div>
                 <div>
-                    <vaadin-text-field class="form-control" label="Estado" class="form-control" .value="${this.state}"></vaadin-text-field>
+                    <vaadin-text-field class="form-control" label="Vendedor" class="form-control" value="${this.cliente}"></vaadin-text-field>
                 </div>
                 <div>
-                    <vaadin-text-field class="form-control" label="MontoCesion" class="form-control" .value="${this.montoCesion}">
-                        <div slot="prefix">$</div>
-                    </vaadin-text-field>
+                    <vaadin-text-field class="form-control" label="JefeGrupo" class="form-control" value="${this.jefeGrupo}"></vaadin-text-field>
                 </div>
+                <!--div>
+                    <vaadin-text-field class="form-control" label="Tipo Venta" class="form-control" value="${this.jefeGrupo}"></vaadin-text-field>
+                </div-->
+                <paper-dropdown-menu label="Tipo Venta" id="tipov" noink no-animations @selected-item-changed="${this.TipoVentaChange}">
+                    <paper-listbox slot="dropdown-content" class="dropdown-content">
+                        <paper-item>12 Meses</paper-item>
+                        <paper-item>Cesión Inmediata</paper-item>
+                    </paper-listbox>
+                </paper-dropdown-menu>
+                <!--div>
+                    <vaadin-text-field class="form-control" label="Empresa" class="form-control" value="${this.jefeGrupo}"></vaadin-text-field>
+                </div-->
+                <paper-dropdown-menu label="Empresa" id="empresa" noink no-animations @selected-item-changed="${this.empresaCahange}">
+                    <paper-listbox slot="dropdown-content" class="dropdown-content">
+                        <paper-item>SPEJ</paper-item>
+                        <paper-item>Grupo Marzuz</paper-item>
+                        <paper-item>Tlaco</paper-item>
+                        <paper-item>Queretaro</paper-item>
+                    </paper-listbox>
+                </paper-dropdown-menu>
+                
+               ${this.observacionesAdmin == undefined ? html`
+                   <div>
+                       <vaadin-text-field class="form-control" label="ObservacionesAdmin" class="form-control" ></vaadin-text-field>
+                   </div>
+               ` : html`
+                   <div>
+                       <vaadin-text-field class="form-control" label="ObservacionesAdmin" class="form-control" value="${this.observacionesAdmin}"></vaadin-text-field>
+                   </div>
+               `}
+                
                 <div>
-                    <vaadin-text-field class="form-control" label="Honorarios" class="form-control" .value="${this.honorarios}">
-                        <div slot="prefix">$</div>
-                    </vaadin-text-field>
+                    <vaadin-text-field class="form-control" label="ContratoRealizado" class="form-control" value="${this.contratoRealizado}"></vaadin-text-field>
                 </div>
-                <div>
-                    <vaadin-text-field class="form-control" label="Total" class="form-control" .value="${this.total}">
-                        <div slot="prefix">$</div>
-                    </vaadin-text-field>
-                </div>
+                
             </div>
             ${this.add ? 
                     html`<vaadin-button @click="${this.updateData}">Agregar</vaadin-button>`
@@ -99,26 +180,106 @@ class FieldLayout extends LitElement {
     // TODO:Peguntar por que no se mandan los valores de las propiedades
 
     updateData(event) {
-        const [Lista,IdLista,Direccion,Colonia,Municipio,Estado,MontoCesion,Honorarios,Total] = this.shadowRoot.querySelectorAll('.form-control');
+        const [Expediente,fechaContrato,FechaPago,EstatusAdmin,Cliente,ObservacionesVenta,Vendedor,JefeGrupo,ObservacionesAdmin,ContratoRealizado] = this.shadowRoot.querySelectorAll('.form-control');
+
         this.dispatchEvent(new CustomEvent('update-data', {
             bubbles: true,
             composed: true,
             detail: {
-                lista: Lista.value,
-                idLista: IdLista.value,
-                direccion: Direccion.value,
-                colonia: Colonia.value,
-                municipio: Municipio.value,
-                estado: Estado.value,
-                montoCesion: MontoCesion.value,
-                honorarios: Honorarios.value,
-                total: Total.value,
+                expedienteAdmin:Expediente.value,
+                fechaContrato:fechaContrato.value,
+                formaPago:this.pago,
+                cuentaPago:this.cuentaPago,
+                fechaPago:FechaPago.value,
+                estatusAdmin:EstatusAdmin.value,
+                cliente:Cliente.value,
+                observacionesVenta:ObservacionesVenta.value,
+                vendedor:Vendedor.value,
+                jefeGrupo:JefeGrupo.value,
+                tipoVenta:this.tipoVenta,
+                empresa:this.empresa,
+                observacionesAdmin:ObservacionesAdmin.value,
+                contratoRealizado:ContratoRealizado.value,
+                vendida: this.vendida,
+                baja: this.baja
             }
         }))
+        Expediente.value = '';
+        fechaContrato.value = '';
+        FechaPago.value = '';
+        EstatusAdmin.value = '';
+        Cliente.value = '';
+        ObservacionesVenta.value = '';
+        Vendedor.value = '';
+        JefeGrupo.value = '';
+        ObservacionesAdmin.value = '';
+        ContratoRealizado.value = '';
     }
 
     cancel(event) {
         this.dispatchEvent(new CustomEvent('cancel-update',{ composed: true }));
+    }
+
+
+    changePago({ detail }) {
+        this.pago = detail.value.innerText
+
+    }
+    changeCuenta({ detail }) {
+        this.cuentaPago = detail.value.innerText;
+    }
+
+    TipoVentaChange({ detail }) {
+        this.tipoVenta = detail.value.innerText;
+
+    }
+
+    empresaCahange({ detail }) {
+        this.empresa = detail.value.innerText;
+    }
+
+    statusVendida(event) {
+        const token = localStorage.getItem('token')
+        const BearerToken = `Bearer ${token}`;
+        let messageSale = {
+            user: '602b7c507f24cf0015049430', // agregar un usuario de sistema
+            title: 'Vendida',
+            description: `Inmueble vendido`
+        }
+        if(event.target.checked) {
+            this.vendida = true;
+            fetch('https://gayol-app.herokuapp.com/api/v1/news', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': BearerToken
+                },
+                body: JSON.stringify(messageSale)
+            }).then(resp => resp.json())
+                .catch(error => console.error(error))
+        }
+    }
+
+    statusbaja(event) {
+        const token = localStorage.getItem('token')
+        const BearerToken = `Bearer ${token}`;
+        let messageSale = {
+            user: '602b7c507f24cf0015049430', // agregar un usuario de sistema
+            title: 'Baja',
+            description: `Inmueble dado de baja ${this.numeroCredito}`
+        }
+        if(event.target.checked) {
+            this.baja = true;
+            fetch('https://gayol-app.herokuapp.com/api/v1/news', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': BearerToken
+                },
+                body: JSON.stringify(messageSale)
+            }).then(resp => resp.json())
+                .catch(error => console.error(error))
+        }
     }
 }
 

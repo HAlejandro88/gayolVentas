@@ -25,7 +25,7 @@ const login = async (email, password) => {
 
 const verify = async (token) => {
     try {
-        const logged = await (await fetch(`http://localhost:5000/api/v1/auth/verify/${token}`, {
+        const logged = await (await fetch(`https://gayol-app.herokuapp.com/api/v1/auth/verify/${token}`, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -39,7 +39,7 @@ const verify = async (token) => {
 
 const verifyAdmin = async(token) => { // `https://gayol-app.herokuapp.com/api/v1
     try {
-        const loggedAdmin = await (await fetch(`http://localhost:5000/api/v1/auth/verify/admin/${token}`,{
+        const loggedAdmin = await (await fetch(`https://gayol-app.herokuapp.com/api/v1/auth/verify/admin/${token}`,{
             headers: {
                 'Content-Type': 'application/json'
             }

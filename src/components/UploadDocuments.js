@@ -8,7 +8,7 @@ import {GayolController} from "../helpers/GayolController";
 class UploadDocuments extends GayolController {
     static get properties() {
         return {
-            id: String
+            idList: String
         }
     }
 
@@ -18,7 +18,7 @@ class UploadDocuments extends GayolController {
 
     constructor() {
         super();
-        this.id = '';
+        this.idList = '';
     }
 
 
@@ -27,13 +27,13 @@ class UploadDocuments extends GayolController {
             <section class="first">
                 <h5>Agrega la URl del mapa y sube la foto</h5>
                 <vaadin-text-field label="Url Mapa"></vaadin-text-field>
-                <vaadin-upload method="PUT"  target="http://localhost:5000/api/v1/listSales/${this.id}/image">
+                <vaadin-upload method="PUT"  target="https://gayol-app.herokuapp.com/api/v1/listSales/${this.idList}/image">
                     <span slot="drop-label">Arrastre su photo </span>
                 </vaadin-upload>
-                <h5> Sube tus documentos</h5>
-                <vaadin-upload id="upload" target="http://localhost:5000/api/v1/docs" @upload-request="${this.cloudDocuments}">
+                <!--h5> Sube tus documentos</h5>
+                <vaadin-upload id="upload" target="https://gayol-app.herokuapp.com/api/v1/docs" @upload-request="${this.cloudDocuments}">
                     <span slot="drop-label">Arrastre sus documentos pdf</span>
-                </vaadin-upload>
+                </vaadin-upload-->
                 
                 <vaadin-button @click="${this.updateList}">Actualizar</vaadin-button>
             </section>
@@ -46,15 +46,11 @@ class UploadDocuments extends GayolController {
             mapa: mapa.value
         }
 
-        const changeList = await this.__request(`listSales/update/${this.id}`,'PUT',{},body);
-        console.log(changeList);
-
-
+        const changeList = await this.__request(`listSales/update/${this.idList}`,'PUT',{},body);
     }
 
     cloudDocuments(event) {
         event.detail.formData.append('listItem', this.id);
-        console.log(event.detail, 'detail');
     }
 }
 

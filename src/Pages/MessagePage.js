@@ -2,6 +2,7 @@ import { html, css } from 'lit-element';
 import '@vaadin/vaadin-text-field';
 import '@vaadin/vaadin-button';
 import '../components/AppLayout';
+import '@vaadin/vaadin-notification';
 import {GayolController} from "../helpers/GayolController";
 
 class MessagePage extends GayolController {
@@ -55,6 +56,7 @@ class MessagePage extends GayolController {
                         <input type="text" label="Description" placeholder="Description..." class="form-control">
                         <vaadin-button @click="${this.addNew}">Agregar</vaadin-button>
                     </div>
+                    <vaadin-notification duration="4000" position="top-end" theme="success"></vaadin-notification>
                 </main>
             </app-layout>
         `;
@@ -62,12 +64,12 @@ class MessagePage extends GayolController {
 
     async addNew(event) {
         const [Titulo,Descripcion] = this.shadowRoot.querySelectorAll('.form-control');
+        const notification = this.shadowRoot.querySelector('vaadin-notification');
         const token = localStorage.getItem('token');
         const BearerToken = `Bearer ${token}`;
         const headers = {
             'Authorization': BearerToken
         }
-        console.log(this.avatar);
         let body = {
             user: this.location.params.id,
             title: Titulo.value,
@@ -75,7 +77,9 @@ class MessagePage extends GayolController {
             avatar: this.avatar
         }
         const send = await this.__request('news','POST',headers,body);
-        console.log(send);
+        notification.renderer = root => root.textContent = 'se agrego su mensaje';
+        notification.open();
+
     }
 
     async getAvatar() {
@@ -85,9 +89,8 @@ class MessagePage extends GayolController {
             'Authorization': BearerToken
         }
         const me = await this.__request('auth/me','GET',headers);
-        console.log(me, 'me');
         //this.avatar = `https://gayol-app.herokuapp.com/api/v1/auth/avatar/${me.data.image}`;
-        this.avatar = `http://localhost:5000/api/v1/auth/avatar/${me.data.image}`;
+        this.avatar = `https://gayol-app.herokuapp.com/api/v1/auth/avatar/${me.data.image}`;
     }
 
 

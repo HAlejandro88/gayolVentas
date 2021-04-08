@@ -23,6 +23,14 @@ class MenuListPage extends GayolController {
               grid-gap: 10px;
               padding: 15px;
             }
+          
+          #vendi {
+            --container-background: #47724F;
+          }
+          
+          #baja {
+            --container-background: #F96565;
+          }
         `;
     }
 
@@ -39,8 +47,9 @@ class MenuListPage extends GayolController {
     render() {
         return html`
             <app-layout>
-                <h1 slot="title">Menu List</h1>
                 <div slot="content" class="content">
+                    <card-menu id="vendi" title="Vendidas" modelList="vendidas" @handled-options="${this.goToVendidas}"></card-menu>
+                    <card-menu id="baja" title="Bajas" modelList="bajas" @handled-options="${this.goToBajas}"></card-menu>
                     ${this.masterList.map(list => html`
                         <card-menu .title="${list.name}" modelList="${list.name}" @handled-options="${this.goToList}"></card-menu>
                 `)}
@@ -52,42 +61,17 @@ class MenuListPage extends GayolController {
 
     async getMasterLists() {
         const lists = await this.__request('master');
-        console.log(lists);
-        this.masterList = lists.data;
+        this.masterList =[...this.masterList, ...lists.data];
     }
 
     async goToList(event) {
         const id = event.currentTarget.getAttribute('modelList');
-        const dialog = this.shadowRoot.querySelector('#dialog');
-        dialog.renderer = (root,_dialog) => {
-            root.innerHTML = `
-                <vaadin-list-box selected="0">
-                  <vaadin-item>
-                    <iron-icon icon="vaadin:upload"></iron-icon>
-                    Subir Lista
-                  </vaadin-item>
-                  <vaadin-item>
-                    <iron-icon icon="vaadin:rotate-right"></iron-icon>
-                    Actualizar Lista
-                  </vaadin-item>
-                  <vaadin-item id="ver">
-                    <iron-icon icon="vaadin:external-link"></iron-icon>
-                    Ver Lista
-                  </vaadin-item>
-                </vaadin-list-box>
-            `;
-            const go = root.querySelector('#ver');
-            go.addEventListener('click', async event => {
-                await this.verifyRole(id);
-            })
-        }
-        dialog.opened = true;
+        await this.verifyRole(id);
     }
 
     async verifyRole(id) {
         const token = localStorage.getItem('token');
         const verify = await verifyAdmin(token);
-        console.log(verify, 'verify');
         if(verify.admin) {
             window.location = `/menuListPage/list/${id}`;
         } else if (verify.sale) {
@@ -97,6 +81,14 @@ class MenuListPage extends GayolController {
         } else {
             window.location = `/menuListPage/list/${id}`;
         }
+    }
+
+    goToVendidas(event) {
+        window.location = `/menuListPage/listSales/`;
+    }
+
+    goToBajas(event) {
+        window.location = `/menuListPage/listDown`
     }
 
 }

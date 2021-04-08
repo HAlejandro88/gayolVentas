@@ -14,7 +14,7 @@ class CardMenu extends LitElement {
         return css`
             .card--box {
               border-radius: 20px;
-              background: #83BEE5;
+              background: var(--container-background, #83BEE5);
               height: 200px;
               width: 250px;
               padding: 5px;

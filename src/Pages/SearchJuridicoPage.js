@@ -10,12 +10,12 @@ import '@vaadin/vaadin-item/vaadin-item';
 import '../components/AppLayout'
 import '../components/CardComponent';
 import '../components/ModalSearch';
-import '../components/UploadDocuments';
-import '../components/HexagonComponent'
-import {GayolController} from "../helpers/GayolController";
-import {List} from "@material/mwc-list";
+import '../components/UploadDocs';
+import '../components/HexagonComponent';
 
-class SearchPage extends GayolController {
+import {GayolController} from "../helpers/GayolController";
+
+class SearchJuridicoPage extends GayolController {
     static get properties() {
         return {
             listHouses: Array,
@@ -96,12 +96,11 @@ class SearchPage extends GayolController {
                        <vaadin-text-field class="form-control"  label="Municipio" @keyup="${this.searchM}"></vaadin-text-field>
                        <vaadin-text-field class="form-control"  label="Colonia" @keyup="${this.searchC}"></vaadin-text-field>
                        <vaadin-text-field class="form-control"  label="Id" @keyup="${this.searchI}"></vaadin-text-field>
-
-                       <select name="" id="" @change="${this.chancePrice}">
-                           <option value="millon">$0 - $1,000,000</option>
-                           <option value="dos">$1,000,000 - $2,000,000</option>
-                           <option value="mas">más de $3,000,000</option>
-                       </select>
+                          <select name="" id="" @change="${this.chancePrice}">
+                              <option value="millon">$0 - $1,000,000</option>
+                              <option value="dos">$1,000,000 - $2,000,000</option>
+                              <option value="mas">más de $3,000,000</option>
+                          </select>
                        <div class="btn-filter">
                            <vaadin-button class="btn-filter" @click="${this.__filter}">Search</vaadin-button>
                        </div>
@@ -120,12 +119,12 @@ class SearchPage extends GayolController {
                                                     .details="${house.total}"
                                                     .id="${house.idLista}"
                                                     model="${house._id}"
+                                                    photo="${house.image}"
+                                                    mapa="${house.mapa}"
                                                     data-estado="${house.estado}"
                                                     data-municipio="${house.municipio}"
                                                     data-total="${house.total}"
                                                     data-direccion="${house.direccion}"
-                                                    photo="${house.image}"
-                                                    mapa="${house.mapa}"
                                                     @handled-click="${this.history}"
                                                     @change-documents="${this.uploadDocuments}">
                                     </card-component>
@@ -155,10 +154,6 @@ class SearchPage extends GayolController {
         dialog.renderer = (root,dialog) => {
             root.innerHTML = `
                 <style>
-                   .form-layout{
-                        width: 50%;
-                        height: auto;    
-                    }
                     .image {
                         max-width: 50%;
                         height: auto;
@@ -172,7 +167,10 @@ class SearchPage extends GayolController {
                 </vaadin-tabs>
                 
                 <div class="content">
-                        <img src="https://gayol-app.herokuapp.com/api/v1/listSales/list/photo/${this.image}" alt="" style="width: 100%">
+                   
+                    <div class="form-layout">
+                        <img src="https://gayol-app.herokuapp.com/api/v1/listSales/list/photo/${this.image}" alt="" style="width: 100%>
+                    </div>
                 </div>
             `;
 
@@ -181,9 +179,8 @@ class SearchPage extends GayolController {
             tabs.addEventListener('selected-changed', ({detail}) => {
                 if(detail.value === 0) {
                     content.innerHTML = `
-                   
-                        <img src="https://gayol-app.herokuapp.com/api/v1/listSales/list/photo/${this.image}" alt="" style="width: 100%">
-                   `;
+                        <img src="https://gayol-app.herokuapp.com/api/v1/listSales/list/photo/${this.image}" style="width: 100%">
+                    `;
                 }
                 else if (detail.value === 2) {
                     //const [] = documents.data.docsLegal;
@@ -223,37 +220,23 @@ class SearchPage extends GayolController {
     }
 
 
-    chancePrice(event) {
-        const select = this.shadowRoot.querySelector('select').value;
-        this.listHouses = this.listHouses.filter(house => {
-            if(select === 'millon') {
-                return house.total <= 1000000
-            } else if(select === 'dos') {
-                return house.total <= 2000000
-            } else {
-                return house.total > 300000
-            }
-        })
-    }
-
     async __filter() {
         const [Direccion,Estado,Municipio,Colonia, idLista] = this.shadowRoot.querySelectorAll('.form-control');
-         const [option1,option2,option3] = this.shadowRoot.querySelector('select').options;
-         let body = {
-             direccion: Direccion.value,
-             estado: Estado.value,
-             colonia: Colonia.value,
-             municipio: Municipio.value,
-             idLista: idLista.value,
-         };
+        const [option1,option2,option3] = this.shadowRoot.querySelector('select').options;
+        let body = {
+            direccion: Direccion.value,
+            estado: Estado.value,
+            colonia: Colonia.value,
+            municipio: Municipio.value,
+            idLista: idLista.value,
+        };
 
 
+        //body = JSON.stringify(body)
+        /*const response = await this.__request('listSales/list/search', 'POST', {}, body);
 
-         //body = JSON.stringify(body)
-         /*const response = await this.__request('listSales/list/search', 'POST', {}, body);
-
-         this.listHouses = response.data;
-         await this.requestUpdate();*/
+        this.listHouses = response.data;
+        await this.requestUpdate();*/
     }
 
     searchD(event) {
@@ -274,14 +257,28 @@ class SearchPage extends GayolController {
     }
 
 
+    chancePrice(event) {
+        const select = this.shadowRoot.querySelector('select').value;
+        this.listHouses = this.listHouses.filter(house => {
+            if(select === 'millon') {
+                return house.total <= 1000000
+            } else if(select === 'dos') {
+                return house.total <= 2000000
+            } else {
+                return house.total > 300000
+            }
+        })
+    }
+
+
     uploadDocuments(event) {
         const id = event.currentTarget.getAttribute('model');
         const modal = this.shadowRoot.querySelector('#documents');
         modal.renderer = (root,dialog) => {
             root.innerHTML = `
-                <upload-documents idList="${id}" ></upload-documents>
+                <upload-docs id="${id}" ></upload-docs>
            `;
-            
+
 
 
         }
@@ -291,4 +288,4 @@ class SearchPage extends GayolController {
 
 }
 
-window.customElements.define('search-page', SearchPage);
+window.customElements.define('search-juridico-page', SearchJuridicoPage);
