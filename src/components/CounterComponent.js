@@ -1,12 +1,13 @@
 import { LitElement,html,css } from 'lit-element';
+import { GayolController } from '../helpers/GayolController';
 
 
-class CounterComponent extends LitElement {
+class CounterComponent extends GayolController {
     static get properties() {
         return {
             columns: Array,
-
-            numero: Number
+            numero: Number,
+            couterE: Object
         }
     }
 
@@ -14,6 +15,7 @@ class CounterComponent extends LitElement {
         super();
         this.columns = [];
         this.numero = 4;
+        this.couterE = {};
     }
 
 
@@ -59,18 +61,18 @@ class CounterComponent extends LitElement {
         this.columns = [
             {
                 name: 'Providencia',
-                sales: 1
+                sales: this.couterE.Providencia
             },
             {
                 name: 'Queretaro',
-                sales: 1
+                sales: this.couterE.Queretaro
             }, {
                 name: 'Tlacoquemecatl',
-                sales: 1
+                sales: this.couterE.Tlacoquemecatl
             },
             {
                 name: 'Gayol',
-                sales: 1
+                sales: this.couterE.Gayol
             }
         ];
     }
@@ -91,6 +93,25 @@ class CounterComponent extends LitElement {
 
     async createColumns() {
         const container = this.shadowRoot.querySelector('#counter');
+    }
+
+    async counter() {
+        const sales = await this.__request('listSales/list/vendida');
+        let count = sales.data.reduce((resume,item,index) => {
+            if(item.empresa === 'Providencia' ) resume.Providencia += 1
+            if(item.empresa === 'Queretaro' ) resume.Queretaro += 1
+            if(item.empresa === 'Tlacoquemecatl' ) resume.Tlacoquemecatl += 1
+            if(item.empresa === 'Gayol' ) resume.Gayol += 1
+            this.couterE = resume;
+
+            return resume;
+
+        }, {
+            Providencia: 0,
+            Queretaro: 0,
+            Tlacoquemecatl: 0,
+            Gayol: 0
+        })
     }
 }
 

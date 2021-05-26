@@ -12,8 +12,7 @@ class DashboardPage extends GayolController {
     static get properties() {
         return {
             news: Array,
-            lastTen: Array,
-            mapa: String
+            pizarron: Object
         }
     }
 
@@ -79,13 +78,12 @@ class DashboardPage extends GayolController {
     constructor() {
         super();
         this.news = [];
-        this.mapa = '';
-        this.lastTen = [{ address: 'park 3 av. Indus' },{ address: 'park 3 av. Indus' },
-            { address: 'park 3 av. Indus' },{ address: 'park 3 av. Indus' },
-            { address: 'park 3 av. Indus' },
-            { address: 'park 3 av. Indus' },{ address: 'park 3 av. Indus' },
-            { address: 'park 3 av. Indus' },{ address: 'park 3 av. Indus' },
-            { address: 'park 3 av. Indus' }];
+        this.pizarron  = {
+            Providencia: 0,
+            Queretaro: 0,
+            Tlaco: 0,
+            Gayol: 0
+        }
     }
 
     async firstUpdated(_changedProperties) {

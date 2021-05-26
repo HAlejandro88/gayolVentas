@@ -91,11 +91,11 @@ class SearchPage extends GayolController {
            <app-layout>
                <div slot="content">
                    <header>
-                       <vaadin-text-field class="form-control"  label="Direccion" @keyup="${this.searchD}"></vaadin-text-field>
-                       <vaadin-text-field class="form-control"  label="Estado" @keyup="${this.searchE}"></vaadin-text-field>
-                       <vaadin-text-field class="form-control"  label="Municipio" @keyup="${this.searchM}"></vaadin-text-field>
-                       <vaadin-text-field class="form-control"  label="Colonia" @keyup="${this.searchC}"></vaadin-text-field>
-                       <vaadin-text-field class="form-control"  label="Id" @keyup="${this.searchI}"></vaadin-text-field>
+                       <vaadin-text-field class="form-control"  label="Direccion" ></vaadin-text-field>
+                       <vaadin-text-field class="form-control"  label="Estado"></vaadin-text-field>
+                       <vaadin-text-field class="form-control"  label="Municipio" ></vaadin-text-field>
+                       <vaadin-text-field class="form-control"  label="Colonia"></vaadin-text-field>
+                       <vaadin-text-field class="form-control"  label="Id" ></vaadin-text-field>
 
                        <select name="" id="" @change="${this.chancePrice}">
                            <option value="millon">$0 - $1,000,000</option>
@@ -237,41 +237,15 @@ class SearchPage extends GayolController {
     }
 
     async __filter() {
-        const [Direccion,Estado,Municipio,Colonia, idLista] = this.shadowRoot.querySelectorAll('.form-control');
-         const [option1,option2,option3] = this.shadowRoot.querySelector('select').options;
-         let body = {
-             direccion: Direccion.value,
-             estado: Estado.value,
-             colonia: Colonia.value,
-             municipio: Municipio.value,
-             idLista: idLista.value,
-         };
-
-
-
-         //body = JSON.stringify(body)
-         /*const response = await this.__request('listSales/list/search', 'POST', {}, body);
-
-         this.listHouses = response.data;
-         await this.requestUpdate();*/
+        const [direccion,estado,municipio,colonia, idLista] = this.shadowRoot.querySelectorAll('.form-control');
+        
+        this.listHouses = this.listHouses.filter(house => 
+            house.colonia.toLowerCase() === colonia.value.toLowerCase() || house.direccion.toLowerCase() === direccion.value.toLowerCase() || house.estado.toLowerCase() === estado.value.toLowerCase() || 
+            house.idLista === idLista.value || house.municipio === municipio.value.toLowerCase())
+        await this.requestUpdate();
     }
 
-    searchD(event) {
-        this.listHouses = this.listHouses.filter(house => house.direccion.toLowerCase().includes(event.target.value));
-    }
-
-    searchE(event){
-        this.listHouses = this.listHouses.filter(house => house.estado.toLowerCase().includes(event.target.value))
-    }
-    searchM(event){
-        this.listHouses = this.listHouses.filter(house => house.municipio.toLowerCase().includes(event.target.value))
-    }
-    searchC(event){
-        this.listHouses = this.listHouses.filter(house => house.colonia.toLowerCase().includes(event.target.value))
-    }
-    searchI(event){
-        this.listHouses = this.listHouses.filter(house => house.idLista.toLowerCase().includes(event.target.value))
-    }
+   
 
 
     uploadDocuments(event) {

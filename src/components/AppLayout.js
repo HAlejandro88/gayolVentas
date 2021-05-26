@@ -51,11 +51,11 @@ class AppLayout extends LitElement {
                     </vaadin-tab>
                     <vaadin-tab tab-page="menulistPage" @click="${this.__changePage}">
                         <iron-icon icon="vaadin:list"></iron-icon>
-                        Lista
+                        Listas
                     </vaadin-tab>
                     <vaadin-tab tab-page="uploadList" @click="${this.__changePage}">
                         <iron-icon icon="vaadin:options"></iron-icon>
-                        Subir Listas
+                        Subir Lista
                     </vaadin-tab>
                     <vaadin-tab tab-page="search" @click="${this.__changeSearch}">
                         <iron-icon icon="vaadin:search"></iron-icon>

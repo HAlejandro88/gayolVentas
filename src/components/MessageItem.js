@@ -23,7 +23,7 @@ class MessageItem extends LitElement {
             display: flex;
             justify-content: space-around;
             padding: 5px;
-
+            font-size: 18px;
           }
 
           .message__header img {
@@ -47,7 +47,7 @@ class MessageItem extends LitElement {
           .message .message__content {
             text-align: justify;
             letter-spacing: normal;
-            font-size: 12px;
+            font-size: 18px;
           }
 
           .ultimate {

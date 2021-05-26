@@ -244,7 +244,9 @@ class FieldLayout extends LitElement {
         let messageSale = {
             user: '602b7c507f24cf0015049430', // agregar un usuario de sistema
             title: 'Vendida',
-            description: `Inmueble vendido`
+            description: `Inmueble vendido al cliente ${this.cliente},
+            vendedor: ${this.vendedor}
+            empresa: ${this.empresa}`
         }
         if(event.target.checked) {
             this.vendida = true;
@@ -257,6 +259,8 @@ class FieldLayout extends LitElement {
                 body: JSON.stringify(messageSale)
             }).then(resp => resp.json())
                 .catch(error => console.error(error))
+
+                //TODO: Agregiar ruta para agregar uno en el pizarron
         }
     }
 

@@ -85,6 +85,18 @@ const routes = [
                     },
 
                     {
+                        path: 'listSalesAdmin',
+                        component: 'list-admin-sale',
+                        action: async (routerContext, commands) => await import('./Pages/ListSaleAdmin')
+                    },
+
+                    {
+                        path: 'listSalesJuridico',
+                        component: 'list-juridico-sale',
+                        action: async (routerContext, commands) => await import('./Pages/ListSaleJuridico')
+                    },
+
+                    {
                         path: 'listDown',
                         component: 'list-down',
                         action: async (routerContext, commands) => {

@@ -60,7 +60,7 @@ class RegisterUser extends GayolController {
                 <div class="container">
                     <vaadin-text-field class="form-control" label="Nombre"></vaadin-text-field>
                     <vaadin-email-field class="form-control" label="Email"></vaadin-email-field>
-                    <!--vaadin-text-field class="form-control" label="Role"></vaadin-text-field-->
+                    <vaadin-text-field class="form-control" label="Empresa"></vaadin-text-field>
                     <paper-dropdown-menu label="Role"  noink no-animations @selected-item-changed="${this.changeRole}">
                         <paper-listbox slot="dropdown-content" class="dropdown-content" selected="2">
                             <paper-item>admin</paper-item>
@@ -88,10 +88,11 @@ class RegisterUser extends GayolController {
 
     async register(e) { //metodo manejador
         e.preventDefault();
-        const [Nombre, Email, Password, Username] = this.shadowRoot.querySelectorAll('.form-control');
+        const [Nombre, Email, Empresa, Password, Username] = this.shadowRoot.querySelectorAll('.form-control');
         let body = {
                 name: Nombre.value, 
                 email: Email.value,
+                empresa: Empresa.value,
                 role: this.role,
                 password: Password.value,
                 username: Username.value
