@@ -56,8 +56,9 @@ class CounterComponent extends GayolController {
     }
 
 
-    firstUpdated(_changedProperties) {
+    async firstUpdated(_changedProperties) {
         super.firstUpdated(_changedProperties);
+        await this.counter();
         this.columns = [
             {
                 name: 'Providencia',
@@ -97,12 +98,11 @@ class CounterComponent extends GayolController {
 
     async counter() {
         const sales = await this.__request('listSales/list/vendida');
-        let count = sales.data.reduce((resume,item,index) => {
-            if(item.empresa === 'Providencia' ) resume.Providencia += 1
+        this.couterE = sales.data.reduce((resume,item,index) => {
+            if(item.empresa === 'Grupo Marzuz' ) resume.Providencia += 1
             if(item.empresa === 'Queretaro' ) resume.Queretaro += 1
-            if(item.empresa === 'Tlacoquemecatl' ) resume.Tlacoquemecatl += 1
-            if(item.empresa === 'Gayol' ) resume.Gayol += 1
-            this.couterE = resume;
+            if(item.empresa === 'Tlaco' ) resume.Tlacoquemecatl += 1
+            if(item.empresa === 'SPEJ' ) resume.Gayol += 1
 
             return resume;
 
@@ -112,6 +112,7 @@ class CounterComponent extends GayolController {
             Tlacoquemecatl: 0,
             Gayol: 0
         })
+        await this.requestUpdate();
     }
 }
 
