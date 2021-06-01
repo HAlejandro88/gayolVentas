@@ -245,8 +245,8 @@ class FieldLayout extends LitElement {
             user: '602b7c507f24cf0015049430', // agregar un usuario de sistema
             title: 'Vendida',
             description: `Inmueble vendido al cliente ${this.cliente},
-            vendedor: ${this.vendedor}
-            empresa: ${this.empresa}`
+            Vendedor: ${this.vendedor}, 
+            Empresa quien vendio: ${this.empresa}`
         }
         if(event.target.checked) {
             this.vendida = true;

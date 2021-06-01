@@ -90,18 +90,18 @@ class SearchJuridicoPage extends GayolController {
            <app-layout>
                <div slot="content">
                    <header>
-                       <vaadin-text-field class="form-control"  label="Direccion" ></vaadin-text-field>
-                       <vaadin-text-field class="form-control"  label="Estado" ></vaadin-text-field>
-                       <vaadin-text-field class="form-control"  label="Municipio" ></vaadin-text-field>
-                       <vaadin-text-field class="form-control"  label="Colonia" ></vaadin-text-field>
-                       <vaadin-text-field class="form-control"  label="Id" ></vaadin-text-field>
+                      <vaadin-text-field class="form-control" id="direccion" label="Direccion" @keyup="${this.searchDireccion}"></vaadin-text-field>
+                       <vaadin-text-field class="form-control" id="estado"  label="Estado" @keyup="${this.searchEstado}"></vaadin-text-field>
+                       <vaadin-text-field class="form-control" id="municipio" label="Municipio" @keyup="${this.searchMunicipio}"></vaadin-text-field>
+                       <vaadin-text-field class="form-control" id="colonia" label="Colonia" @keyup="${this.searchColonia}"></vaadin-text-field>
+                       <vaadin-text-field class="form-control" id="listId" label="Id" @keyup="${this.searchID}"></vaadin-text-field>
                           <select name="" id="" @change="${this.chancePrice}">
                               <option value="millon">$0 - $1,000,000</option>
                               <option value="dos">$1,000,000 - $2,000,000</option>
                               <option value="mas">más de $3,000,000</option>
                           </select>
                        <div class="btn-filter">
-                           <vaadin-button class="btn-filter" @click="${this.__filter}">Search</vaadin-button>
+                           <vaadin-button class="btn-filter" >Search</vaadin-button>
                        </div>
                    </header>
                    
@@ -139,6 +139,37 @@ class SearchJuridicoPage extends GayolController {
     async __listOfHouse() {
         const houses = await this.__request("listSales",'GET');
         this.listHouses = houses.data;
+    }
+
+    searchDireccion(event) {
+        event.preventDefault();
+        const $direccion = this.shadowRoot.querySelector('#direccion');
+        this.listHouses = this.listHouses.filter(item => item.direccion.toLowerCase().includes($direccion.value))
+
+    }
+    searchEstado(event) {
+        event.preventDefault();
+        const $estado = this.shadowRoot.querySelector('#estado');
+        this.listHouses = this.listHouses.filter(item => item.estado.toLowerCase().includes($estado.value))
+
+    }
+    searchMunicipio(event) {
+        event.preventDefault();
+        const $municipio = this.shadowRoot.querySelector('#municipio');
+        this.listHouses = this.listHouses.filter(item => item.municipio.toLowerCase().includes($municipio.value))
+
+    }
+    searchColonia(event) {
+        event.preventDefault();
+        const $colonia = this.shadowRoot.querySelector('#colonia');
+        this.listHouses = this.listHouses.filter(item => item.colonia.toLowerCase().includes($colonia.value))
+
+    }
+    searchID(event) {
+        event.preventDefault();
+        const $listId = this.shadowRoot.querySelector('#listId');
+        this.listHouses = this.listHouses.filter(item => item.idLista.toLowerCase().includes($listId.value))
+
     }
 
     async history(event) {

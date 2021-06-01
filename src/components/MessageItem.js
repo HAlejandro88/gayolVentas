@@ -29,7 +29,7 @@ class MessageItem extends LitElement {
           .message__header img {
             border-radius: 50%;
             max-height: 20%;
-            width: 20%;
+            width: 10%;
           }
 
           .message__header h4 {
@@ -45,7 +45,7 @@ class MessageItem extends LitElement {
 
 
           .message .message__content {
-            text-align: justify;
+            text-align: center;
             letter-spacing: normal;
             font-size: 18px;
           }
