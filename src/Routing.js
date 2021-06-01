@@ -107,6 +107,16 @@ const routes = [
                             }
                             return await import('./Pages/ListDown')
                         }
+                    },
+                    {
+                        path: 'listDownAdmin',
+                        component: 'list-down-admin',
+                        action: async (routerContext, commands) => await import('./Pages/ListDownAdmin')
+                    },
+                    {
+                        path: 'listDownJuridico',
+                        component: 'list-down-juridico',
+                        action: async (routerContext, commands) => await import('./Pages/ListDownJuridico')
                     }
                 ]
             },

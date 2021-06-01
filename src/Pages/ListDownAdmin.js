@@ -11,9 +11,9 @@ import {GayolController} from "../helpers/GayolController";
  * @customElement
  * @polymer
  * @demo
- * 
+ *
  */
-class ListSaleAdmin extends GayolController {
+class ListDownAdmin extends GayolController {
     static get properties() {
         return {
 
@@ -82,10 +82,10 @@ class ListSaleAdmin extends GayolController {
 
 
     async _getAllSales() {
-        const sales = await this.__request('listSales/list/vendida');
+        const sales = await this.__request('listSales/list/down');
         const $grid = this.shadowRoot.querySelector('vaadin-grid');
         this.sales = sales.data;
-       this.changePrice(this.sales, $grid)
+        this.changePrice(this.sales, $grid)
         await this.requestUpdate()
     }
 
@@ -106,4 +106,4 @@ class ListSaleAdmin extends GayolController {
 
 }
 
-customElements.define('list-admin-sale', ListSaleAdmin);
+customElements.define('list-down-admin', ListDownAdmin);

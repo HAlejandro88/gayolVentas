@@ -58,8 +58,24 @@ class ListSalePage extends GayolController {
         const sales = await this.__request('listSales/list/vendida');
         const $grid = this.shadowRoot.querySelector('vaadin-grid');
         this.sales = sales.data;
-        $grid.items = this.sales;
+        this.changePrice(this.sales, $grid)
+
         await this.requestUpdate()
+    }
+
+    changePrice(data,table) {
+        let newData = [];
+        newData = data.map(item => {
+
+            const options2 = { style: 'currency', currency: 'USD' };
+            const numberFormat = new Intl.NumberFormat('en-US', options2)
+            let total = numberFormat.format(item.total)
+            let honorarios = numberFormat.format(item.honorarios);
+            let montoCesion = numberFormat.format(item.montoCesion);
+            let newValues = {...item, honorarios, montoCesion, total};
+            return newValues
+        });
+        table.items = newData;
     }
 }
 

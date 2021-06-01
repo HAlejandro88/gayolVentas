@@ -83,12 +83,36 @@ class MenuListPage extends GayolController {
         }
     }
 
-    goToVendidas(event) {
-        window.location = `/menuListPage/listSales/`;
+    async goToVendidas(event) {
+        const token = localStorage.getItem('token');
+        const verify = await verifyAdmin(token);
+        if(verify.admin) {
+            window.location = `/menuListPage/listSalesAdmin/`;
+        }
+        else if (verify.sale) {
+            window.location = `/menuListPage/listSales/`;
+        } else if (verify.juridico) {
+            window.location = `/menuListPage/listSalesJuridico/`;
+        } else {
+            window.location = `/menuListPage/listSales/`;
+        }
+
     }
 
-    goToBajas(event) {
-        window.location = `/menuListPage/listDown`
+    async goToBajas(event) {
+        const token = localStorage.getItem('token');
+        const verify = await verifyAdmin(token);
+        if(verify.admin) {
+            window.location = `/menuListPage/listDownAdmin/`;
+        }
+        else if (verify.sale) {
+            window.location = `/menuListPage/listDown/`;
+        } else if (verify.juridico) {
+            window.location = `/menuListPage/listDownJuridico/`;
+        } else {
+            window.location = `/menuListPage/listDown/`;
+        }
+
     }
 
 }
