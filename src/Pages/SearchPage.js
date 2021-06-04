@@ -199,10 +199,18 @@ class SearchPage extends GayolController {
                   <vaadin-tab>Foto</vaadin-tab>
                   <vaadin-tab>Mapa</vaadin-tab>
                   <vaadin-tab>Documentos</vaadin-tab>
-                  <vaadin-tab>Detalle</vaadin-tab>
                 </vaadin-tabs>
                 
                 <div class="content">
+                        <div>
+                            <p>
+                                Dirección: <strong>${direccion}</strong><br/>
+                                Estado: <strong>${estado}</strong><br/>
+                                Municipio: <strong>${municipio}</strong><br/>
+                                total: <strong>$${total}</strong><br/>
+                            </p>
+                        </div>
+                        <br>
                         <img src="https://gayol-app.herokuapp.com/api/v1/listSales/list/photo/${this.image}" alt="" style="width: 100%">
                 </div>
             `;
@@ -212,7 +220,15 @@ class SearchPage extends GayolController {
             tabs.addEventListener('selected-changed', ({detail}) => {
                 if(detail.value === 0) {
                     content.innerHTML = `
-                   
+                        <div>
+                            <p>
+                                Dirección: <strong>${direccion}</strong><br/>
+                                Estado: <strong>${estado}</strong><br/>
+                                Municipio: <strong>${municipio}</strong><br/>
+                                total: <strong>$${total}</strong><br/>
+                            </p>
+                        </div>
+                        <br>
                         <img src="https://gayol-app.herokuapp.com/api/v1/listSales/list/photo/${this.image}" alt="" style="width: 100%">
                    `;
                 }
@@ -220,19 +236,6 @@ class SearchPage extends GayolController {
                     //const [] = documents.data.docsLegal;
                     content.innerHTML = `
                        <modal-search id="${id}"></modal-search>
-                    `;
-                }
-                else if(detail.value === 3) {
-                    content.innerHTML = `
-                        <div>
-                            <p>
-                                Dirección: <strong>${direccion}</strong><br/>
-                                Estado: <strong>${estado}</strong><br/>
-                                Municipio: <strong>${municipio}</strong><br/>
-                                total: <strong>${total}</strong><br/>
-                            </p>
-                        </div>
-                        
                     `;
                 }
                 else {

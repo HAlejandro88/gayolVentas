@@ -29,7 +29,10 @@ class FieldLayout extends LitElement {
             cancelar: { type: Boolean, reflect: true },
             add: { type: Boolean, reflect: true },
             vendida: Boolean,
-            baja: Boolean
+            baja: Boolean,
+            idLista: String,
+            direccion: String,
+            lista: String
         }
     }
 
@@ -63,6 +66,9 @@ class FieldLayout extends LitElement {
         this.add = false;
         this.vendida = false;
         this.baja = false;
+        this.idLista = '';
+        this.direccion = '';
+        this.lista = '';
     }
     
     async firstUpdated(_changedProperties) {
@@ -244,9 +250,9 @@ class FieldLayout extends LitElement {
         let messageSale = {
             user: '602b7c507f24cf0015049430', // agregar un usuario de sistema
             title: 'Vendida',
-            description: `Inmueble vendido al cliente ${this.cliente},
-            Vendedor: ${this.vendedor}, 
-            Empresa quien vendio: ${this.empresa}`
+            description: `Inmueble vendido id: ${this.idLista},
+            de la lista: ${this.lista}, 
+            con la dirección: ${this.direccion}`
         }
         if(event.target.checked) {
             this.vendida = true;
@@ -270,7 +276,9 @@ class FieldLayout extends LitElement {
         let messageSale = {
             user: '602b7c507f24cf0015049430', // agregar un usuario de sistema
             title: 'Baja',
-            description: `Inmueble dado de baja ${this.numeroCredito}`
+            description: `Inmueble vendido id: ${this.idLista},
+            de la lista: ${this.lista}, 
+            con la dirección: ${this.direccion}`
         }
         if(event.target.checked) {
             this.baja = true;

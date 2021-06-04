@@ -1,4 +1,5 @@
-import {LitElement, html, css} from 'lit-element';
+import {css, html} from 'lit-element';
+
 import '../components/AppLayout';
 import '@vaadin/vaadin-grid/vaadin-grid.js';
 import '@vaadin/vaadin-grid/vaadin-grid-sort-column';
@@ -8,43 +9,22 @@ import '@vaadin/vaadin-dialog';
 import '@vaadin/vaadin-notification';
 import '../components/JuridicoLayout';
 import {GayolController} from "../helpers/GayolController";
-/**
- * `LowerCaseDashedName` Description
- *
- * @customElement
- * @polymer
- * @demo
- * 
- */
+
 class ListSaleJuridico extends GayolController {
-    static get properties() {
-        return {
-
-        }
-    }
-
-    /**
-     * Instance of the element is created/upgraded. Use: initializing state,
-     * set up event listeners, create shadow dom.
-     * @constructor
-     */
-    constructor() {
-        super();
-    }
 
     static get styles() {
         return css`
-              vaadin-grid {
-                height: 90vh;
-              }
-            `;
+          vaadin-grid {
+            height: 90vh;
+          }
+        `;
     }
 
-    /**
-     * Implement to describe the element's DOM using lit-html.
-     * Use the element current props to return a lit-html template result
-     * to render into the element.
-     */
+    async firstUpdated(_changedProperties) {
+        super.firstUpdated(_changedProperties);
+        await this.getListSales();
+    }
+
     render() {
         return html`
             <app-layout>
@@ -83,23 +63,84 @@ class ListSaleJuridico extends GayolController {
                     <vaadin-grid-sort-column width="18em" path="tramite"></vaadin-grid-sort-column>
                     <vaadin-grid-column></vaadin-grid-column>
                 </vaadin-grid>
+                <vaadin-dialog id="dialog"></vaadin-dialog>
+                <vaadin-notification duration="4000" position="top-end" theme="success"></vaadin-notification>
+                <vaadin-notification id="error" duration="4000" position="top-end" theme="error"></vaadin-notification>
             </app-layout>
-           
         `;
     }
 
-    async firstUpdated(_changedProperties) {
-        super.firstUpdated(_changedProperties);
-        await this._getAllSales()
+    async getListSales() {
+        const sales = await this.__request('listSales/list/vendida');
+        const table = this.shadowRoot.querySelector('vaadin-grid');
+        this.edit(table);
+        this.changePrice(sales.data,table);
     }
 
+    edit(table) {
+        const columns = this.shadowRoot.querySelector('vaadin-grid-column');
+        columns.headerRenderer = root => root.textContent = 'Controls'
+        columns.renderer = (root, column, rowData) => {
+            root.innerHTML = '';
+            const btn = document.createElement('vaadin-button');
+            btn.innerHTML = `<iron-icon icon="vaadin:edit"></iron-icon icon="vaadin:out">`;
+            btn.addEventListener('click', async (event) => {
+                this.idSelected = rowData.item._id;
+                await this.createModal(this.idSelected);
+            });
+            root.appendChild(btn);
+        }
+    }
 
-    async _getAllSales() {
-        const sales = await this.__request('listSales/list/vendida');
-        const $grid = this.shadowRoot.querySelector('vaadin-grid');
-        this.sales = sales.data;
-        this.changePrice(this.sales, $grid)
-        await this.requestUpdate()
+    async createModal(id) {
+        const { data } = await this.__request(`listSales/${id}`,'GET' ,{});
+        const dialog = this.shadowRoot.querySelector('#dialog');
+        const notification = this.shadowRoot.querySelector('vaadin-notification');
+        const notificationError = this.shadowRoot.querySelector('#error');
+        dialog.renderer = function(root, dialog) {
+            root.innerHTML = `<juridico-layout cancelar 
+                                                solicitante="${data.solicitante == undefined ? '' : data.solicitante}"
+                                                estatusJuridico="${data.estatusJuridico  == undefined ? '' : data.estatusJuridico}"
+                                                solicitud="${data.fechaSolicitud }"
+                                                comentario1="${data.comentario1J == undefined ? data.comentario1J : ''}"
+                                                comentario2="${data.comentario2J == undefined ? data.comentario2J : ''}"
+                                                comentario3="${data.comentario3J == undefined ? data.comentario3J : ''}"
+                                                firma="${data.fechaFirmaCesion}"
+                                                tramite="${data.tramite == undefined ? data.tramite : ''}">
+        
+                              </juridico-layout>`;
+            const fieldLayout = root.querySelector('juridico-layout');
+            fieldLayout.addEventListener('update-data', async ({ detail }) => {
+                console.log(detail)
+                let body = JSON.stringify(detail);
+                const response = await fetch(`https://gayol-app.herokuapp.com/api/v1/listSales/update/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body
+                });
+                const update = await response.json();
+                if (update.success) {
+                    notification.renderer = root => root.textContent = 'se han cambiado los valores';
+                    notification.open();
+                    await this.requestUpdate();
+
+                } else {
+                    notificationError.renderer = root => root.textContent = `${update.error}`;
+                    notificationError.open();
+                }
+
+            });
+
+
+            fieldLayout.addEventListener('cancel-update', event => {
+                dialog.opened = false;
+            });
+
+        };
+
+        dialog.opened = true;
     }
 
     changePrice(data,table) {
@@ -118,4 +159,4 @@ class ListSaleJuridico extends GayolController {
     }
 }
 
-customElements.define('list-juridico-sale', ListSaleJuridico);
+window.customElements.define('list-juridico-sale',ListSaleJuridico)

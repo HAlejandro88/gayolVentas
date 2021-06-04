@@ -101,7 +101,7 @@ class CardComponent extends LitElement {
         super.firstUpdated(_changedProperties);
         const options1 = { style: 'currency', currency: 'USD' };
         const numberFormat = new Intl.NumberFormat('en-US', options1);
-        this.details =numberFormat.format(this.details);
+        //this.details = numberFormat.format(this.details);
     }
 
     render() {
@@ -119,7 +119,7 @@ class CardComponent extends LitElement {
                     <p>${this.description}
                     </p>
                     <div class="sub-title">
-                        <h6>${this.details}</h6>
+                        <h6>${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(this.details)}</h6>
                     </div>
                 </div>
                 <div class="details">

@@ -31,6 +31,10 @@ class MenuListPage extends GayolController {
           #baja {
             --container-background: #F96565;
           }
+          
+          #cesiones {
+            --container-background: #129121;
+          }
         `;
     }
 
@@ -50,6 +54,7 @@ class MenuListPage extends GayolController {
                 <div slot="content" class="content">
                     <card-menu id="vendi" title="Vendidas" modelList="vendidas" @handled-options="${this.goToVendidas}"></card-menu>
                     <card-menu id="baja" title="Bajas" modelList="bajas" @handled-options="${this.goToBajas}"></card-menu>
+                    <card-menu id="cesiones" title="Cesiones" modelList="cesiones" @handled-options="${this.goToCesiones}"></card-menu>
                     ${this.masterList.map(list => html`
                         <card-menu .title="${list.name}" modelList="${list.name}" @handled-options="${this.goToList}"></card-menu>
                 `)}
@@ -113,6 +118,21 @@ class MenuListPage extends GayolController {
             window.location = `/menuListPage/listDown/`;
         }
 
+    }
+
+    async goToCesiones(event) {
+        const token = localStorage.getItem('token');
+        const verify = await verifyAdmin(token);
+        if(verify.admin) {
+            window.location = `/menuListPage/listCesionAdmin/`;
+        }
+        else if (verify.sale) {
+            window.location = `/menuListPage/listcesionpage/`;
+        } else if (verify.juridico) {
+            window.location = `/menuListPage/listCesionJuridico/`;
+        } else {
+            window.location = `/menuListPage/listcesionpage/`;
+        }
     }
 
 }

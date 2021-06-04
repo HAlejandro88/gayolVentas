@@ -183,6 +183,7 @@ class ListPage extends GayolController {
 
     async createModal(id) {
         const { data } = await this.__request(`listSales/${id}`,'GET' ,{});
+        console.log(data)
         let fechaContrato = new Date(data.fechaContrato).toLocaleDateString();
         let fechaPago = new Date(data.fechaPago).toLocaleDateString();
         const dialog = this.shadowRoot.querySelector('#dialog');
@@ -190,6 +191,9 @@ class ListPage extends GayolController {
         const notificationError = this.shadowRoot.querySelector('#error');
         dialog.renderer = function(root, dialog) {
             root.innerHTML = `<field-layout cancelar expedienteAdmin="${data.expedienteAdmin == undefined ? '': data.expedienteAdmin}"  
+                                            idLista="${data.idLista}"
+                                            direccion="${data.direccion}"
+                                            lista="${data.lista}"
                                             vendida="${data.vendida}"
                                             baja="${data.baja}"
                                             fechaContrato="${fechaContrato }"

@@ -81,46 +81,14 @@ class JuridicoLayout extends LitElement {
                 ${this.baja === 'true' ? html`<paper-toggle-button checked @change="${this.statusbaja}">Baja</paper-toggle-button>`: html`<paper-toggle-button @change="${this.statusbaja}">Baja</paper-toggle-button>`}
                 <paper-toggle-button id="duplicada">Duplicar</paper-toggle-button>
                 <div>
-                    <vaadin-text-field class="form-control" label="Cartera" class="form-control" value="${this.cartera}"></vaadin-text-field>
-                </div>
-                <div>
-                    <vaadin-text-field class="form-control" label="Deudor" class="form-control" value="${this.deudor}"></vaadin-text-field>
-                </div>
-                <div>
-                    <vaadin-text-field class="form-control" label="Expediente" class="form-control" value="${this.expediente}"></vaadin-text-field>
-                </div>
-                <div>
-                    <vaadin-text-field class="form-control" label="Juzgado" class="form-control" value="${this.juzgado}"></vaadin-text-field>
-                </div>
-                <div>
-                    <vaadin-text-field class="form-control" label="EstatusLista" class="form-control" value="${this.estatusLista}"></vaadin-text-field>
-                </div>
-                <div>
-                    <vaadin-text-field class="form-control" label="Avaluo" class="form-control" value="${this.avaluo}"></vaadin-text-field>
-                </div>
-                <div>
-                    <vaadin-text-field class="form-control" label="Saldo" class="form-control" value="${this.saldoPendiente}"></vaadin-text-field>
-                </div>
-                <div>
-                    <vaadin-text-field class="form-control" label="Jurisdiccion" class="form-control" value="${this.jurisdiccion}"></vaadin-text-field>
-                </div>
-                <div>
-                    <vaadin-text-field class="form-control" label="Descripcion" class="form-control" value="${this.descripcion}"></vaadin-text-field>
-                </div>
-                <div>
-                    <vaadin-text-field class="form-control" label="Recuperadora" class="form-control" value="${this.recuperadora}"></vaadin-text-field>
-                </div>
-                <div>
-                    <vaadin-text-field class="form-control" label="Brooker" class="form-control" value="${this.brooker}"></vaadin-text-field>
-                </div>
-                <div>
                     <vaadin-text-field class="form-control" label="Solicitante" class="form-control" value="${this.solicitante}"></vaadin-text-field>
                 </div>
                 <div>
                     <vaadin-text-field class="form-control" label="EstatusJuridico" class="form-control" value="${this.estatusJuridico}"></vaadin-text-field>
                 </div>
                 <div>
-                    <vaadin-text-field class="form-control" label="Solicitud" class="form-control" value="${this.fechaSolicitud}"></vaadin-text-field>
+                    <label for="dateSolicitante">Fecha de Solicitud</label>
+                    <input type="date" id="dateSolicitante" name="Solicitud" value="${this.fechaSolicitud}"/>
                 </div>
                 <div>
                     <vaadin-text-field class="form-control" label="Comentario1" class="form-control" value="${this.comentario1J}"></vaadin-text-field>
@@ -132,7 +100,8 @@ class JuridicoLayout extends LitElement {
                     <vaadin-text-field class="form-control" label="Comentario3" class="form-control" value="${this.comentario3J}"></vaadin-text-field>
                 </div>
                 <div>
-                    <vaadin-text-field class="form-control" label="Firma" class="form-control" value="${this.fechaFirmaCesion}"></vaadin-text-field>
+                    <label for="dateFirma">Fecha de Firma</label>
+                    <input type="date" id="dateFirma"  value="${this.fechaFirmaCesion}"/>
                 </div>
                 <paper-dropdown-menu label="Tramite" noink no-animations>
                     <paper-listbox slot="dropdown-content" class="dropdown-content">
@@ -147,7 +116,7 @@ class JuridicoLayout extends LitElement {
                 }
 
                 ${this.cancelar ?
-                        html`<vaadin-button theme="error" @click="${this.cancel}">Cancelar</vaadin-button>`
+                        html`<vaadin-button theme="error" @click="${this.cancel}">Salir</vaadin-button>`
                         : html ``
                 }
             </div>
@@ -155,25 +124,13 @@ class JuridicoLayout extends LitElement {
     }
 
     updateJuridico() {
-        const [Cartera,Credito,Deudor,Expediente,Juzgado,EstatusLista,Avaluo,Saldo,Jurisdiccion,Descripcion,Recuperadora,Brooker,Solicitante,EstatusJuridico,Solicitud,Comentario1,Comentario2,Comentario3,Firma,Tramite] = this.shadowRoot.querySelectorAll('.form-control');
-
-
+        const [Solicitante,EstatusJuridico,Comentario1,Comentario2,Comentario3] = this.shadowRoot.querySelectorAll('.form-control');
+        const Solicitud = this.shadowRoot.querySelector('#dateSolicitante')
+        const Firma = this.shadowRoot.querySelector('#dateFirma')
         this.dispatchEvent(new CustomEvent('update-data', {
             bubbles: true,
             composed: true,
             detail: {
-                cartera:Cartera.value,
-                numeroCredito:Credito.value,
-                deudor:Deudor.value,
-                expediente:Expediente.value,
-                juzgado:Juzgado.value,
-                estatusLista:EstatusLista.value,
-                avaluo:Avaluo.value,
-                saldoPendiente:Saldo.value,
-                jurisdiccion:Jurisdiccion.value,
-                descripcion:Descripcion.value,
-                recuperadora:Recuperadora.value,
-                brooker:Brooker.value,
                 solicitante:Solicitante.value,
                 estatusJuridico:EstatusJuridico.value,
                 fechaSolicitud:Solicitud.value,
@@ -182,7 +139,7 @@ class JuridicoLayout extends LitElement {
                 comentario3J:Comentario3.value,
                 fechaFirmaCesion:Firma.value,
                 //tramite:Tramite.value,
-                vendida: this.vendida,
+                //vendida: this.vendida,
                 baja: this.baja,
             }
         }))

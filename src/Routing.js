@@ -117,6 +117,22 @@ const routes = [
                         path: 'listDownJuridico',
                         component: 'list-down-juridico',
                         action: async (routerContext, commands) => await import('./Pages/ListDownJuridico')
+                    },
+                        ///kskksksksk
+                    {
+                        path: 'listcesionpage',
+                        component: 'list-cesion-page',
+                        action: async (routerContext, commands) => await import('./Pages/ListCesionPage')
+                    },
+                    {
+                        path: 'listCesionJuridico',
+                        component: 'list-cesion-juridico',
+                        action: async (routerContext, commands) => await import('./Pages/ListCesionJuridico')
+                    },
+                    {
+                        path: 'listCesionAdmin',
+                        component: 'list-cesion-admin',
+                        action: async (routerContext, commands) => await import('./Pages/ListCesionAdmin')
                     }
                 ]
             },

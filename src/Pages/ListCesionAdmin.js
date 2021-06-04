@@ -3,10 +3,7 @@ import '../components/AppLayout';
 import '@vaadin/vaadin-grid/vaadin-grid.js';
 import '@vaadin/vaadin-grid/vaadin-grid-sort-column';
 import '@vaadin/vaadin-grid/vaadin-grid-selection-column';
-import '@vaadin/vaadin-grid/vaadin-grid-filter-column';
-import '@vaadin/vaadin-dialog';
-import '@vaadin/vaadin-notification';
-import '../components/JuridicoLayout';
+import '@vaadin/vaadin-grid/vaadin-grid-filter-column'
 import {GayolController} from "../helpers/GayolController";
 /**
  * `LowerCaseDashedName` Description
@@ -16,7 +13,7 @@ import {GayolController} from "../helpers/GayolController";
  * @demo
  *
  */
-class ListJuridicoPage extends GayolController {
+class ListCesionAdmin extends GayolController {
     static get properties() {
         return {
 
@@ -34,10 +31,10 @@ class ListJuridicoPage extends GayolController {
 
     static get styles() {
         return css`
-              vaadin-grid {
-                height: 90vh;
-              }
-            `;
+          vaadin-grid {
+            height: 90vh;
+          }
+        `
     }
 
     /**
@@ -58,33 +55,23 @@ class ListJuridicoPage extends GayolController {
                     <vaadin-grid-sort-column width="15em" path="montoCesion"></vaadin-grid-sort-column>
                     <vaadin-grid-sort-column width="15em" path="honorarios"></vaadin-grid-sort-column>
                     <vaadin-grid-filter-column width="15em" path="total" header="total"></vaadin-grid-filter-column>
-                    <vaadin-grid-filter-column width="15em" path="cartera"></vaadin-grid-filter-column>
-                    <vaadin-grid-filter-column width="12em" path="numeroCredito"></vaadin-grid-filter-column>
-                    <vaadin-grid-filter-column width="12em" path="deudor"></vaadin-grid-filter-column>
-                    <vaadin-grid-filter-column width="18em" path="expediente"></vaadin-grid-filter-column>
-                    <vaadin-grid-sort-column width="18em" path="juzgado"></vaadin-grid-sort-column>
-                    <vaadin-grid-sort-column width="18em" path="estatusLista"></vaadin-grid-sort-column>
-                    <vaadin-grid-filter-column width="18em" path="avaluo"></vaadin-grid-filter-column>
-                    <vaadin-grid-filter-column width="18em" path="saldoPendiente"></vaadin-grid-filter-column>
-                    <vaadin-grid-sort-column width="18em" path="jurisdiccion"></vaadin-grid-sort-column>
-                    <vaadin-grid-sort-column width="18em" path="descripcion"></vaadin-grid-sort-column>
-                    <vaadin-grid-filter-column width="18em" path="recuperadora"></vaadin-grid-filter-column>
-                    <vaadin-grid-sort-column width="18em" path="brooker"></vaadin-grid-sort-column>
-                    <vaadin-grid-filter-column width="18em" path="solicitante"></vaadin-grid-filter-column>
-                    <vaadin-grid-sort-column width="18em" path="estatusJuridico"></vaadin-grid-sort-column>
-                    <vaadin-grid-filter-column width="18em" path="fechaSolicitud"></vaadin-grid-filter-column>
-                    <vaadin-grid-sort-column width="18em" path="comentario1J"></vaadin-grid-sort-column>
-                    <vaadin-grid-sort-column width="18em" path="comentario2J"></vaadin-grid-sort-column>
-                    <vaadin-grid-sort-column width="18em" path="comentario3J"></vaadin-grid-sort-column>
-                    <vaadin-grid-filter-column width="18em" path="cliente"></vaadin-grid-filter-column>
-                    <vaadin-grid-filter-column width="18em" path="fechaPago"></vaadin-grid-filter-column>
-                    <vaadin-grid-filter-column width="18em" path="observacionesVenta"></vaadin-grid-filter-column>
-                    <vaadin-grid-filter-column width="18em" path="empresa"></vaadin-grid-filter-column>
-                    <vaadin-grid-sort-column width="18em" path="tramite"></vaadin-grid-sort-column>
+                    <vaadin-grid-sort-column width="18em" path="expedienteAdmin"></vaadin-grid-sort-column>
+                    <vaadin-grid-sort-column width="18em" path="fechaContrato"></vaadin-grid-sort-column>
+                    <vaadin-grid-sort-column width="15em" path="formaPago"></vaadin-grid-sort-column>
+                    <vaadin-grid-sort-column width="18em" path="cuentaPago"></vaadin-grid-sort-column>
+                    <vaadin-grid-sort-column width="18em" path="fechaPago"></vaadin-grid-sort-column>
+                    <vaadin-grid-sort-column width="15em" path="estatusAdmin"></vaadin-grid-sort-column>
+                    <vaadin-grid-sort-column width="15em" path="cliente"></vaadin-grid-sort-column>
+                    <vaadin-grid-sort-column width="18em" path="observacionesVenta"></vaadin-grid-sort-column>
+                    <vaadin-grid-sort-column width="18em" path="vendedor"></vaadin-grid-sort-column>
+                    <vaadin-grid-sort-column width="18em" path="jefeGrupo"></vaadin-grid-sort-column>
+                    <vaadin-grid-sort-column width="18em" path="tipoVenta"></vaadin-grid-sort-column>
+                    <vaadin-grid-sort-column width="18em" path="empresa"></vaadin-grid-sort-column>
+                    <vaadin-grid-sort-column width="18em" path="observacionesAdmin"></vaadin-grid-sort-column>
+                    <vaadin-grid-sort-column width="18em" path="contratoRealizado"></vaadin-grid-sort-column>
                     <vaadin-grid-column></vaadin-grid-column>
                 </vaadin-grid>
             </app-layout>
-           
         `;
     }
 
@@ -95,11 +82,9 @@ class ListJuridicoPage extends GayolController {
 
 
     async _getAllSales() {
-        const list = await this.__request(`listSales/master/${this.location.params.id}`,'GET');
-        //const sales = await this.__request('listSales/list/down');
+        const sales = await this.__request('listSales/list/vendida');
         const $grid = this.shadowRoot.querySelector('vaadin-grid');
-        this.sales = list.data;
-        console.log(list.data)
+        this.sales = sales.data;
         this.changePrice(this.sales, $grid)
         await this.requestUpdate()
     }
@@ -118,6 +103,7 @@ class ListJuridicoPage extends GayolController {
         });
         table.items = newData;
     }
+
 }
 
-customElements.define('list-juridico-page', ListJuridicoPage);
+customElements.define('list-cesion-admin', ListCesionAdmin);

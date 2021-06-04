@@ -1,4 +1,4 @@
-import {LitElement, html, css} from 'lit-element';
+import { html, css} from 'lit-element';
 import '../components/AppLayout';
 import '@vaadin/vaadin-grid/vaadin-grid.js';
 import '@vaadin/vaadin-grid/vaadin-grid-sort-column';
@@ -16,7 +16,7 @@ import {GayolController} from "../helpers/GayolController";
  * @demo
  *
  */
-class ListJuridicoPage extends GayolController {
+class ListCesionJuridico extends GayolController {
     static get properties() {
         return {
 
@@ -95,11 +95,9 @@ class ListJuridicoPage extends GayolController {
 
 
     async _getAllSales() {
-        const list = await this.__request(`listSales/master/${this.location.params.id}`,'GET');
-        //const sales = await this.__request('listSales/list/down');
+        const sales = await this.__request('listSales/list/vendida');
         const $grid = this.shadowRoot.querySelector('vaadin-grid');
-        this.sales = list.data;
-        console.log(list.data)
+        this.sales = sales.data;
         this.changePrice(this.sales, $grid)
         await this.requestUpdate()
     }
@@ -120,4 +118,4 @@ class ListJuridicoPage extends GayolController {
     }
 }
 
-customElements.define('list-juridico-page', ListJuridicoPage);
+customElements.define('list-cesion-juridico', ListCesionJuridico);
