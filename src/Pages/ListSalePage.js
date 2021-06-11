@@ -40,7 +40,7 @@ class ListSalePage extends GayolController {
                 <vaadin-grid>
                     <vaadin-grid-sort-column width="8em" path="lista"></vaadin-grid-sort-column>
                     <vaadin-grid-filter-column width="8em" path="idLista" header="Id"></vaadin-grid-filter-column>
-                    <vaadin-grid-filter-column width="80em" id="details" header="Direccion"></vaadin-grid-filter-column>
+                    <vaadin-grid-filter-column width="25em" id="details" header="Direccion"></vaadin-grid-filter-column>
                     <vaadin-grid-filter-column width="15em" path="colonia" header="Colonia"></vaadin-grid-filter-column>
                     <vaadin-grid-filter-column width="15em" path="municipio" header="Municipio"></vaadin-grid-filter-column>
                     <vaadin-grid-filter-column width="15em" path="estado" header="Estado"></vaadin-grid-filter-column>
@@ -62,7 +62,7 @@ class ListSalePage extends GayolController {
     async _getAllSales() {
         const sales = await this.__request('listSales/list/vendida');
         const $grid = this.shadowRoot.querySelector('vaadin-grid');
-        this.sales = sales.data;
+        this.sales = sales.data.reverse();
         $grid.rowDetailsRenderer = (root, grid, model)  => {
             if (!root.firstElementChild) {
               root.innerHTML =
@@ -81,7 +81,7 @@ class ListSalePage extends GayolController {
                 let detailDir = model.item.direccion.split(" ");
             if (!root.firstElementChild) {
                 
-                root.innerHTML = `<vaadin-checkbox>${detailDir[0]}...</vaadin-checkbox>`;
+                root.innerHTML = `<vaadin-checkbox>${detailDir[0]} ${detailDir[1]} ${detailDir[2]}...</vaadin-checkbox>`;
                 root.firstElementChild.addEventListener('checked-changed', function(e) {
                 if (e.detail.value) {
                     $grid.openItemDetails(root.item);

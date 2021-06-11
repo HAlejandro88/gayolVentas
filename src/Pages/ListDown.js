@@ -83,7 +83,7 @@ class ListDown extends GayolController {
                 let detailDir = model.item.direccion.split(" ");
             if (!root.firstElementChild) {
                 
-                root.innerHTML = `<vaadin-checkbox>${detailDir[0]}...</vaadin-checkbox>`;
+                root.innerHTML = `<vaadin-checkbox>${detailDir[0]} ${detailDir[1]} ${detailDir[2]}...</vaadin-checkbox>`;
                 root.firstElementChild.addEventListener('checked-changed', function(e) {
                 if (e.detail.value) {
                     $grid.openItemDetails(root.item);

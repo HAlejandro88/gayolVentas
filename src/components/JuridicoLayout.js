@@ -130,11 +130,13 @@ class JuridicoLayout extends LitElement {
         this.baja = false;
     }
 
+     /* ${this.vendida === 'true' ? html`<paper-toggle-button checked @change="${this.statusVendida}">Vendida</paper-toggle-button>`: html`<paper-toggle-button @change="${this.statusVendida}">Vendida</paper-toggle-button>`}
+        ${this.baja === 'true' ? html`<paper-toggle-button checked @change="${this.statusbaja}">Baja</paper-toggle-button>`: html`<paper-toggle-button @change="${this.statusbaja}">Baja</paper-toggle-button>`} */
+
     render() {
         return html`
             <div class="content__layout">
-                ${this.vendida === 'true' ? html`<paper-toggle-button checked @change="${this.statusVendida}">Vendida</paper-toggle-button>`: html`<paper-toggle-button @change="${this.statusVendida}">Vendida</paper-toggle-button>`}
-                ${this.baja === 'true' ? html`<paper-toggle-button checked @change="${this.statusbaja}">Baja</paper-toggle-button>`: html`<paper-toggle-button @change="${this.statusbaja}">Baja</paper-toggle-button>`}
+               
                 <paper-toggle-button id="duplicada">Duplicar</paper-toggle-button>
                 <div>
                     <vaadin-text-field class="form-control" label="Solicitante" class="form-control" value="${this.solicitante}"></vaadin-text-field>
@@ -196,7 +198,7 @@ class JuridicoLayout extends LitElement {
                 fechaFirmaCesion:Firma.value,
                 //tramite:Tramite.value,
                 //vendida: this.vendida,
-                baja: this.baja,
+                //baja: this.baja,
             }
         }))
     }

@@ -89,7 +89,7 @@ class ListSaleAdmin extends GayolController {
     async _getAllSales() {
         const sales = await this.__request('listSales/list/vendida');
         const $grid = this.shadowRoot.querySelector('vaadin-grid');
-        this.sales = sales.data;
+        this.sales = sales.data.reverse();
         $grid.rowDetailsRenderer = (root, grid, model)  => {
             if (!root.firstElementChild) {
               root.innerHTML =
@@ -108,7 +108,7 @@ class ListSaleAdmin extends GayolController {
                 let detailDir = model.item.direccion.split(" ");
             if (!root.firstElementChild) {
                 
-                root.innerHTML = `<vaadin-checkbox>${detailDir[0]}...</vaadin-checkbox>`;
+                root.innerHTML = `<vaadin-checkbox>${detailDir[0]} ${detailDir[1]} ${detailDir[2]}...</vaadin-checkbox>`;
                 root.firstElementChild.addEventListener('checked-changed', function(e) {
                 if (e.detail.value) {
                     $grid.openItemDetails(root.item);
