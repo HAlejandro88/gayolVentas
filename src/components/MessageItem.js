@@ -47,7 +47,7 @@ class MessageItem extends LitElement {
           .message .message__content {
             text-align: center;
             letter-spacing: normal;
-            font-size: 18px;
+            font-size: 22px;
           }
 
           .ultimate {
@@ -69,7 +69,7 @@ class MessageItem extends LitElement {
     firstUpdated(_changedProperties) {
         super.firstUpdated(_changedProperties);
         this.date = new Date(this.date);
-        this.date = this.date.toDateString();
+        this.date = this.date.toLocaleDateString();
     }
 
 
@@ -79,7 +79,7 @@ class MessageItem extends LitElement {
                 <div class="message__header">
                     <img .src="${this.image}" alt=""/>
                     <h4>${this.title}</h4>
-                    <h6>${this.date}</h6>
+                    <h4>${this.date}</h4>
                 </div>
                 <div class="message__content">
                     <p>${this.description}</p>

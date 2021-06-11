@@ -32,7 +32,8 @@ class FieldLayout extends LitElement {
             baja: Boolean,
             idLista: String,
             direccion: String,
-            lista: String
+            lista: String,
+            oficina: String
         }
     }
 
@@ -43,6 +44,37 @@ class FieldLayout extends LitElement {
               grid-template-columns: repeat(3, 1fr);
               grid-gap: 5px;
             }
+
+          input[type="date"]::-webkit-clear-button {
+            display: none;
+          }
+          /* Removes the spin button */
+          input[type="date"]::-webkit-inner-spin-button {
+            display: none;
+          }
+          /* Always display the drop down caret */
+          input[type="date"]::-webkit-calendar-picker-indicator {
+            color: #2c3e50;
+          }
+          /* A few custom styles for date inputs */
+          input[type="date"] {
+            appearance: none;
+            -webkit-appearance: none;
+            color: #95a5a6;
+            font-family: "Helvetica", arial, sans-serif;
+            font-size: 18px;
+            border:1px solid #ecf0f1;
+            background:#ecf0f1;
+            padding:5px;
+            display: inline-block !important;
+            visibility: visible !important;
+          }
+          input[type="date"], focus {
+            color: #95a5a6;
+            box-shadow: none;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+          }
         `;
     }
 
@@ -69,6 +101,7 @@ class FieldLayout extends LitElement {
         this.idLista = '';
         this.direccion = '';
         this.lista = '';
+        this.oficina = '';
     }
     
     async firstUpdated(_changedProperties) {
@@ -91,7 +124,8 @@ class FieldLayout extends LitElement {
                 </div> 
                 
                 <div>
-                    <vaadin-text-field class="form-control" label="fechaContrato" class="form-control" value="${this.fechaContrato}"></vaadin-text-field>
+                    <label for="dateFirma">Fecha de Contrato</label><br>
+                    <input type="date" id="fechaContrato"  value="${this.fechaContrato}"/>
                 </div>
                 
 
@@ -117,7 +151,8 @@ class FieldLayout extends LitElement {
                 </paper-dropdown-menu>
                 
                 <div>
-                    <vaadin-text-field class="form-control" label="FechaPago" class="form-control" value="${this.fechaPago}"></vaadin-text-field>
+                    <label for="dateFirma">Fecha de Pago</label><br>
+                    <input type="date" id="FechaPago"  value="${this.fechaPago}"/>
                 </div>
                 <div>
                     <vaadin-text-field class="form-control" label="EstatusAdmin" class="form-control" value="${this.estatusAdmin}"></vaadin-text-field>
@@ -146,12 +181,19 @@ class FieldLayout extends LitElement {
                 <!--div>
                     <vaadin-text-field class="form-control" label="Empresa" class="form-control" value="${this.jefeGrupo}"></vaadin-text-field>
                 </div-->
-                <paper-dropdown-menu label="Empresa" id="empresa" noink no-animations @selected-item-changed="${this.empresaCahange}">
+                <paper-dropdown-menu label="Oficina" id="empresa" noink no-animations @selected-item-changed="${this.empresaCahange}">
+                    <paper-listbox slot="dropdown-content" class="dropdown-content">
+                        <paper-item>Providencia</paper-item>
+                        <paper-item>Gayol</paper-item>
+                        <paper-item>Tlaco</paper-item>
+                        <paper-item>Queretaro</paper-item>
+                    </paper-listbox>
+                </paper-dropdown-menu>
+
+                <paper-dropdown-menu label="Empresa" id="oficina" noink no-animations @selected-item-changed="${this.oficinCahange}">
                     <paper-listbox slot="dropdown-content" class="dropdown-content">
                         <paper-item>SPEJ</paper-item>
                         <paper-item>Grupo Marzuz</paper-item>
-                        <paper-item>Tlaco</paper-item>
-                        <paper-item>Queretaro</paper-item>
                     </paper-listbox>
                 </paper-dropdown-menu>
                 
@@ -186,7 +228,9 @@ class FieldLayout extends LitElement {
     // TODO:Peguntar por que no se mandan los valores de las propiedades
 
     updateData(event) {
-        const [Expediente,fechaContrato,FechaPago,EstatusAdmin,Cliente,ObservacionesVenta,Vendedor,JefeGrupo,ObservacionesAdmin,ContratoRealizado] = this.shadowRoot.querySelectorAll('.form-control');
+        const [Expediente,EstatusAdmin,Cliente,ObservacionesVenta,Vendedor,JefeGrupo,ObservacionesAdmin,ContratoRealizado] = this.shadowRoot.querySelectorAll('.form-control');
+        let fechaPago = this.shadowRoot.querySelector('#FechaPago');
+        let fechaContrato = this.shadowRoot.querySelector('#fechaContrato')
 
         this.dispatchEvent(new CustomEvent('update-data', {
             bubbles: true,
@@ -196,7 +240,7 @@ class FieldLayout extends LitElement {
                 fechaContrato:fechaContrato.value,
                 formaPago:this.pago,
                 cuentaPago:this.cuentaPago,
-                fechaPago:FechaPago.value,
+                fechaPago:fechaPago.value,
                 estatusAdmin:EstatusAdmin.value,
                 cliente:Cliente.value,
                 observacionesVenta:ObservacionesVenta.value,
@@ -207,12 +251,12 @@ class FieldLayout extends LitElement {
                 observacionesAdmin:ObservacionesAdmin.value,
                 contratoRealizado:ContratoRealizado.value,
                 vendida: this.vendida,
-                baja: this.baja
+                baja: this.baja,
+                oficina: this.oficina
             }
         }))
         Expediente.value = '';
         fechaContrato.value = '';
-        FechaPago.value = '';
         EstatusAdmin.value = '';
         Cliente.value = '';
         ObservacionesVenta.value = '';
@@ -242,6 +286,10 @@ class FieldLayout extends LitElement {
 
     empresaCahange({ detail }) {
         this.empresa = detail.value.innerText;
+    }
+
+    oficinCahange({ detail }) {
+        this.oficina = detail.value.innerText;
     }
 
     statusVendida(event) {

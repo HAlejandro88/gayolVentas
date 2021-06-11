@@ -43,6 +43,62 @@ class JuridicoLayout extends LitElement {
             grid-template-columns: repeat(3, 1fr);
             grid-gap: 5px;
           }
+          input[type="date"]::-webkit-clear-button {
+            display: none;
+          }
+          /* Removes the spin button */
+          input[type="date"]::-webkit-inner-spin-button {
+            display: none;
+          }
+          /* Always display the drop down caret */
+          input[type="date"]::-webkit-calendar-picker-indicator {
+            color: #2c3e50;
+          }
+          /* A few custom styles for date inputs */
+          input[type="date"] {
+            appearance: none;
+            -webkit-appearance: none;
+            color: #95a5a6;
+            font-family: "Helvetica", arial, sans-serif;
+            font-size: 18px;
+            border:1px solid #ecf0f1;
+            background:#ecf0f1;
+            padding:5px;
+            display: inline-block !important;
+            visibility: visible !important;
+          }
+          input[type="date"], focus {
+            color: #95a5a6;
+            box-shadow: none;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+          }
+
+          .search-date {
+            margin-top: 8px;
+            width: 69%;
+            border: none;
+            outline: none;
+            padding: 10px 2px;
+            margin-left:25px;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: 500;
+            letter-spacing: 2px;
+            color: #5a84a2;
+            font-size: 18px;
+            border-radius: 40px;
+            box-shadow: -2px -2px 8px rgba(255,255,255,1 ),
+              -2px -2px 12px rgba(255,255,255,0.5 ),
+            inset 2px 2px 4px rgba(255,255,255,0.1 ),
+            2px 2px 8px rgba(255,255,255,0.15 )
+          }
+          .search-date:hover {
+            box-shadow: inset -2px -2px 8px rgba(255,255,255,1 ),
+              inset -2px -2px 12px rgba(255,255,255,0.5 ),
+            inset 2px 2px 4px rgba(255,255,255,0.1 ),
+            inset 2px 2px 8px rgba(255,255,255,0.15 )
+          }
         `;
     }
 
@@ -87,7 +143,7 @@ class JuridicoLayout extends LitElement {
                     <vaadin-text-field class="form-control" label="EstatusJuridico" class="form-control" value="${this.estatusJuridico}"></vaadin-text-field>
                 </div>
                 <div>
-                    <label for="dateSolicitante">Fecha de Solicitud</label>
+                    <label for="dateSolicitante">Fecha de Solicitud</label><br>
                     <input type="date" id="dateSolicitante" name="Solicitud" value="${this.fechaSolicitud}"/>
                 </div>
                 <div>
@@ -100,7 +156,7 @@ class JuridicoLayout extends LitElement {
                     <vaadin-text-field class="form-control" label="Comentario3" class="form-control" value="${this.comentario3J}"></vaadin-text-field>
                 </div>
                 <div>
-                    <label for="dateFirma">Fecha de Firma</label>
+                    <label for="dateFirma">Fecha de Firma</label><br>
                     <input type="date" id="dateFirma"  value="${this.fechaFirmaCesion}"/>
                 </div>
                 <paper-dropdown-menu label="Tramite" noink no-animations>
@@ -148,9 +204,11 @@ class JuridicoLayout extends LitElement {
     sale(event) {
         this.vendida = event.target.checked;
         let messageSale = {
-            user: 'Admin', // agregar un usuario de sistema
+            user: '602b7c507f24cf0015049430', // agregar un usuario de sistema
             title: 'Vendida',
-            description: `Inmueble vendido ${this.numeroCredito}`
+            description: `Inmueble vendido id: ${this.idLista},
+            de la lista: ${this.lista}, 
+            con la dirección: ${this.direccion}`
         }
         if(event.target.checked) {
             fetch('https://gayol-app.herokuapp.com/api/v1/news', {
@@ -167,9 +225,11 @@ class JuridicoLayout extends LitElement {
     statusDown(event) {
         this.baja = event.target.checked;
         let messageSale = {
-            user: 'Admin', // agregar un usuario de sistema
+            user: '602b7c507f24cf0015049430', // agregar un usuario de sistema
             title: 'Baja',
-            description: `Inmueble dado de baja ${this.numeroCredito}`
+            description: `Inmueble vendido id: ${this.idLista},
+            de la lista: ${this.lista}, 
+            con la dirección: ${this.direccion}`
         }
         if(event.target.checked) {
             fetch('https://gayol-app.herokuapp.com/api/v1/news', {

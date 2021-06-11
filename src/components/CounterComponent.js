@@ -98,6 +98,7 @@ class CounterComponent extends GayolController {
 
     async counter() {
         const sales = await this.__request('listSales/list/vendida');
+        console.log(sales)
         this.couterE = sales.data.reduce((resume,item,index) => {
             if(item.empresa === 'Grupo Marzuz' ) resume.Providencia += 1
             if(item.empresa === 'Queretaro' ) resume.Queretaro += 1
