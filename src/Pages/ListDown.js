@@ -93,7 +93,7 @@ class ListDown extends GayolController {
                 });
             }
             root.item = model.item;
-            root.firstElementChild.checked = grid.detailsOpenedItems.indexOf(root.item) > -1;
+            //root.firstElementChild.checked = grid.detailsOpenedItems.indexOf(root.item) > -1;
             };
         await this.requestUpdate()
     }

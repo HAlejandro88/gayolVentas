@@ -123,12 +123,6 @@ class ListPage extends GayolController {
         this.contentList = list.data;
         const table = this.shadowRoot.querySelector('vaadin-grid');
         //table.items = this.contentList;
-        this.__changeColorForStatus(this.contentList, table)
-        if(list.data.length === 0) {
-            notificationError.renderer = root => root.textContent = 'no hay datos en esta lista';
-            notificationError.open();
-        }
-        this.edit(table);
         table.rowDetailsRenderer = (root, grid, model)  => {
             if (!root.firstElementChild) {
               root.innerHTML =
@@ -142,23 +136,30 @@ class ListPage extends GayolController {
         
           };
        
-          const detailsToggleColumn = this.shadowRoot.querySelector('#details');
-            detailsToggleColumn.renderer = (root, column, model) => { 
-                let detailDir = model.item.direccion.split(" ");
-            if (!root.firstElementChild) {
-                
-                root.innerHTML = `<vaadin-checkbox>${detailDir[0]}...</vaadin-checkbox>`;
-                root.firstElementChild.addEventListener('checked-changed', function(e) {
-                if (e.detail.value) {
-                    table.openItemDetails(root.item);
-                } else {
-                    table.closeItemDetails(root.item);
-                }
-                });
+        const detailsToggleColumn = this.shadowRoot.querySelector('#details');
+        detailsToggleColumn.renderer = (root, column, model) => { 
+            let detailDir = model.item.direccion.split(" ");
+        if (!root.firstElementChild) {
+            
+            root.innerHTML = `<vaadin-checkbox>${detailDir[0]}...</vaadin-checkbox>`;
+            root.firstElementChild.addEventListener('checked-changed', function(e) {
+            if (e.detail.value) {
+                table.openItemDetails(root.item);
+            } else {
+                table.closeItemDetails(root.item);
             }
-            root.item = model.item;
-            root.firstElementChild.checked = grid.detailsOpenedItems.indexOf(root.item) > -1;
-            };
+            });
+        }
+        root.item = model.item;
+        //root.firstElementChild.checked = grid.detailsOpenedItems.indexOf(root.item) > -1;
+        };
+        this.__changeColorForStatus(this.contentList, table)
+        if(list.data.length === 0) {
+            notificationError.renderer = root => root.textContent = 'no hay datos en esta lista';
+            notificationError.open();
+        }
+        this.edit(table);
+        
 
         this.changePrice(list.data,table)
     }

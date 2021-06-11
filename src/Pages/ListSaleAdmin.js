@@ -53,7 +53,7 @@ class ListSaleAdmin extends GayolController {
                 <vaadin-grid theme="row-dividers" column-reordering-allowed multi-sort>
                     <vaadin-grid-sort-column width="8em" path="lista"></vaadin-grid-sort-column>
                     <vaadin-grid-filter-column width="8em" path="idLista" header="Id"></vaadin-grid-filter-column>
-                    <vaadin-grid-filter-column width="80em" id="details" header="Direccion"></vaadin-grid-filter-column>
+                    <vaadin-grid-filter-column width="25em" id="details" header="Direccion"></vaadin-grid-filter-column>
                     <vaadin-grid-filter-column width="15em" path="colonia" header="Colonia"></vaadin-grid-filter-column>
                     <vaadin-grid-filter-column width="15em" path="municipio" header="Municipio"></vaadin-grid-filter-column>
                     <vaadin-grid-filter-column width="15em" path="estado" header="Estado"></vaadin-grid-filter-column>
@@ -118,7 +118,7 @@ class ListSaleAdmin extends GayolController {
                 });
             }
             root.item = model.item;
-            root.firstElementChild.checked = grid.detailsOpenedItems.indexOf(root.item) > -1;
+            //root.firstElementChild.checked = grid.detailsOpenedItems.indexOf(root.item) > -1;
             };
        this.changePrice(this.sales, $grid)
         await this.requestUpdate()

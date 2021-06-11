@@ -81,7 +81,7 @@ class ListAdminPage extends GayolController {
                 });
             }
             root.item = model.item;
-            root.firstElementChild.checked = grid.detailsOpenedItems.indexOf(root.item) > -1;
+            //root.firstElementChild.checked = grid.detailsOpenedItems.indexOf(root.item) > -1;
             };
         this.changePrice(list.data, table)
     }
