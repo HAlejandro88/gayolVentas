@@ -37,6 +37,11 @@ class ListJuridicoPage extends GayolController {
               vaadin-grid {
                 height: 90vh;
               }
+
+              .details {
+                display: flex;
+                font-size: 20px;
+              }
             `;
     }
 
@@ -51,7 +56,7 @@ class ListJuridicoPage extends GayolController {
                 <vaadin-grid theme="row-dividers" column-reordering-allowed multi-sort>
                     <vaadin-grid-sort-column width="8em" path="lista"></vaadin-grid-sort-column>
                     <vaadin-grid-filter-column width="8em" path="idLista" header="Id"></vaadin-grid-filter-column>
-                    <vaadin-grid-filter-column width="80em" path="direccion" header="Direccion"></vaadin-grid-filter-column>
+                    <vaadin-grid-filter-column width="25em" id="details" header="Direccion"></vaadin-grid-filter-column>
                     <vaadin-grid-filter-column width="15em" path="colonia" header="Colonia"></vaadin-grid-filter-column>
                     <vaadin-grid-filter-column width="15em" path="municipio" header="Municipio"></vaadin-grid-filter-column>
                     <vaadin-grid-filter-column width="15em" path="estado" header="Estado"></vaadin-grid-filter-column>
@@ -99,7 +104,38 @@ class ListJuridicoPage extends GayolController {
         //const sales = await this.__request('listSales/list/down');
         const $grid = this.shadowRoot.querySelector('vaadin-grid');
         this.sales = list.data;
-        console.log(list.data)
+
+        $grid.rowDetailsRenderer = (root, grid, model)  => {
+            if (!root.firstElementChild) {
+              root.innerHTML =
+              '<div class="details">' +
+              '<p><span></span><br>' +
+              '<small></small></p>' +
+              '</div>';
+            }
+            root.firstElementChild.querySelector('span').textContent = 'Direccion: ' + model.item.direccion + '!';
+            root.firstElementChild.querySelector('small').textContent = model.item.colonia;
+        
+          };
+       
+          const detailsToggleColumn = this.shadowRoot.querySelector('#details');
+            detailsToggleColumn.renderer = (root, column, model) => { 
+                let detailDir = model.item.direccion.split(" ");
+            if (!root.firstElementChild) {
+                
+                root.innerHTML = `<vaadin-checkbox>${detailDir[0]}...</vaadin-checkbox>`;
+                root.firstElementChild.addEventListener('checked-changed', function(e) {
+                if (e.detail.value) {
+                    $grid.openItemDetails(root.item);
+                } else {
+                    $grid.closeItemDetails(root.item);
+                }
+                });
+            }
+            root.item = model.item;
+            root.firstElementChild.checked = grid.detailsOpenedItems.indexOf(root.item) > -1;
+            };
+      
         this.changePrice(this.sales, $grid)
         await this.requestUpdate()
     }
