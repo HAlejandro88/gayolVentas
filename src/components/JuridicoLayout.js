@@ -32,7 +32,16 @@ class JuridicoLayout extends LitElement {
             cancelar: { type: Boolean, reflect: true },
             add: { type: Boolean, reflect: true },
             vendida: Boolean,
-            baja: Boolean
+            baja: Boolean,
+            lista: String,
+            idLista: String,
+            direccion: String,
+            colonia: String,
+            municipio: String,
+            estado: String,
+            montoCesion: String,
+            honorarios: String,
+            total: String,
         }
     }
 
@@ -128,6 +137,15 @@ class JuridicoLayout extends LitElement {
         this.add = false;
         this.vendida = false;
         this.baja = false;
+        this.lista = '';
+        this.idLista = '';
+        this.direccion = '';
+        this.colonia = '';
+        this.municipio = '';
+        this.estado = '';
+        this.montoCesion = '';
+        this.total = '';
+        this.honorarios = '';
     }
 
      /* ${this.vendida === 'true' ? html`<paper-toggle-button checked @change="${this.statusVendida}">Vendida</paper-toggle-button>`: html`<paper-toggle-button @change="${this.statusVendida}">Vendida</paper-toggle-button>`}
@@ -137,7 +155,7 @@ class JuridicoLayout extends LitElement {
         return html`
             <div class="content__layout">
                
-                <paper-toggle-button id="duplicada">Duplicar</paper-toggle-button>
+                <paper-toggle-button id="duplicada" @change="${this.duplicar}">Duplicar</paper-toggle-button>
                 <div>
                     <vaadin-text-field class="form-control" label="Solicitante" class="form-control" value="${this.solicitante}"></vaadin-text-field>
                 </div>
@@ -240,6 +258,30 @@ class JuridicoLayout extends LitElement {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(messageSale)
+            }).then(resp => resp.json())
+                .catch(error => console.error(error))
+        }
+    }
+
+    duplicar(event) {
+        if(event.target.checked) {
+            let body = {
+                lista: this.lista,
+                idLista: this.idLista,
+                direccion: this.direccion,
+                colonia: this.colonia,
+                municipio: this.municipio,
+                estado: this.estado,
+                montoCesion: this.montoCesion,
+                honorarios: this.honorarios,
+                total: this.total
+            }
+            fetch('https://gayol-app.herokuapp.com/api/v1/listSales', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
             }).then(resp => resp.json())
                 .catch(error => console.error(error))
         }

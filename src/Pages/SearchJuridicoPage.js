@@ -20,7 +20,8 @@ class SearchJuridicoPage extends GayolController {
         return {
             listHouses: Array,
             url: String,
-            image: String
+            image: String,
+            reset: Array
         }
     }
 
@@ -77,6 +78,7 @@ class SearchJuridicoPage extends GayolController {
     constructor() {
         super();
         this.listHouses = [];
+        this.reset = [];
       
     }
 
@@ -95,13 +97,9 @@ class SearchJuridicoPage extends GayolController {
                        <vaadin-text-field class="form-control" id="municipio" label="Municipio" @keyup="${this.searchMunicipio}"></vaadin-text-field>
                        <vaadin-text-field class="form-control" id="colonia" label="Colonia" @keyup="${this.searchColonia}"></vaadin-text-field>
                        <vaadin-text-field class="form-control" id="listId" label="Id" @keyup="${this.searchID}"></vaadin-text-field>
-                          <select name="" id="" @change="${this.chancePrice}">
-                              <option value="millon">$0 - $1,000,000</option>
-                              <option value="dos">$1,000,000 - $2,000,000</option>
-                              <option value="mas">más de $3,000,000</option>
-                          </select>
+                          
                        <div class="btn-filter">
-                           <vaadin-button class="btn-filter" >Search</vaadin-button>
+                           <vaadin-button class="btn-filter" @click="${this.limpiar}">Limpiar</vaadin-button>
                        </div>
                    </header>
                    
@@ -136,9 +134,14 @@ class SearchJuridicoPage extends GayolController {
         `;
     }
 
+    async limpiar(event) {
+        this.listHouses = this.reset;
+    }
+
     async __listOfHouse() {
         const houses = await this.__request("listSales",'GET');
         this.listHouses = houses.data;
+        this.reset = houses.data;
     }
 
     searchDireccion(event) {

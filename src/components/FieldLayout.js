@@ -298,9 +298,9 @@ class FieldLayout extends LitElement {
         let messageSale = {
             user: '602b7c507f24cf0015049430', // agregar un usuario de sistema
             title: 'Vendida',
-            description: `Inmueble vendido id: ${this.idLista},
-            de la lista: ${this.lista}, 
-            con la dirección: ${this.direccion}`
+            description: `id: ${this.idLista},
+            Lista: ${this.lista}, 
+            Dirección: ${this.direccion}`
         }
         if(event.target.checked) {
             this.vendida = true;
@@ -324,9 +324,9 @@ class FieldLayout extends LitElement {
         let messageSale = {
             user: '602b7c507f24cf0015049430', // agregar un usuario de sistema
             title: 'Baja',
-            description: `Inmueble vendido id: ${this.idLista},
-            de la lista: ${this.lista}, 
-            con la dirección: ${this.direccion}`
+            description: ` id: ${this.idLista},
+            Lista: ${this.lista}, 
+            Dirección: ${this.direccion}`
         }
         if(event.target.checked) {
             this.baja = true;

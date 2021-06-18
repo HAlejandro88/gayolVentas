@@ -97,7 +97,7 @@ class ListSaleJuridico extends GayolController {
                 let detailDir = model.item.direccion.split(" ");
             if (!root.firstElementChild) {
                 
-                root.innerHTML = `<vaadin-checkbox>${detailDir[0]} ${detailDir[1]} ${detailDir[2]}...</vaadin-checkbox>`;
+                root.innerHTML = `<vaadin-checkbox>${detailDir[0]} ${detailDir[1]} ${detailDir[2]} ${detailDir[3]} ${detailDir[4] || ''} ${detailDir[5] || ''}...</vaadin-checkbox>`;
                 root.firstElementChild.addEventListener('checked-changed', function(e) {
                 if (e.detail.value) {
                     table.openItemDetails(root.item);
@@ -135,6 +135,15 @@ class ListSaleJuridico extends GayolController {
         const notificationError = this.shadowRoot.querySelector('#error');
         dialog.renderer = function(root, dialog) {
             root.innerHTML = `<juridico-layout cancelar 
+                                                lista="${data.lista}"
+                                                idLista="${data.idLista}"
+                                                direccion="${data.direccion}"
+                                                colonia="${data.colonia}"
+                                                municipio="${data.municipio}"
+                                                estado="${data.estado}"
+                                                montoCesion="${data.montoCesion}"
+                                                honorarios="${data.honorarios}"
+                                                total="${data.total}"
                                                 solicitante="${data.solicitante == undefined ? '' : data.solicitante}"
                                                 estatusJuridico="${data.estatusJuridico  == undefined ? '' : data.estatusJuridico}"
                                                 solicitud="${data.fechaSolicitud }"
