@@ -40,7 +40,7 @@ class ListDown extends GayolController {
                 <vaadin-grid>
                     <vaadin-grid-sort-column width="8em" path="lista"></vaadin-grid-sort-column>
                     <vaadin-grid-filter-column width="8em" path="idLista" header="Id"></vaadin-grid-filter-column>
-                    <vaadin-grid-filter-column width="25em" id="details" header="Direccion"></vaadin-grid-filter-column>
+                    <vaadin-grid-filter-column width="35em" id="details" header="Direccion"></vaadin-grid-filter-column>
                     <vaadin-grid-filter-column width="15em" path="colonia" header="Colonia"></vaadin-grid-filter-column>
                     <vaadin-grid-filter-column width="15em" path="municipio" header="Municipio"></vaadin-grid-filter-column>
                     <vaadin-grid-filter-column width="15em" path="estado" header="Estado"></vaadin-grid-filter-column>

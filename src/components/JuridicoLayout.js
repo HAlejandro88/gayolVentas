@@ -179,7 +179,7 @@ class JuridicoLayout extends LitElement {
                     <label for="dateFirma">Fecha de Firma</label><br>
                     <input type="date" id="dateFirma"  value="${this.fechaFirmaCesion}"/>
                 </div>
-                <paper-dropdown-menu label="Tramite" noink no-animations>
+                <paper-dropdown-menu label="Tramite" noink no-animations @selected-item-changed="${this.tramiteChange}">
                     <paper-listbox slot="dropdown-content" class="dropdown-content">
                         <paper-item>Pendiente</paper-item>
                         <paper-item>Finalizado</paper-item>
@@ -199,6 +199,10 @@ class JuridicoLayout extends LitElement {
         `;
     }
 
+    tramiteChange({ detail }) {
+        this.tramite = detail.value.innerText
+    }
+
     updateJuridico() {
         const [Solicitante,EstatusJuridico,Comentario1,Comentario2,Comentario3] = this.shadowRoot.querySelectorAll('.form-control');
         const Solicitud = this.shadowRoot.querySelector('#dateSolicitante')
@@ -214,7 +218,7 @@ class JuridicoLayout extends LitElement {
                 comentario2J:Comentario2.value,
                 comentario3J:Comentario3.value,
                 fechaFirmaCesion:Firma.value,
-                //tramite:Tramite.value,
+                tramite: this.tramite,
                 //vendida: this.vendida,
                 //baja: this.baja,
             }

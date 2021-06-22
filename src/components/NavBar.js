@@ -69,7 +69,6 @@ class NavBar extends GayolController {
                 <div class="social">
                     <iron-icon icon="vaadin:grid-small" @click="${this.messageOptions}"></iron-icon>
                     <iron-icon icon="vaadin:inbox" @click="${this.exportList}"></iron-icon>
-                    <img .src="${this.user.image}" .alt="${this.user.name}"/>
                     <h4>${this.user.name}</h4>
                 </div>
                 <vaadin-dialog id="dialog"></vaadin-dialog>

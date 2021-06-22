@@ -41,7 +41,7 @@ class SearchPage extends GayolController {
             grid-gap: 5px;
           }
           .btn-filter {
-            width: 142%;
+            width: 100%;
             text-align: center;
           }
           
@@ -97,11 +97,10 @@ class SearchPage extends GayolController {
                        <vaadin-text-field class="form-control" id="municipio" label="Municipio" @keyup="${this.searchMunicipio}"></vaadin-text-field>
                        <vaadin-text-field class="form-control" id="colonia" label="Colonia" @keyup="${this.searchColonia}"></vaadin-text-field>
                        <vaadin-text-field class="form-control" id="listId" label="Id" @keyup="${this.searchID}"></vaadin-text-field>
-
-                       <div class="btn-filter">
-                           <vaadin-button class="btn-filter" @click="${this.limpiar}">Limpiar</vaadin-button>
-                       </div>
                    </header>
+                   <div class="btn-filter">
+                        <vaadin-button class="btn-filter" @click="${this.limpiar}">Limpiar</vaadin-button>
+                    </div>
                    
                    <section class="topten">
                        <h3>Top 10</h3>
@@ -142,6 +141,16 @@ class SearchPage extends GayolController {
 
     async limpiar(event) {
         this.listHouses = this.reset;
+        const $direccion = this.shadowRoot.querySelector('#direccion');
+        const $estado = this.shadowRoot.querySelector('#estado');
+        const $municipio = this.shadowRoot.querySelector('#municipio');
+        const $colonia = this.shadowRoot.querySelector('#colonia');
+        const $listId = this.shadowRoot.querySelector('#listId');
+        $direccion.value = '';
+        $estado.value = ''; 
+        $municipio.value = ''; 
+        $colonia.value = ''; 
+        $listId.value = ''; 
         await this.requestUpdate();
     }
 
