@@ -61,7 +61,7 @@ class ListAdminPage extends GayolController {
               '<small></small></p>' +
               '</div>';
             }
-            root.firstElementChild.querySelector('span').textContent = 'Direccion: ' + model.item.direccion + '!';
+            root.firstElementChild.querySelector('span').textContent = 'Direccion: ' + model.item.direccion ;
             root.firstElementChild.querySelector('small').textContent = model.item.colonia;
         
           };
