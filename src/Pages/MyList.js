@@ -7,7 +7,7 @@ import '@vaadin/vaadin-grid/vaadin-grid-filter-column'
 import {GayolController} from "../helpers/GayolController";
 
 
-class ListAdminPage extends GayolController {
+class MyList extends GayolController {
 
     static get styles() {
         return css`
@@ -50,39 +50,42 @@ class ListAdminPage extends GayolController {
     }
 
     async getListSales() {
-        const list = await this.__request(`listSales/master/${this.location.params.id}`,'GET');
+        const list = await this.__request(`propia/${this.location.params.id}`,'GET');
+
+        let sacaLista = list.data.map(item =>  item.lista );
+
         const table = this.shadowRoot.querySelector('vaadin-grid');
         //table.items = list.data;
         table.rowDetailsRenderer = (root, grid, model)  => {
             if (!root.firstElementChild) {
-              root.innerHTML =
-              '<div class="details">' +
-              '<p><span></span><br>' +
-              '<small></small></p>' +
-              '</div>';
+                root.innerHTML =
+                    '<div class="details">' +
+                    '<p><span></span><br>' +
+                    '<small></small></p>' +
+                    '</div>';
             }
             root.firstElementChild.querySelector('span').textContent = 'Direccion: ' + model.item.direccion ;
             root.firstElementChild.querySelector('small').textContent = model.item.colonia;
 
-          };
+        };
 
-          const detailsToggleColumn = this.shadowRoot.querySelector('#details');
-            detailsToggleColumn.renderer = (root, column, model) => {
-                let detailDir = model.item.direccion.split(" ");
+        const detailsToggleColumn = this.shadowRoot.querySelector('#details');
+        detailsToggleColumn.renderer = (root, column, model) => {
+            let detailDir = model.item.direccion.split(" ");
 
                 root.innerHTML = `<vaadin-checkbox>${detailDir[0]} ${detailDir[1]} ${detailDir[2]} ${detailDir[3] || ''} ${detailDir[4] || ''}...</vaadin-checkbox>`;
                 root.firstElementChild.addEventListener('checked-changed', function(e) {
-                if (e.detail.value) {
-                    table.openItemDetails(root.item);
-                } else {
-                    table.closeItemDetails(root.item);
-                }
+                    if (e.detail.value) {
+                        table.openItemDetails(root.item);
+                    } else {
+                        table.closeItemDetails(root.item);
+                    }
                 });
 
             root.item = model.item;
             //root.firstElementChild.checked = grid.detailsOpenedItems.indexOf(root.item) > -1;
-            };
-        this.changePrice(list.data, table)
+        };
+        this.changePrice(sacaLista, table)
     }
     changePrice(data,table) {
         let newData = [];
@@ -100,4 +103,4 @@ class ListAdminPage extends GayolController {
     }
 }
 
-window.customElements.define('list-admin-page', ListAdminPage);
+window.customElements.define('my-list', MyList);

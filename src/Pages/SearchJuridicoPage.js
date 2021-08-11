@@ -79,7 +79,7 @@ class SearchJuridicoPage extends GayolController {
         super();
         this.listHouses = [];
         this.reset = [];
-      
+
     }
 
     async firstUpdated(_changedProperties) {
@@ -135,16 +135,14 @@ class SearchJuridicoPage extends GayolController {
 
     async limpiar(event) {
         this.listHouses = this.reset;
-        const $direccion = this.shadowRoot.querySelector('#direccion');
-        const $estado = this.shadowRoot.querySelector('#estado');
-        const $municipio = this.shadowRoot.querySelector('#municipio');
-        const $colonia = this.shadowRoot.querySelector('#colonia');
-        const $listId = this.shadowRoot.querySelector('#listId');
-        $direccion.value = '';
-        $estado.value = ''; 
-        $municipio.value = ''; 
-        $colonia.value = ''; 
-        $listId.value = ''; 
+        const $direccion = this.shadowRoot.querySelector('#direccion').value;
+        const $estado = this.shadowRoot.querySelector('#estado').value;
+        const $municipio = this.shadowRoot.querySelector('#municipio').value;
+        const $colonia = this.shadowRoot.querySelector('#colonia').value;
+        const $listId = this.shadowRoot.querySelector('#listId').value;
+        const search = await (await fetch(`http://localhost:5000/api/v1/listSales/list/search?state=${$estado}&direccion=${$direccion}&colonia=${$colonia}&muni=${$municipio}&idLista=${$listId}`)).json();
+        this.listHouses = search.data;
+        await this.requestUpdate();
     }
 
     async __listOfHouse() {
@@ -153,36 +151,7 @@ class SearchJuridicoPage extends GayolController {
         this.reset = houses.data;
     }
 
-    searchDireccion(event) {
-        event.preventDefault();
-        const $direccion = this.shadowRoot.querySelector('#direccion');
-        this.listHouses = this.listHouses.filter(item => item.direccion.toLowerCase().includes($direccion.value))
 
-    }
-    searchEstado(event) {
-        event.preventDefault();
-        const $estado = this.shadowRoot.querySelector('#estado');
-        this.listHouses = this.listHouses.filter(item => item.estado.toLowerCase().includes($estado.value))
-
-    }
-    searchMunicipio(event) {
-        event.preventDefault();
-        const $municipio = this.shadowRoot.querySelector('#municipio');
-        this.listHouses = this.listHouses.filter(item => item.municipio.toLowerCase().includes($municipio.value))
-
-    }
-    searchColonia(event) {
-        event.preventDefault();
-        const $colonia = this.shadowRoot.querySelector('#colonia');
-        this.listHouses = this.listHouses.filter(item => item.colonia.toLowerCase().includes($colonia.value))
-
-    }
-    searchID(event) {
-        event.preventDefault();
-        const $listId = this.shadowRoot.querySelector('#listId');
-        this.listHouses = this.listHouses.filter(item => item.idLista.toLowerCase().includes($listId.value))
-
-    }
 
     async history(event) {
         const id = event.currentTarget.getAttribute('model');
@@ -268,9 +237,9 @@ class SearchJuridicoPage extends GayolController {
 
     async __filter() {
         const [direccion,estado,municipio,colonia, idLista] = this.shadowRoot.querySelectorAll('.form-control');
-        
-        this.listHouses = this.listHouses.filter(house => 
-            house.colonia.toLowerCase() === colonia.value.toLowerCase() || house.direccion.toLowerCase() === direccion.value.toLowerCase() || house.estado.toLowerCase() === estado.value.toLowerCase() || 
+
+        this.listHouses = this.listHouses.filter(house =>
+            house.colonia.toLowerCase() === colonia.value.toLowerCase() || house.direccion.toLowerCase() === direccion.value.toLowerCase() || house.estado.toLowerCase() === estado.value.toLowerCase() ||
             house.idLista === idLista.value || house.municipio === municipio.value.toLowerCase())
         await this.requestUpdate();
     }

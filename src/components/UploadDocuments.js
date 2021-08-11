@@ -8,7 +8,8 @@ import {GayolController} from "../helpers/GayolController";
 class UploadDocuments extends GayolController {
     static get properties() {
         return {
-            idList: String
+            idList: String,
+            user: String
         }
     }
 
@@ -19,6 +20,7 @@ class UploadDocuments extends GayolController {
     constructor() {
         super();
         this.idList = '';
+        this.user = '';
     }
 
 
@@ -34,7 +36,7 @@ class UploadDocuments extends GayolController {
                 <vaadin-upload id="upload" target="https://gayol-app.herokuapp.com/api/v1/docs" @upload-request="${this.cloudDocuments}">
                     <span slot="drop-label">Arrastre sus documentos pdf</span>
                 </vaadin-upload-->
-                
+                <vaadin-button model-id="${this.idList}" model-user="${this.user}" @click="${this.addListaPropia}">Añadir a mi lista</vaadin-button>
                 <vaadin-button @click="${this.updateList}">Actualizar</vaadin-button>
             </section>
         `;
@@ -51,6 +53,38 @@ class UploadDocuments extends GayolController {
 
     cloudDocuments(event) {
         event.detail.formData.append('listItem', this.id);
+    }
+
+    async getMe() {
+        const token = localStorage.getItem('token');
+        const BearerToken = `Bearer ${token}`;
+        const headers = {
+            'Authorization': BearerToken
+        }
+        const me = await this.__request('auth/me','GET',headers);
+        this.user = me.data;
+
+        //this.user.image = `https://gayol-app.herokuapp.com/api/v1/auth/avatar/${this.user.image}`;
+        this.user.image = `https://gayol-app.herokuapp.com/api/v1/auth/avatar/${this.user.image}`;
+    }
+
+    async addListaPropia(event) {
+        const user = event.currentTarget.getAttribute('model-user');
+        const itemList = event.currentTarget.getAttribute('model-id');
+        await this.getMe();
+        let body = {
+            user: this.user._id,
+            lista: itemList
+        }
+        const addList = await (await fetch('https://gayol-app.herokuapp.com/api/v1/propia', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })).json();
+
+
     }
 }
 

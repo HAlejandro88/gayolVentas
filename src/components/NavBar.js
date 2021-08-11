@@ -106,8 +106,19 @@ class NavBar extends GayolController {
                         <iron-icon icon="vaadin:plus-circle" id="master"></iron-icon>
                         <h6>Agregar Master List</h6>
                     </div> 
+                    
+                    <div class="item">
+                        <iron-icon icon="vaadin:plus-circle" id="mi" model-user="${this.user._id}"></iron-icon>
+                        <h6>Mi lista</h6>
+                    </div> 
+                    
+                     
                 </div>
             `;
+             root.querySelector('#mi').addEventListener('click', event => {
+                const user = event.currentTarget.getAttribute('model-user');
+                window.location = `/mylist/${user}`;
+            })
             if(this.user.role === 'admin') {
                 root.querySelector('#master').addEventListener('click', e => {
                     window.location = '/menuListPage/addList'
@@ -128,6 +139,7 @@ class NavBar extends GayolController {
         await this.requestUpdate();
     }
 
+
     async getMe() {
        const token = localStorage.getItem('token');
        const BearerToken = `Bearer ${token}`;
@@ -143,6 +155,11 @@ class NavBar extends GayolController {
 
     exportList(event) {
         this.dispatchEvent(new CustomEvent('export-list'));
+    }
+
+    goMilist(event) {
+        const user = event.currentTarget.getAttribute('model-user');
+        window.location = `/mylist/${user}`;
     }
 
 }

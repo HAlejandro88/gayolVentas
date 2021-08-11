@@ -133,14 +133,13 @@ class ListPage extends GayolController {
             }
             root.firstElementChild.querySelector('span').textContent = 'Direccion: ' + model.item.direccion ;
             root.firstElementChild.querySelector('small').textContent = model.item.colonia;
-        
+
           };
-       
+
         const detailsToggleColumn = this.shadowRoot.querySelector('#details');
-        detailsToggleColumn.renderer = (root, column, model) => { 
+        detailsToggleColumn.renderer = (root, column, model) => {
             let detailDir = model.item.direccion.split(" ");
-        if (!root.firstElementChild) {
-            
+
             root.innerHTML = `<vaadin-checkbox>${detailDir[0]} ${detailDir[1]} ${detailDir[2]} ${detailDir[3]} ${detailDir[4] || ''} ${detailDir[5] || ''} ...</vaadin-checkbox>`;
             root.firstElementChild.addEventListener('checked-changed', function(e) {
             if (e.detail.value) {
@@ -149,7 +148,7 @@ class ListPage extends GayolController {
                 table.closeItemDetails(root.item);
             }
             });
-        }
+
         root.item = model.item;
         //root.firstElementChild.checked = grid.detailsOpenedItems.indexOf(root.item) > -1;
         };
@@ -159,7 +158,7 @@ class ListPage extends GayolController {
             notificationError.open();
         }
         this.edit(table);
-        
+
 
         this.changePrice(list.data,table)
     }

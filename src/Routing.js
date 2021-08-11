@@ -137,6 +137,18 @@ const routes = [
                 ]
             },
             {
+                path: 'mylist/:id',
+                component: 'my-list',
+                action: async(routerContext, commands) => {
+                    const token = localStorage.getItem('token');
+                    const verified = await verify(token);
+                    if(!verified) {
+                        return commands.redirect('/dashboard')
+                    }
+                    return await import('./Pages/MyList')
+                }
+            },
+            {
                 path: 'message/:id',
                 component: 'message-page',
                 action: async(routerContext, commands) => {
