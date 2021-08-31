@@ -7,11 +7,13 @@
     "serve:open": "es-dev-server --app-index index.html --node-resolve --watch --open",
     "serve": "es-dev-server --app-index index.html --node-resolve --watch",
     "build:rollup": "rimraf dist && rollup -c rollup.config.js",
-    "build:webpack": "webpack --mode production"
+    "build:webpack": "webpack --mode production",
+    "start:build": "npm run build:webpack && es-dev-server --root-dir build --app-index index.html --compatibility none --open"
   },
   "author": "Alejandro Soto",
   "license": "ISC",
   "dependencies": {
+    "@fluidnext-polymer/paper-pagination": "^3.0.4",
     "@material/mwc-fab": "^0.20.0",
     "@material/mwc-formfield": "^0.20.0",
     "@material/mwc-icon": "^0.19.1",

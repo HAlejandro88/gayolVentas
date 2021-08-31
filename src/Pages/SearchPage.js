@@ -13,7 +13,9 @@ import '../components/ModalSearch';
 import '../components/UploadDocuments';
 import '../components/HexagonComponent'
 import {GayolController} from "../helpers/GayolController";
-import {List} from "@material/mwc-list";
+import '@fluidnext-polymer/paper-pagination';
+import '@fluidnext-polymer/paper-pagination/icons/paper-pagination-icons';
+
 
 class SearchPage extends GayolController {
     static get properties() {
@@ -72,6 +74,15 @@ class SearchPage extends GayolController {
             text-align: center;
             text-transform: capitalize;
           }
+
+          paper-pagination {
+            display: flex;
+            justify-content: end;
+            align-items: end;
+            height: 25px;
+            padding: 8px;,
+            background-color: #F7F9F9;
+          }
         `;
     }
 
@@ -98,6 +109,9 @@ class SearchPage extends GayolController {
                        <vaadin-text-field class="form-control" id="colonia" label="Colonia" @keyup="${this.searchColonia}"></vaadin-text-field>
                        <vaadin-text-field class="form-control" id="listId" label="Id" @keyup="${this.searchID}"></vaadin-text-field>
                    </header>
+
+                   
+                   
                    <div class="btn-filter">
                         <vaadin-button class="btn-filter" @click="${this.limpiar}">Buscar</vaadin-button>
                     </div>
@@ -125,16 +139,34 @@ class SearchPage extends GayolController {
                                                     @change-documents="${this.uploadDocuments}">
                                     </card-component>
                             `)}
+
+                       <paper-pagination
+                               total-items="100"
+                               item-per-page="30"
+                               @page-changed="${this.changePage}"
+                               next-icon="paper-pagination:next-arrow"
+                               previous-icon="paper-pagination:previous-arrow">
+                       </paper-pagination>
+                       
+                       
                        <vaadin-dialog aria-label="simple" id="dialog"></vaadin-dialog>
                        <vaadin-dialog aria-label="simple" id="documents"></vaadin-dialog>
                    </div>
+                   
                </div>
+               
+               
            </app-layout>
         `;
     }
 
-    async __listOfHouse() {
-        const houses = await this.__request("listSales",'GET');
+    changePage(event) {
+        let page = event.detail.value;
+        this.__listOfHouse(page);
+    }
+
+    async __listOfHouse(page = 1) {
+        const houses = await this.__request(`listSales?page=${page}`,'GET');
         this.listHouses = houses.data;
         this.reset = houses.data;
     }
@@ -146,7 +178,7 @@ class SearchPage extends GayolController {
         const $municipio = this.shadowRoot.querySelector('#municipio').value;
         const $colonia = this.shadowRoot.querySelector('#colonia').value;
         const $listId = this.shadowRoot.querySelector('#listId').value;
-        const search = await (await fetch(`https://gayol-app.herokuapp.com/api/v1/listSales/list/search?state=${$estado}&direccion=${$direccion}&colonia=${$colonia}&muni=${$municipio}&idLista=${$listId}`)).json();
+        const search = await (await fetch(`https://otolum.com.mx/api/v1/listSales/list/search?state=${$estado}&direccion=${$direccion}&colonia=${$colonia}&muni=${$municipio}&idLista=${$listId}`)).json();
         this.listHouses = search.data;
         await this.requestUpdate();
     }
@@ -190,7 +222,7 @@ class SearchPage extends GayolController {
                             </p>
                         </div>
                         <br>
-                        <img src="https://gayol-app.herokuapp.com/api/v1/listSales/list/photo/${this.image}" alt="" style="width: 100%">
+                        <img src="https://otolum.com.mx/api/v1/listSales/list/photo/${this.image}" alt="" style="width: 100%">
                 </div>
             `;
 
@@ -208,7 +240,7 @@ class SearchPage extends GayolController {
                             </p>
                         </div>
                         <br>
-                        <img src="https://gayol-app.herokuapp.com/api/v1/listSales/list/photo/${this.image}" alt="" style="width: 100%">
+                        <img src="https://otolum.com.mx/api/v1/listSales/list/photo/${this.image}" alt="" style="width: 100%">
                    `;
                 }
                 else if (detail.value === 2) {

@@ -107,7 +107,7 @@ class ListSaleAdmin extends GayolController {
             detailsToggleColumn.renderer = (root, column, model) => {
                 let detailDir = model.item.direccion.split(" ");
 
-                root.innerHTML = `<vaadin-checkbox>${detailDir[0]} ${detailDir[1]} ${detailDir[2]} ${detailDir[3]} ${detailDir[4] || ''} ${detailDir[5] || ''}...</vaadin-checkbox>`;
+                root.innerHTML = `<vaadin-checkbox>${detailDir[0]} ${detailDir[1] || ''} ${detailDir[2] || ''} ${detailDir[3] || ''} ${detailDir[4] || ''} ${detailDir[5] || ''} ...</vaadin-checkbox>`;
                 root.firstElementChild.addEventListener('checked-changed', function(e) {
                 if (e.detail.value) {
                     $grid.openItemDetails(root.item);

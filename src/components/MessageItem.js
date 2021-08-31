@@ -53,6 +53,14 @@ class MessageItem extends LitElement {
           .ultimate {
             border: 1px solid blue;
           }
+          
+          .baja {
+            color: #F96565;
+          }
+          
+          .vendida {
+            color: #129121;
+          }
         `;
     }
 
@@ -78,11 +86,11 @@ class MessageItem extends LitElement {
             <div class="message"> 
                 <div class="message__header">
                     <img .src="${this.image}" alt=""/>
-                    <h4>${this.title}</h4>
-                    <h4>${this.date}</h4>
+                    <h4 class="${this.title === 'Vendida'? 'vendida': this.title === 'Baja' ? 'baja' : '' }">${this.title}</h4>
+                    <h4 class="${this.title === 'Vendida'? 'vendida': this.title === 'Baja' ? 'baja' : '' }">${this.date}</h4>
                 </div>
                 <div class="message__content">
-                    <p>${this.description}</p>
+                    <p class="${this.title === 'Vendida'? 'vendida': this.title === 'Baja' ? 'baja' : '' }">${this.description}</p>
                 </div>
             </div>
         `;

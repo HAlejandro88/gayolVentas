@@ -101,7 +101,9 @@ class CardComponent extends LitElement {
         super.firstUpdated(_changedProperties);
         const options1 = { style: 'currency', currency: 'USD' };
         const numberFormat = new Intl.NumberFormat('en-US', options1);
-        //this.details = numberFormat.format(this.details);
+        const partido = this.description.split(" ");
+        this.description = `${partido[0] } ${partido[1] || ''} ${partido[2] || ''}  ${partido[3] || ''}  ${partido[4] || ''}  ${partido[5] || ''}  ${partido[6] || ''}  ${partido[7] || ''}  ${partido[8] || ''}  ${partido[9] || ''} ${partido[10] || ''} ${partido[11] || ''} ${partido[12] || ''} ${partido[13] || ''} ...`
+
     }
 
     render() {

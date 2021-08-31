@@ -5,7 +5,7 @@ const login = async (email, password) => {
             email,
             password
         }
-        const response = await fetch('/api/v1/auth/login', {
+        const response = await fetch('https://otolum.com.mx/api/v1/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -25,7 +25,7 @@ const login = async (email, password) => {
 
 const verify = async (token) => {
     try {
-        const logged = await (await fetch(`https://gayol-app.herokuapp.com/api/v1/auth/verify/${token}`, {
+        const logged = await (await fetch(`https://otolum.com.mx/api/v1/auth/verify/${token}`, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -37,9 +37,9 @@ const verify = async (token) => {
     }
 }
 
-const verifyAdmin = async(token) => { // `https://gayol-app.herokuapp.com/api/v1
+const verifyAdmin = async(token) => { // `https://otolum.com.mx/api/v1
     try {
-        const loggedAdmin = await (await fetch(`https://gayol-app.herokuapp.com/api/v1/auth/verify/admin/${token}`,{
+        const loggedAdmin = await (await fetch(`https://otolum.com.mx/api/v1/auth/verify/admin/${token}`,{
             headers: {
                 'Content-Type': 'application/json'
             }

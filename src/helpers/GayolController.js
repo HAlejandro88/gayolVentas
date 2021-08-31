@@ -1,20 +1,20 @@
 import { LitElement } from 'lit-element';
 
 export class GayolController extends LitElement {
-    
+
     static get properties() {
         return {
-            
+
         };
     }
 
     constructor() {
         super();
-    } 
+    }
 
     async __request( _endPoint = '' , _method = 'GET', _headers = {}, _body = {} ) {
-        //const serverUrl = localStorage.getItem('url') ? localStorage.getItem('url') : 'https://gayol-app.herokuapp.com/api/v1';
-        const serverUrl = 'https://gayol-app.herokuapp.com/api/v1';
+        //const serverUrl = localStorage.getItem('url') ? localStorage.getItem('url') : 'https://otolum.com.mx/api/v1';
+        const serverUrl = 'https://otolum.com.mx/api/v1';
         //const serverUrl = 'http://localhost:5000/api/v1';
         const body = JSON.stringify(_body);
         let options = {
@@ -46,7 +46,7 @@ export class GayolController extends LitElement {
         if (!isLogged && (!token || token === '')) {
             cb();
         }
-    } */ 
+    } */
 
     async __authRequest(isLogged,cb = () => {}) {
         const token = localStorage.getItem('token');

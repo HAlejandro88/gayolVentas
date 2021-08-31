@@ -55,7 +55,6 @@ class CardMenu extends LitElement {
         return html`
             <div class="card--box">
                 <div class="card-header">
-                    <h6>${this.fullDate}</h6>
                     <iron-icon icon="vaadin:ellipsis-dots-v" @click="${this.handledOptions}"></iron-icon>
                 </div>
                 <div class="card-content">

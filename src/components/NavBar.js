@@ -68,6 +68,7 @@ class NavBar extends GayolController {
                 </div>
                 <div class="social">
                     <iron-icon icon="vaadin:grid-small" @click="${this.messageOptions}"></iron-icon>
+                    <iron-icon icon="vaadin:calc-book" model-user="${this.user._id}" @click="${this.goToMyList}"></iron-icon>
                     <iron-icon icon="vaadin:inbox" @click="${this.exportList}"></iron-icon>
                     <h4>${this.user.name}</h4>
                 </div>
@@ -107,18 +108,13 @@ class NavBar extends GayolController {
                         <h6>Agregar Master List</h6>
                     </div> 
                     
-                    <div class="item">
-                        <iron-icon icon="vaadin:plus-circle" id="mi" model-user="${this.user._id}"></iron-icon>
-                        <h6>Mi lista</h6>
-                    </div> 
-                    
-                     
+                   
                 </div>
             `;
-             root.querySelector('#mi').addEventListener('click', event => {
+             /*root.querySelector('#mi').addEventListener('click', event => {
                 const user = event.currentTarget.getAttribute('model-user');
                 window.location = `/mylist/${user}`;
-            })
+            })*/
             if(this.user.role === 'admin') {
                 root.querySelector('#master').addEventListener('click', e => {
                     window.location = '/menuListPage/addList'
@@ -139,6 +135,10 @@ class NavBar extends GayolController {
         await this.requestUpdate();
     }
 
+    goToMyList(event) {
+        const user = event.currentTarget.getAttribute('model-user');
+        window.location = `/mylist/${user}`;
+    }
 
     async getMe() {
        const token = localStorage.getItem('token');
@@ -148,8 +148,8 @@ class NavBar extends GayolController {
        }
        const me = await this.__request('auth/me','GET',headers);
        this.user = me.data;
-       //this.user.image = `https://gayol-app.herokuapp.com/api/v1/auth/avatar/${this.user.image}`;
-       this.user.image = `https://gayol-app.herokuapp.com/api/v1/auth/avatar/${this.user.image}`;
+       //this.user.image = `https://otolum.com.mx/api/v1/auth/avatar/${this.user.image}`;
+       this.user.image = `https://otolum.com.mx/api/v1/auth/avatar/${this.user.image}`;
     }
 
 

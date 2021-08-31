@@ -235,7 +235,7 @@ class JuridicoLayout extends LitElement {
             con la dirección: ${this.direccion}`
         }
         if(event.target.checked) {
-            fetch('https://gayol-app.herokuapp.com/api/v1/news', {
+            fetch('https://otolum.com.mx/api/v1/news', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -256,7 +256,7 @@ class JuridicoLayout extends LitElement {
             con la dirección: ${this.direccion}`
         }
         if(event.target.checked) {
-            fetch('https://gayol-app.herokuapp.com/api/v1/news', {
+            fetch('https://otolum.com.mx/api/v1/news', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -280,7 +280,7 @@ class JuridicoLayout extends LitElement {
                 honorarios: this.honorarios,
                 total: this.total
             }
-            fetch('https://gayol-app.herokuapp.com/api/v1/listSales', {
+            fetch('https://otolum.com.mx/api/v1/listSales', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

@@ -140,7 +140,7 @@ class ListPage extends GayolController {
         detailsToggleColumn.renderer = (root, column, model) => {
             let detailDir = model.item.direccion.split(" ");
 
-            root.innerHTML = `<vaadin-checkbox>${detailDir[0]} ${detailDir[1]} ${detailDir[2]} ${detailDir[3]} ${detailDir[4] || ''} ${detailDir[5] || ''} ...</vaadin-checkbox>`;
+            root.innerHTML = `<vaadin-checkbox>${detailDir[0]} ${detailDir[1] || ''} ${detailDir[2] || ''} ${detailDir[3] || ''} ${detailDir[4] || ''} ${detailDir[5] || ''} ...</vaadin-checkbox>`;
             root.firstElementChild.addEventListener('checked-changed', function(e) {
             if (e.detail.value) {
                 table.openItemDetails(root.item);
@@ -248,7 +248,7 @@ class ListPage extends GayolController {
             const fieldLayout = root.querySelector('field-layout');
             fieldLayout.addEventListener('update-data', async ({ detail }) => {
                   let body = JSON.stringify(detail);
-                  const response = await fetch(`https://gayol-app.herokuapp.com/api/v1/listSales/update/${id}`, {
+                  const response = await fetch(`https://otolum.com.mx/api/v1/listSales/update/${id}`, {
                       method: 'PUT',
                       headers: {
                           'Content-Type': 'application/json',

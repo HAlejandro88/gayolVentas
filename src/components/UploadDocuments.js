@@ -29,11 +29,11 @@ class UploadDocuments extends GayolController {
             <section class="first">
                 <h5>Agrega la URl del mapa y sube la foto</h5>
                 <vaadin-text-field label="Url Mapa"></vaadin-text-field>
-                <vaadin-upload method="PUT"  target="https://gayol-app.herokuapp.com/api/v1/listSales/${this.idList}/image">
+                <vaadin-upload method="PUT"  target="https://otolum.com.mx/api/v1/listSales/${this.idList}/image">
                     <span slot="drop-label">Arrastre su photo </span>
                 </vaadin-upload>
                 <!--h5> Sube tus documentos</h5>
-                <vaadin-upload id="upload" target="https://gayol-app.herokuapp.com/api/v1/docs" @upload-request="${this.cloudDocuments}">
+                <vaadin-upload id="upload" target="https://otolum.com.mx/api/v1/docs" @upload-request="${this.cloudDocuments}">
                     <span slot="drop-label">Arrastre sus documentos pdf</span>
                 </vaadin-upload-->
                 <vaadin-button model-id="${this.idList}" model-user="${this.user}" @click="${this.addListaPropia}">Añadir a mi lista</vaadin-button>
@@ -64,8 +64,8 @@ class UploadDocuments extends GayolController {
         const me = await this.__request('auth/me','GET',headers);
         this.user = me.data;
 
-        //this.user.image = `https://gayol-app.herokuapp.com/api/v1/auth/avatar/${this.user.image}`;
-        this.user.image = `https://gayol-app.herokuapp.com/api/v1/auth/avatar/${this.user.image}`;
+        //this.user.image = `https://otolum.com.mx/api/v1/auth/avatar/${this.user.image}`;
+        this.user.image = `https://otolum.com.mx/api/v1/auth/avatar/${this.user.image}`;
     }
 
     async addListaPropia(event) {
@@ -76,7 +76,7 @@ class UploadDocuments extends GayolController {
             user: this.user._id,
             lista: itemList
         }
-        const addList = await (await fetch('https://gayol-app.herokuapp.com/api/v1/propia', {
+        const addList = await (await fetch('https://otolum.com.mx/api/v1/propia', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

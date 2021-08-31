@@ -82,6 +82,7 @@ class MenuListPage extends GayolController {
         const token = localStorage.getItem('token');
         const verify = await verifyAdmin(token);
         if(verify.admin) {
+            console.log(id)
             window.location = `/menuListPage/list/${id}`;
         } else if (verify.sale) {
             window.location = `/menuListPage/list-admin/${id}`;

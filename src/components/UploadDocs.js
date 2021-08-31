@@ -26,7 +26,7 @@ class UploadDocs extends GayolController {
         return html `
             <section class="first">
                 <h5> Sube tus documentos</h5>
-                <vaadin-upload id="upload" target="https://gayol-app.herokuapp.com/api/v1/docs" @upload-request="${this.cloudDocuments}">
+                <vaadin-upload id="upload" target="https://otolum.com.mx/api/v1/docs" @upload-request="${this.cloudDocuments}">
                     <span slot="drop-label">Arrastre sus documentos pdf</span>
                 </vaadin-upload>
                 

@@ -12,7 +12,8 @@ import '../components/CardComponent';
 import '../components/ModalSearch';
 import '../components/UploadDocs';
 import '../components/HexagonComponent';
-
+import '@fluidnext-polymer/paper-pagination';
+import '@fluidnext-polymer/paper-pagination/icons/paper-pagination-icons';
 import {GayolController} from "../helpers/GayolController";
 
 class SearchJuridicoPage extends GayolController {
@@ -99,7 +100,7 @@ class SearchJuridicoPage extends GayolController {
                        <vaadin-text-field class="form-control" id="listId" label="Id" @keyup="${this.searchID}"></vaadin-text-field>
                    </header>
                    <div class="btn-filter">
-                        <vaadin-button class="btn-filter" @click="${this.limpiar}">Limpiar</vaadin-button>
+                        <vaadin-button class="btn-filter" @click="${this.limpiar}">Buscar</vaadin-button>
                     </div>
                    
                    <section class="topten">
@@ -125,12 +126,26 @@ class SearchJuridicoPage extends GayolController {
                                                     @change-documents="${this.uploadDocuments}">
                                     </card-component>
                             `)}
+
+                       <paper-pagination
+                               total-items="100"
+                               item-per-page="30"
+                               @page-changed="${this.changePage}"
+                               next-icon="paper-pagination:next-arrow"
+                               previous-icon="paper-pagination:previous-arrow">
+                       </paper-pagination>
+                       
                        <vaadin-dialog aria-label="simple" id="dialog"></vaadin-dialog>
                        <vaadin-dialog aria-label="simple" id="documents"></vaadin-dialog>
                    </div>
                </div>
            </app-layout>
         `;
+    }
+
+    changePage(event) {
+        let page = event.detail.value;
+        this.__listOfHouse(page);
     }
 
     async limpiar(event) {
@@ -140,13 +155,13 @@ class SearchJuridicoPage extends GayolController {
         const $municipio = this.shadowRoot.querySelector('#municipio').value;
         const $colonia = this.shadowRoot.querySelector('#colonia').value;
         const $listId = this.shadowRoot.querySelector('#listId').value;
-        const search = await (await fetch(`http://localhost:5000/api/v1/listSales/list/search?state=${$estado}&direccion=${$direccion}&colonia=${$colonia}&muni=${$municipio}&idLista=${$listId}`)).json();
+        const search = await (await fetch(`https://otolum.com.mx/api/v1/listSales/list/search?state=${$estado}&direccion=${$direccion}&colonia=${$colonia}&muni=${$municipio}&idLista=${$listId}`)).json();
         this.listHouses = search.data;
         await this.requestUpdate();
     }
 
-    async __listOfHouse() {
-        const houses = await this.__request("listSales",'GET');
+    async __listOfHouse(page = 1) {
+        const houses = await this.__request(`listSales?page=${page}`,'GET');
         this.listHouses = houses.data;
         this.reset = houses.data;
     }
@@ -187,7 +202,7 @@ class SearchJuridicoPage extends GayolController {
                         </div>
                         <br>
                     <div class="form-layout">
-                        <img src="https://gayol-app.herokuapp.com/api/v1/listSales/list/photo/${this.image}" alt="" style="width: 100%"/>
+                        <img src="https://otolum.com.mx/api/v1/listSales/list/photo/${this.image}" alt="" style="width: 100%"/>
                     </div>
                 </div>
             `;
@@ -206,7 +221,7 @@ class SearchJuridicoPage extends GayolController {
                             </p>
                         </div>
                         <br>
-                        <img src="https://gayol-app.herokuapp.com/api/v1/listSales/list/photo/${this.image}" style="width: 100%">
+                        <img src="https://otolum.com.mx/api/v1/listSales/list/photo/${this.image}" style="width: 100%">
                     `;
                 }
                 else if (detail.value === 2) {

@@ -304,7 +304,7 @@ class FieldLayout extends LitElement {
         }
         if(event.target.checked) {
             this.vendida = true;
-            fetch('https://gayol-app.herokuapp.com/api/v1/news', {
+            fetch('https://otolum.com.mx/api/v1/news', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -330,7 +330,7 @@ class FieldLayout extends LitElement {
         }
         if(event.target.checked) {
             this.baja = true;
-            fetch('https://gayol-app.herokuapp.com/api/v1/news', {
+            fetch('https://otolum.com.mx/api/v1/news', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
