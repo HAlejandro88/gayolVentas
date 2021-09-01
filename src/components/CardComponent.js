@@ -104,10 +104,6 @@ class CardComponent extends LitElement {
         const partido = this.description.split(" ");
         this.description = `${partido[0] } ${partido[1] || ''} ${partido[2] || ''}  ${partido[3] || ''}  ${partido[4] || ''}  ${partido[5] || ''} ...`;
 
-        if(this.description.length >= 15) {
-            let subPartido = this.description.split(" ");
-            console.log(`${subPartido[0]} ${subPartido[1]}`, 'subPartido')
-        }
 
     }
 

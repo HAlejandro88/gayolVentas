@@ -90,14 +90,15 @@ class MyList extends GayolController {
     changePrice(data,table) {
         let newData = [];
         newData = data.map(item => {
-
+            console.log(item)
             const options2 = { style: 'currency', currency: 'USD' };
             const numberFormat = new Intl.NumberFormat('en-US', options2)
-            let total = numberFormat.format(item.total)
-            let honorarios = numberFormat.format(item.honorarios);
-            let montoCesion = numberFormat.format(item.montoCesion);
+            let total = numberFormat.format(item?.total)
+            let honorarios = numberFormat.format(item?.honorarios);
+            let montoCesion = numberFormat.format(item?.montoCesion);
             let newValues = {...item, honorarios, montoCesion, total};
             return newValues
+
         });
         table.items = newData;
     }
