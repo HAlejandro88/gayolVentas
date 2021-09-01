@@ -102,7 +102,12 @@ class CardComponent extends LitElement {
         const options1 = { style: 'currency', currency: 'USD' };
         const numberFormat = new Intl.NumberFormat('en-US', options1);
         const partido = this.description.split(" ");
-        this.description = `${partido[0] } ${partido[1] || ''} ${partido[2] || ''}  ${partido[3] || ''}  ${partido[4] || ''}  ${partido[5] || ''}  ${partido[6] || ''}  ${partido[7] || ''}  ${partido[8] || ''}  ${partido[9] || ''} ${partido[10] || ''} ${partido[11] || ''} ${partido[12] || ''} ${partido[13] || ''} ...`
+        this.description = `${partido[0] } ${partido[1] || ''} ${partido[2] || ''}  ${partido[3] || ''}  ${partido[4] || ''}  ${partido[5] || ''} ...`;
+
+        if(this.description.length >= 15) {
+            let subPartido = this.description.split(" ");
+            console.log(`${subPartido[0]} ${subPartido[1]}`, 'subPartido')
+        }
 
     }
 
@@ -118,7 +123,11 @@ class CardComponent extends LitElement {
                 <div class="container">
                     <h5>Id: ${this.id}</h5>
                     <h4><b>${this.title}</b></h4>
-                    <p>${this.description}
+                    <p>${
+                            this.description.length >= 38 
+                            ?  this.description = this.description.slice(0,20) 
+                            : this.description
+                        }
                     </p>
                     <div class="sub-title">
                         <h6>${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(this.details)}</h6>

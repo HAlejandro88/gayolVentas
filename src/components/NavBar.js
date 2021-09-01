@@ -64,7 +64,7 @@ class NavBar extends GayolController {
             <nav class="nav">
                 <div class="toogle">
                     <vaadin-drawer-toggle></vaadin-drawer-toggle>
-                    <h2>Office App</h2>
+                    <h2>Otolum</h2>
                 </div>
                 <div class="social">
                     <iron-icon icon="vaadin:grid-small" @click="${this.messageOptions}"></iron-icon>

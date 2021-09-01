@@ -23,7 +23,8 @@ class SearchPage extends GayolController {
             listHouses: Array,
             url: String,
             image: String,
-            reset: Array
+            reset: Array,
+            page: Number
         }
     }
 
@@ -91,6 +92,7 @@ class SearchPage extends GayolController {
         this.listHouses = [];
         this.url = '';
         this.reset = [];
+        this.page = 1;
     }
 
     async firstUpdated(_changedProperties) {
@@ -141,8 +143,7 @@ class SearchPage extends GayolController {
                             `)}
 
                        <paper-pagination
-                               total-items="100"
-                               item-per-page="30"
+                               item-per-page="50"
                                @page-changed="${this.changePage}"
                                next-icon="paper-pagination:next-arrow"
                                previous-icon="paper-pagination:previous-arrow">
@@ -160,9 +161,9 @@ class SearchPage extends GayolController {
         `;
     }
 
-    changePage(event) {
-        let page = event.detail.value;
-        this.__listOfHouse(page);
+    async changePage(event) {
+        this.page = event.detail.value;
+        await this.limpiar(this.page)
     }
 
     async __listOfHouse(page = 1) {
@@ -171,18 +172,30 @@ class SearchPage extends GayolController {
         this.reset = houses.data;
     }
 
-    async limpiar(event) {
+    async limpiar(page = 1) {
         this.listHouses = this.reset;
         const $direccion = this.shadowRoot.querySelector('#direccion').value;
         const $estado = this.shadowRoot.querySelector('#estado').value;
         const $municipio = this.shadowRoot.querySelector('#municipio').value;
         const $colonia = this.shadowRoot.querySelector('#colonia').value;
         const $listId = this.shadowRoot.querySelector('#listId').value;
-        const search = await (await fetch(`https://otolum.com.mx/api/v1/listSales/list/search?state=${$estado}&direccion=${$direccion}&colonia=${$colonia}&muni=${$municipio}&idLista=${$listId}`)).json();
+        const search = await (await fetch(`https://otolum.com.mx/api/v1/listSales/list/search?state=${$estado}&direccion=${$direccion}&colonia=${$colonia}&muni=${$municipio}&idLista=${$listId}&page=${page}`)).json();
         this.listHouses = search.data;
-        await this.requestUpdate();
+        const $pagination = this.shadowRoot.querySelector('paper-pagination');
+        $pagination.totalItems = search.total;
+        console.log(this.listHouses)
+        console.log(this.page)
+        //await this.pagination(this.listHouses, this.page);
     }
 
+    async pagination(items, page) {
+        const $pagination = this.shadowRoot.querySelector('paper-pagination');
+        $pagination.totalItems = items.length;
+        let start = (page - 1) * $pagination.itemPerPage;
+        let end = page * $pagination.itemPerPage;
+        this.listHouses = items.slice(start, end);
+        await this.requestUpdate();
+    }
 
 
     async history(event) {
@@ -280,18 +293,6 @@ class SearchPage extends GayolController {
             }
         })
     }
-
-    async __filter() {
-        const [direccion,estado,municipio,colonia, idLista] = this.shadowRoot.querySelectorAll('.form-control');
-
-        this.listHouses = this.listHouses.filter(house =>
-            house.colonia.toLowerCase() === colonia.value.toLowerCase() || house.direccion.toLowerCase() === direccion.value.toLowerCase() || house.estado.toLowerCase() === estado.value.toLowerCase() ||
-            house.idLista === idLista.value || house.municipio === municipio.value.toLowerCase())
-        await this.requestUpdate();
-    }
-
-
-
 
     uploadDocuments(event) {
         const id = event.currentTarget.getAttribute('model');

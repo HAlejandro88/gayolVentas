@@ -27,7 +27,7 @@ class LoginUser extends GayolController {
     render() {
         return html`
             <vaadin-login-overlay opened
-                    title="Office App" description="" 
+                    title="Otolum" description="" 
                     @login="${this.logIn}">
             </vaadin-login-overlay>
             <vaadin-dialog id="dialog"></vaadin-dialog>

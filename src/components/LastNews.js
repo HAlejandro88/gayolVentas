@@ -6,7 +6,8 @@ class LastNews extends LitElement {
         return {
             title: String,
             description: String,
-            lastDate: Date
+            lastDate: Date,
+            hora: String
         }
     }
 
@@ -47,13 +48,14 @@ class LastNews extends LitElement {
         this.title = ''
         this.description = ''
         this.lastDate = Date.now();
+        this.hora = `${Date().getHours()}: ${Date().getMinutes()}: ${Date().getSeconds()}`
     }
 
     render() {
         return html`                
             <div class="last">
                 <div class="header">
-                    <h3 class="lastUpdate__title">${this.title} <small>${this.lastDate}:</small></h3>
+                    <h3 class="lastUpdate__title">${this.title} <small>${this.lastDate} ${this.hora}:</small></h3>
                 </div>
                 <p>
                     ${this.description}
