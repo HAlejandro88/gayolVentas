@@ -143,21 +143,25 @@ class SearchJuridicoPage extends GayolController {
         `;
     }
 
-    changePage(event) {
-        let page = event.detail.value;
-        this.__listOfHouse(page);
+    async changePage(event) {
+        this.page = event.detail.value;
+        await this.limpiar(this.page)
     }
 
-    async limpiar(event) {
+    async limpiar(page = 1) {
         this.listHouses = this.reset;
         const $direccion = this.shadowRoot.querySelector('#direccion').value;
         const $estado = this.shadowRoot.querySelector('#estado').value;
         const $municipio = this.shadowRoot.querySelector('#municipio').value;
         const $colonia = this.shadowRoot.querySelector('#colonia').value;
         const $listId = this.shadowRoot.querySelector('#listId').value;
-        const search = await (await fetch(`https://otolum.com.mx/api/v1/listSales/list/search?state=${$estado}&direccion=${$direccion}&colonia=${$colonia}&muni=${$municipio}&idLista=${$listId}`)).json();
+        const search = await (await fetch(`https://otolum.com.mx/api/v1/listSales/list/search?state=${$estado}&direccion=${$direccion}&colonia=${$colonia}&muni=${$municipio}&idLista=${$listId}&page=${page}`)).json();
         this.listHouses = search.data;
-        await this.requestUpdate();
+        const $pagination = this.shadowRoot.querySelector('paper-pagination');
+        $pagination.totalItems = search.total;
+        console.log(this.listHouses)
+        console.log(this.page)
+        //await this.pagination(this.listHouses, this.page);
     }
 
     async __listOfHouse(page = 1) {
